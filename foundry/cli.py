@@ -1388,6 +1388,227 @@ def cmd_metrics(args):
     conn.close()
 
 
+# -- foundry export -------------------------------------------
+
+EXPORT_SCHEMA_VERSION = "1.0.0"
+CANONICAL_DIRECTION_ORDER = [
+    "front", "front_left", "left", "back_left",
+    "back", "back_right", "right", "front_right",
+]
+
+
+def cmd_export(args):
+    """Export a finish-accepted run as a deterministic asset pack."""
+    import shutil
+    import subprocess
+
+    conn = db.init_db()
+    run_id = args.run_id
+
+    # -- Validate run exists and is fully finish_accepted --
+    run = conn.execute("SELECT * FROM runs WHERE id = ?", (run_id,)).fetchone()
+    if not run:
+        print(f"Error: run '{run_id}' not found.")
+        conn.close()
+        sys.exit(1)
+
+    subject_id = run["subject_id"]
+    subject = conn.execute("SELECT * FROM subjects WHERE id = ?", (subject_id,)).fetchone()
+    display_name = subject["display_name"] if subject else subject_id
+
+    # Check all 8 directions are finish_accepted
+    accepted = conn.execute(
+        """SELECT direction FROM attempts
+           WHERE run_id = ? AND state = 'finish_accepted'
+           ORDER BY direction""",
+        (run_id,),
+    ).fetchall()
+    accepted_dirs = {r["direction"] for r in accepted}
+    missing = set(CANONICAL_DIRECTION_ORDER) - accepted_dirs
+    if missing:
+        print(f"Error: run '{run_id}' is not fully finish_accepted.")
+        print(f"  Missing directions: {', '.join(sorted(missing))}")
+        print(f"  Accepted: {len(accepted_dirs)}/8")
+        conn.close()
+        sys.exit(1)
+
+    # -- Build export target path --
+    export_root = db.FOUNDRY_ROOT / "exports" / subject_id / run_id
+    if export_root.exists() and not args.overwrite:
+        print(f"Error: export already exists at {export_root}")
+        print(f"  Use --overwrite to replace.")
+        conn.close()
+        sys.exit(1)
+
+    # -- Locate source files --
+    bakeoff_dir = db.FOUNDRY_ROOT / "bakeoff" / run_id
+    maps_dir = db.FOUNDRY_ROOT / "bakeoff" / f"{run_id}_maps"
+
+    if not bakeoff_dir.exists():
+        print(f"Error: bakeoff directory not found: {bakeoff_dir}")
+        conn.close()
+        sys.exit(1)
+    if not maps_dir.exists():
+        print(f"Error: maps directory not found: {maps_dir}")
+        conn.close()
+        sys.exit(1)
+
+    # -- Verify all source files exist before copying --
+    source_map = {}  # (layer, direction) -> source_path
+    for d in CANONICAL_DIRECTION_ORDER:
+        albedo_src = bakeoff_dir / f"{d}.png"
+        normal_src = maps_dir / f"{d}_normal.png"
+        depth_src = maps_dir / f"{d}_depth.png"
+
+        for layer, src in [("albedo", albedo_src), ("normal", normal_src), ("depth", depth_src)]:
+            if not src.exists():
+                print(f"Error: missing source file: {src}")
+                conn.close()
+                sys.exit(1)
+            source_map[(layer, d)] = src
+
+    contact_src = bakeoff_dir / "contact_sheet.png"
+
+    # -- Create export directory structure --
+    if export_root.exists():
+        shutil.rmtree(export_root)
+
+    for subdir in ["albedo", "normal", "depth", "preview"]:
+        (export_root / subdir).mkdir(parents=True, exist_ok=True)
+
+    print(f"{'=' * 60}")
+    print(f"EXPORT: {display_name}")
+    print(f"Run: {run_id}")
+    print(f"Target: {export_root}")
+    print(f"{'=' * 60}")
+
+    # -- Copy files and compute checksums --
+    file_checksums = {}
+
+    for (layer, d), src in source_map.items():
+        dst = export_root / layer / f"{d}.png"
+        shutil.copy2(src, dst)
+        rel = f"{layer}/{d}.png"
+        file_checksums[rel] = hash_file(dst)
+        print(f"  [{layer}] {d}.png  OK")
+
+    # Copy contact sheet if it exists
+    if contact_src.exists():
+        dst = export_root / "preview" / "contact_sheet.png"
+        shutil.copy2(contact_src, dst)
+        file_checksums["preview/contact_sheet.png"] = hash_file(dst)
+        print(f"  [preview] contact_sheet.png  OK")
+
+    # -- Gather provenance data --
+    # Reject/regen counts for this run
+    reject_count = conn.execute(
+        "SELECT COUNT(*) as c FROM attempts WHERE run_id = ? AND state IN ('raw_rejected', 'rejected', 'finish_rejected')",
+        (run_id,),
+    ).fetchone()["c"]
+
+    regen_count = conn.execute(
+        "SELECT COUNT(*) as c FROM attempts WHERE run_id = ? AND parent_attempt_id IS NOT NULL",
+        (run_id,),
+    ).fetchone()["c"]
+
+    # Accepted timestamp (latest finish_accepted review)
+    accepted_at = conn.execute(
+        """SELECT MAX(r.created_at) as t FROM reviews r
+           JOIN attempts a ON r.attempt_id = a.id
+           WHERE a.run_id = ? AND r.decision = 'accept' AND r.review_type = 'finish'""",
+        (run_id,),
+    ).fetchone()
+    accepted_at_str = accepted_at["t"] if accepted_at else None
+
+    # Parse recipe for generation details
+    recipe = {}
+    recipe_path = bakeoff_dir / "recipe.json"
+    if recipe_path.exists():
+        with open(recipe_path) as f:
+            recipe = json.load(f)
+
+    # Git hash
+    git_hash = "unknown"
+    try:
+        result = subprocess.run(
+            ["git", "rev-parse", "--short", "HEAD"],
+            capture_output=True, text=True, cwd=str(db.FOUNDRY_ROOT),
+        )
+        if result.returncode == 0:
+            git_hash = result.stdout.strip()
+    except Exception:
+        pass
+
+    # Sprite dimensions from first albedo
+    first_albedo = export_root / "albedo" / "front.png"
+    width, height = 0, 0
+    try:
+        from PIL import Image
+        with Image.open(first_albedo) as img:
+            width, height = img.size
+    except Exception:
+        pass
+
+    # -- Build manifest --
+    manifest = {
+        "schema_version": EXPORT_SCHEMA_VERSION,
+        "exported_at": now_iso(),
+        "foundry_version": git_hash,
+        "identity": {
+            "subject_slug": subject_id,
+            "display_name": display_name,
+            "body_family": recipe.get("body_family", "bipedal"),
+        },
+        "provenance": {
+            "run_id": run_id,
+            "seed": run["seed"],
+            "generated_at": run["created_at"],
+            "accepted_at": accepted_at_str,
+            "regen_count": regen_count,
+            "reject_count": reject_count,
+            "git_hash": git_hash,
+        },
+        "generation": {
+            "stack_id": run["stack"],
+            "checkpoint": recipe.get("checkpoint", "unknown"),
+            "lora": recipe.get("lora", "unknown"),
+            "controlnet_depth": recipe.get("controlnet_depth"),
+            "controlnet_depth_strength": recipe.get("controlnet_depth_strength"),
+            "controlnet_depth_end_percent": recipe.get("controlnet_depth_end_percent"),
+            "controlnet_edge": recipe.get("controlnet_edge"),
+            "controlnet_edge_strength": recipe.get("controlnet_edge_strength"),
+        },
+        "render_contract": {
+            "width": width,
+            "height": height,
+            "direction_order": CANONICAL_DIRECTION_ORDER,
+            "pivot": "center_bottom",
+            "transparency": True,
+        },
+        "files": file_checksums,
+        "source": {
+            "bakeoff_dir": str(bakeoff_dir.relative_to(db.FOUNDRY_ROOT)),
+            "maps_dir": str(maps_dir.relative_to(db.FOUNDRY_ROOT)),
+        },
+        "notes": None,
+    }
+
+    manifest_path = export_root / "manifest.json"
+    with open(manifest_path, "w") as f:
+        json.dump(manifest, f, indent=2)
+    print(f"\n  manifest.json written ({len(file_checksums)} files checksummed)")
+
+    # -- Summary --
+    print(f"\n{'=' * 60}")
+    print(f"EXPORT COMPLETE: {display_name}")
+    print(f"  Pack: {export_root}")
+    print(f"  Files: {len(file_checksums)} assets + manifest")
+    print(f"  Schema: v{EXPORT_SCHEMA_VERSION}")
+    print(f"{'=' * 60}")
+
+    conn.close()
+
+
 # -- CLI argument parser --------------------------------------
 
 def build_parser() -> argparse.ArgumentParser:
@@ -1508,6 +1729,11 @@ def build_parser() -> argparse.ArgumentParser:
     p = sub.add_parser("metrics", help="Throughput metrics for a run or the whole foundry")
     p.add_argument("run_id", nargs="?", help="Run ID (omit for foundry-wide)")
 
+    # export (Phase 6A)
+    p = sub.add_parser("export", help="Export a finish-accepted run as a deterministic asset pack")
+    p.add_argument("run_id", help="Run ID")
+    p.add_argument("--overwrite", action="store_true", help="Overwrite existing export")
+
     return parser
 
 
@@ -1536,6 +1762,7 @@ def main():
         "batch-accept": cmd_batch_accept,
         "batch-reject": cmd_batch_reject,
         "metrics": cmd_metrics,
+        "export": cmd_export,
     }
 
     if args.command in commands:

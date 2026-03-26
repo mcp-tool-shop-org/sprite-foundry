@@ -1,0 +1,7 @@
+{
+  "subject_id": "hull_diver",
+  "display_name": "Hull Diver",
+  "seed": 556622,
+  "subject_prompt": "solo, 1man, single character only, one person, a Terran Compact Hull Diver, human male EVA repair specialist, stocky muscular build, wearing a bulky sealed dark charcoal-grey pressure suit with reinforced chest and shoulder panels, large sealed dome helmet with narrow horizontal visor slit glowing faint blue, heavy dark magnetic boot clamps with visible sole tread, thick insulated dark gauntlets, a rectangular welding pack mounted on back between shoulder blades with two short fuel hose connectors, dark utility belt with hull patch canisters and tether clip, yellow-orange hazard stripe on both upper arms and across chest, suit surface is matte and scuffed from void work, standing idle neutral pose, heavy industrial EVA worker appearance, fully suited",
+  "negative_prompt": "multiple people, two characters, group, couple, pair, reflection, mirror, side by side, comparison, turnaround sheet, model sheet, reference sheet, split view, dual view, before and after, blurry, smooth, photorealistic, 3D render, low quality, deformed, extra limbs, text, watermark, signature, frame, border, sleek clean futuristic suit, iron man style, power armor, military tactical, weapon, gun, pirate, alien, non-human, thin slim build, no helmet, exposed face, bright vivid colors, cape, wings, medieval, fantasy, busy background, cropped, cut off, partial body, astronaut floating, zero gravity pose"
+}
