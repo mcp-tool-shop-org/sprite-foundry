@@ -1,6 +1,8 @@
 ---
 title: Getting Started
 description: Prerequisites and first run for Sprite Foundry.
+sidebar:
+  order: 1
 ---
 
 ## Prerequisites

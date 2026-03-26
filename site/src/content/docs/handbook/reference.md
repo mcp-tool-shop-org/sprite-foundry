@@ -1,6 +1,8 @@
 ---
 title: CLI Reference
 description: All Sprite Foundry CLI commands.
+sidebar:
+  order: 4
 ---
 
 All commands are invoked as `python -m foundry <command>`.

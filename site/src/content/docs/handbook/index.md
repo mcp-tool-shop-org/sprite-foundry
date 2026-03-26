@@ -1,6 +1,8 @@
 ---
 title: Sprite Foundry Handbook
 description: Complete reference for the Sprite Foundry asset pipeline.
+sidebar:
+  order: 0
 ---
 
 Sprite Foundry is a headless sprite generation pipeline that produces game-ready 8-direction pixel sprites with normal and depth maps for [Star Freight](https://github.com/mcp-tool-shop-org/star-freight).

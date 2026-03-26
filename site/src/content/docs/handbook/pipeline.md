@@ -1,6 +1,8 @@
 ---
 title: Pipeline
 description: How each stage of the Sprite Foundry pipeline works.
+sidebar:
+  order: 2
 ---
 
 ## Stage overview

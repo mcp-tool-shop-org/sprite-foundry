@@ -1,6 +1,8 @@
 ---
 title: Security
 description: Threat model and security scope for Sprite Foundry.
+sidebar:
+  order: 5
 ---
 
 ## Scope
