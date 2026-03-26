@@ -1,0 +1,25 @@
+{
+  "subject_id": "goblin_archer",
+  "display_name": "Archer",
+  "pack": "goblin-warband-02",
+  "seed": 810200,
+  "role": "ranged skirmisher",
+  "silhouette_thesis": "lean build with oversized shortbow creating a distinct asymmetric profile — the bow is the silhouette anchor",
+  "body_lock": {
+    "posture": "upright but alert, slight lean back from bow tension",
+    "head_shape": "narrow angular face, ears swept back, focused squint",
+    "gear_silhouette": "oversized shortbow dominates left side, quiver bump on back-right",
+    "threat_read": "ranged danger, keep distance",
+    "body_mass": "lean and wiry, narrower than Grunt but taller"
+  },
+  "reject_conditions": [
+    "bow not clearly visible or too small to read at 48px",
+    "no quiver visible from side/back angles",
+    "hunched posture matching Grunt",
+    "heavy or muscular build",
+    "melee weapon in hand instead of bow",
+    "silhouette reads as generic goblin without bow"
+  ],
+  "subject_prompt": "solo, 1character, single character only, one figure, a goblin archer skirmisher, lean wiry build taller than average goblin, standing alert with slight backward lean, narrow angular green face with ears swept back aerodynamically, focused squinting yellow eyes, holding an oversized crude shortbow in left hand that is nearly as tall as the goblin, a leather quiver full of rough arrows strapped across back creating a visible bump on right shoulder, wearing a sleeveless dark brown leather jerkin with crude stitching, wrapped forearms with dirty cloth bandages, dark green mottled skin slightly darker than normal goblin, simple dark shorts with a belt holding spare arrowheads, bare feet with clawed toes gripping ground, the ranged threat of the warband, fully visible full body",
+  "negative_prompt": "multiple people, two characters, group, couple, pair, reflection, mirror, turnaround sheet, model sheet, reference sheet, split view, blurry, smooth, photorealistic, 3D render, low quality, deformed, extra limbs, text, watermark, signature, frame, border, no bow, small bow, sword, club, axe, shield, heavy armor, plate armor, helmet, cape, wings, magic effects, glowing, staff, mount, wolf, horse, muscular build, heavy build, hunched posture, submissive stance, hood covering face, mask, busy background, cropped, cut off, partial body, human skin color, elf, orc"
+}

@@ -1,0 +1,25 @@
+{
+  "subject_id": "goblin_scout",
+  "display_name": "Scout",
+  "pack": "goblin-warband-02",
+  "seed": 810500,
+  "role": "fast flanker",
+  "silhouette_thesis": "crouched lowest in pack, hooded, twin daggers — reads as sneaky/fast, not weak like Grunt. The hood and crouch are the anchors.",
+  "body_lock": {
+    "posture": "deep crouch, one hand forward with dagger, weight on balls of feet, ready to spring",
+    "head_shape": "hidden under dark pointed hood, only glowing eyes visible",
+    "gear_silhouette": "twin curved daggers, one forward one back, dark cloak breaking outline",
+    "threat_read": "fast, evasive, flanker, assassin-class",
+    "body_mass": "smallest vertical profile in pack due to crouch, lean and compact"
+  },
+  "reject_conditions": [
+    "standing upright (must be in deep crouch or ready-to-spring pose)",
+    "face visible without hood (hood is identity anchor)",
+    "no daggers visible or single weapon only",
+    "silhouette reads as Grunt (standing, no hood, club)",
+    "heavy or bulky build",
+    "slow or lumbering posture"
+  ],
+  "subject_prompt": "solo, 1character, single character only, one figure, a goblin scout assassin, in a deep predatory crouch with weight on balls of feet ready to spring, dark tattered hood pulled low over face hiding features except two glowing pale yellow eyes peering out, lean compact body wrapped in a dark grey-brown ragged cloak that breaks the body outline, holding a curved rusty dagger forward in right hand and a second dagger held reverse grip behind in left hand, mottled dark green skin barely visible under wrappings, dark cloth wraps around forearms and shins, soft leather foot wraps instead of bare feet for silent movement, the lowest and most horizontal profile in the warband, a sneaking ambush predator, fully visible full body",
+  "negative_prompt": "multiple people, two characters, group, couple, pair, reflection, mirror, turnaround sheet, model sheet, reference sheet, split view, blurry, smooth, photorealistic, 3D render, low quality, deformed, extra limbs, text, watermark, signature, frame, border, standing upright, tall stance, face visible, no hood, bare head, club, sword, bow, staff, shield, heavy armor, plate armor, bulky build, muscular, slow posture, lumbering, mount, wolf, horse, magic effects, glowing staff, cape flowing, wings, single weapon only, busy background, cropped, cut off, partial body, human skin color, elf, orc"
+}

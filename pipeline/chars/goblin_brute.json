@@ -1,0 +1,25 @@
+{
+  "subject_id": "goblin_brute",
+  "display_name": "Brute",
+  "pack": "goblin-warband-02",
+  "seed": 810400,
+  "role": "heavy melee tank",
+  "silhouette_thesis": "widest shoulders in pack, massive jaw, spiked maul — reads as 'hit this one last' at a glance, pure mass without the height or armor of Warchief",
+  "body_lock": {
+    "posture": "wide planted stance, chest forward, aggressive lean",
+    "head_shape": "small head on thick neck, massive underbite jaw with tusks, tiny angry eyes",
+    "gear_silhouette": "oversized spiked maul or hammer dragging on ground, no shield",
+    "threat_read": "heavy hitter, tank, high HP",
+    "body_mass": "widest in pack, barrel chest, thick arms longer than proportional, gorilla build"
+  },
+  "reject_conditions": [
+    "normal goblin proportions (must be visibly wider/heavier)",
+    "silhouette collapsing into Warchief (Brute has NO armor plates, NO helmet, NO banner)",
+    "tall and lean instead of wide and stocky",
+    "small or normal sized weapon",
+    "intelligent or leader-like posture",
+    "silhouette reads as Grunt (too small/scrawny)"
+  ],
+  "subject_prompt": "solo, 1character, single character only, one figure, a massive goblin brute heavy fighter, unusually wide barrel-chested build for a goblin with thick arms hanging past the knees like a gorilla, wide planted aggressive stance with chest thrust forward, tiny head on a thick muscular neck with no visible neck separation, massive underbite jaw with two short tusks jutting upward, tiny squinting angry red-yellow eyes, dark forest-green tough leathery skin with visible scars across chest and arms, dragging an oversized crude spiked iron maul in right hand that scrapes the ground, wearing only a heavy leather belt with iron buckle and torn dark shorts, thick calloused bare feet, the heaviest and widest silhouette in the warband, a dumb muscle wall of green flesh, fully visible full body",
+  "negative_prompt": "multiple people, two characters, group, couple, pair, reflection, mirror, turnaround sheet, model sheet, reference sheet, split view, blurry, smooth, photorealistic, 3D render, low quality, deformed, extra limbs, text, watermark, signature, frame, border, thin build, lean build, tall and narrow, normal proportions, plate armor, metal armor, helmet, banner, flag, shield, sword, bow, staff, cape, wings, magic effects, intelligent expression, leadership pose, mount, wolf, horse, small weapon, normal sized weapon, busy background, cropped, cut off, partial body, human skin color, elf, orc, ogre"
+}

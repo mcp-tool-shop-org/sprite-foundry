@@ -1,0 +1,25 @@
+{
+  "subject_id": "goblin_shaman",
+  "display_name": "Shaman",
+  "pack": "goblin-warband-02",
+  "seed": 810300,
+  "role": "caster/healer",
+  "silhouette_thesis": "horned headdress and tall staff with totem create a vertical read — the only robed goblin, instantly reads as 'magic user'",
+  "body_lock": {
+    "posture": "slightly hunched but upright, leaning on staff, mystical stance",
+    "head_shape": "obscured by tall horned bone headdress that doubles head height",
+    "gear_silhouette": "tall gnarled staff with skull/totem top in right hand, dangly trinkets",
+    "threat_read": "magical support, healer or buffer, do not ignore",
+    "body_mass": "thin and elderly under robes, robes add volume below waist"
+  },
+  "reject_conditions": [
+    "no headdress or headdress too small to read at 48px",
+    "no staff or staff without totem/skull top",
+    "not wearing robes (legs visible like other variants)",
+    "silhouette reads as Grunt with accessories",
+    "muscular or young-looking build",
+    "modern or metal equipment"
+  ],
+  "subject_prompt": "solo, 1character, single character only, one figure, a goblin shaman mystic, thin elderly frame slightly hunched leaning on a tall gnarled wooden staff, the staff topped with a small animal skull and dangling bone trinkets and feathers, wearing a tall headdress made of two curved animal horns mounted on a skull cap that makes the head appear twice as tall, wrinkled dark sage-green skin showing age, milky pale eyes with a faint mystical glow, long pointed nose with bone ring piercing, wearing layered tattered dark purple and brown robes that hide the legs completely, bone necklace with teeth and small pouches of herbs hanging from belt, bare gnarled feet visible below robe hem, wisps of faint green smoke curling from staff top, the magical authority of the warband, fully visible full body",
+  "negative_prompt": "multiple people, two characters, group, couple, pair, reflection, mirror, turnaround sheet, model sheet, reference sheet, split view, blurry, smooth, photorealistic, 3D render, low quality, deformed, extra limbs, text, watermark, signature, frame, border, no headdress, no staff, short staff, young looking, muscular build, metal armor, sword, bow, arrows, shield, modern clothes, cape, wings, mount, wolf, horse, pants visible, legs visible, hood instead of headdress, busy background, cropped, cut off, partial body, human skin color, elf, orc, wizard hat"
+}

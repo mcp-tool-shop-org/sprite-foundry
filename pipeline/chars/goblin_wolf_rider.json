@@ -1,0 +1,25 @@
+{
+  "subject_id": "goblin_wolf_rider",
+  "display_name": "Wolf-Rider",
+  "pack": "goblin-warband-02",
+  "seed": 810800,
+  "role": "mounted unit",
+  "silhouette_thesis": "goblin riding a dire wolf — widest and longest profile in pack, completely different body plan. RISK LANE: must ship as one combined subject, no separable layers. If 48px readability fails, pack does not get redesigned around it.",
+  "body_lock": {
+    "posture": "goblin crouched low on wolf's back, leaning forward, one hand gripping fur mane",
+    "head_shape": "wolf has wide angular head with pointed ears, goblin head is small above",
+    "gear_silhouette": "combined mass of wolf body + small rider on top, crude spear in rider's right hand",
+    "threat_read": "fast cavalry, charges in, mobile harassment",
+    "body_mass": "widest and longest profile, wolf is the dominant mass, goblin is secondary read"
+  },
+  "reject_conditions": [
+    "wolf and rider not reading as single combined unit at 48px",
+    "goblin too large relative to wolf (rider must be clearly smaller than mount)",
+    "wolf reading as dog or small canine (must read as dire/war wolf)",
+    "rider dismounted or standing beside wolf",
+    "rider obscuring wolf silhouette (wolf body must be dominant read)",
+    "overall profile not clearly wider/longer than any standing variant"
+  ],
+  "subject_prompt": "solo, 1character, single character only, one figure, a goblin wolf-rider as a single combined mounted unit, a small goblin crouched low riding on the back of a large fierce dire wolf, the wolf is a massive dark grey-black furred beast with powerful haunches and a wide angular head with pointed ears and glowing amber eyes and bared white fangs, the wolf is in an alert standing pose with legs planted wide, the goblin rider is small perched on the wolf's back leaning forward gripping the wolf's dark mane with left hand, goblin holding a crude wooden spear with iron tip in right hand pointing forward, goblin wearing simple dark leather cap and vest, the wolf wears a crude leather saddle harness with rope ties, wolf's body is the dominant mass taking up most of the silhouette, goblin is secondary smaller shape on top, the fastest and widest profile in the warband, a single combined mounted unit not two separate characters, fully visible full body",
+  "negative_prompt": "multiple people, two characters, two separate figures, group, couple, pair, goblin standing next to wolf, dismounted, reflection, mirror, turnaround sheet, model sheet, reference sheet, split view, blurry, smooth, photorealistic, 3D render, low quality, deformed, extra limbs, text, watermark, signature, frame, border, small dog, puppy, cute wolf, goblin larger than wolf, goblin same size as wolf, horse, mechanical mount, sword, bow, staff, shield, heavy armor, plate armor, helmet, cape, wings, magic effects, busy background, cropped, cut off, partial body, human skin color, elf, orc, two separate layers"
+}

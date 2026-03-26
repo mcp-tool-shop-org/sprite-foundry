@@ -1,0 +1,25 @@
+{
+  "subject_id": "goblin_warchief",
+  "display_name": "Warchief",
+  "pack": "goblin-warband-02",
+  "seed": 810700,
+  "role": "elite leader",
+  "silhouette_thesis": "tallest goblin in pack, tusked helmet and banner pole on back create a unique vertical spike — heavy armor separates from bare-skinned Brute",
+  "body_lock": {
+    "posture": "upright commanding stance, chest out, head high, authority pose",
+    "head_shape": "tusked iron helmet with cheek guards, only lower jaw visible, eyes in shadow",
+    "gear_silhouette": "banner pole rising from back above head height, heavy iron pauldrons, crude sword",
+    "threat_read": "elite commander, boss-tier, buffs nearby goblins",
+    "body_mass": "tallest in pack, muscular but armored unlike bare-skinned Brute, visibly heavier from metal"
+  },
+  "reject_conditions": [
+    "no helmet (helmet is identity anchor, separates from Brute)",
+    "no banner pole visible from side/back angles",
+    "bare-chested like Brute (must have visible armor)",
+    "silhouette collapsing into Brute (Warchief is TALLER and ARMORED, Brute is WIDER and BARE)",
+    "hunched or submissive posture (must read as leader)",
+    "holding maul instead of sword (maul is Brute's anchor)"
+  ],
+  "subject_prompt": "solo, 1character, single character only, one figure, a goblin warchief commander, the tallest goblin in the warband standing in a commanding upright posture with chest out and head held high, wearing a dark iron tusked helmet with curved tusk decorations on each side and cheek guards leaving only the snarling lower jaw visible with large fangs, eyes hidden in helmet shadow with faint glow, wearing crude dark iron pauldrons on both shoulders and a riveted iron chest plate over dark leather, a tattered red war banner mounted on a pole strapped to the back rising above head height, holding a notched iron short sword in right hand, dark olive-green skin visible on bare muscular arms, iron bracers on forearms, a belt with trophy skulls hanging from it, dark iron greaves over leather boots, scarred commanding presence, the undisputed leader of the warband, fully visible full body",
+  "negative_prompt": "multiple people, two characters, group, couple, pair, reflection, mirror, turnaround sheet, model sheet, reference sheet, split view, blurry, smooth, photorealistic, 3D render, low quality, deformed, extra limbs, text, watermark, signature, frame, border, no helmet, bare head, no banner, bare chest, no armor, maul, hammer, club, bow, staff, shield, cape, wings, magic effects, hunched posture, submissive, small, short, scrawny, mount, wolf, horse, busy background, cropped, cut off, partial body, human skin color, elf, orc, human knight"
+}

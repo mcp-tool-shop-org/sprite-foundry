@@ -1,0 +1,25 @@
+{
+  "subject_id": "goblin_bomber",
+  "display_name": "Bomber",
+  "pack": "goblin-warband-02",
+  "seed": 810600,
+  "role": "AoE threat",
+  "silhouette_thesis": "bulging satchel and held bomb with lit fuse are the instant read — goggled eyes and asymmetric bag bulk make this goblin unmistakable",
+  "body_lock": {
+    "posture": "slightly hunched, one arm raised holding bomb, other arm steadying satchel strap",
+    "head_shape": "round head with oversized crude goggles pushed up on forehead, manic grin",
+    "gear_silhouette": "round bomb with visible fuse spark in raised hand, bulging overstuffed satchel on hip",
+    "threat_read": "explosive AoE, get away from this one, danger to self and others",
+    "body_mass": "average goblin build but asymmetric from heavy satchel pulling one shoulder down"
+  },
+  "reject_conditions": [
+    "no bomb visible in hand (bomb is identity anchor)",
+    "no satchel/bag visible (satchel is silhouette anchor)",
+    "bomb reads as generic sphere without fuse/spark",
+    "silhouette reads as generic goblin-with-bag (must read as EXPLOSIVE threat)",
+    "goggles not visible (face-read anchor)",
+    "symmetrical silhouette (satchel must create asymmetry)"
+  ],
+  "subject_prompt": "solo, 1character, single character only, one figure, a goblin bomber demolitions expert, slightly hunched posture with right arm raised overhead holding a round black iron bomb with a lit sparking fuse trailing bright sparks, left hand gripping the strap of a bulging overstuffed brown leather satchel hanging at left hip that pulls the left shoulder down creating asymmetric silhouette, oversized crude brass goggles pushed up on forehead above manic wide grinning face showing all teeth, bright yellow-green skin covered in soot and scorch marks, wearing a singed dark leather apron over a burned tattered shirt, thick leather gloves on both hands, crude dark pants with burn holes, the satchel is stuffed full with visible round bomb shapes bulging through the leather, a walking explosion waiting to happen, fully visible full body",
+  "negative_prompt": "multiple people, two characters, group, couple, pair, reflection, mirror, turnaround sheet, model sheet, reference sheet, split view, blurry, smooth, photorealistic, 3D render, low quality, deformed, extra limbs, text, watermark, signature, frame, border, no bomb, no satchel, no goggles, symmetrical pose, sword, bow, staff, club, shield, plate armor, heavy armor, helmet, cape, wings, magic effects, mount, wolf, horse, calm expression, serious face, clean clothes, no burn marks, busy background, cropped, cut off, partial body, human skin color, elf, orc"
+}

@@ -1,0 +1,25 @@
+{
+  "subject_id": "goblin_grunt",
+  "display_name": "Grunt",
+  "pack": "goblin-warband-02",
+  "seed": 810100,
+  "role": "melee fodder",
+  "silhouette_thesis": "small hunched frame, crude club — the baseline goblin read at 48px, every other variant diverges from this",
+  "body_lock": {
+    "posture": "hunched forward, knees bent, submissive crouch",
+    "head_shape": "oversized round head, large pointed ears, wide nose",
+    "gear_silhouette": "crude wooden club in right hand, no armor",
+    "threat_read": "weak, expendable, numbers-threat",
+    "body_mass": "small and scrawny, narrowest shoulders in pack"
+  },
+  "reject_conditions": [
+    "upright or confident posture",
+    "muscular or heavy build",
+    "any metal armor or weapons",
+    "silhouette reads as Scout (too crouched/stealthy)",
+    "silhouette reads as Brute (too wide)",
+    "clean or ornate clothing"
+  ],
+  "subject_prompt": "solo, 1character, single character only, one figure, a small goblin warrior creature, hunched forward submissive posture with bent knees, oversized round green head with large pointed ears sticking out sideways, wide flat nose, beady yellow eyes with slitted pupils, jagged underbite showing small fangs, scrawny thin body with knobbly joints, pale olive-green rough skin with warts, wearing a ragged brown loincloth and tattered dirty vest, crude rough wooden club gripped in right hand, bare clawed feet with three toes, scraggly patches of dark wiry hair on head, the smallest and weakest looking goblin, expendable fodder, fully visible full body",
+  "negative_prompt": "multiple people, two characters, group, couple, pair, reflection, mirror, turnaround sheet, model sheet, reference sheet, split view, blurry, smooth, photorealistic, 3D render, low quality, deformed, extra limbs, text, watermark, signature, frame, border, muscular build, heavy build, tall, confident posture, upright stance, metal armor, metal weapon, sword, shield, helmet, cape, wings, magic effects, glowing, staff, bow, arrows, hood, mask, mount, wolf, horse, busy background, cropped, cut off, partial body, human skin color, elf ears, orc"
+}

@@ -1,0 +1,85 @@
+{
+  "pack_id": "goblin-warband-02",
+  "pack_name": "Goblin Warband — Pack 02",
+  "product_repo": "mcp-tool-shop-org/goblin-sprite-pack",
+  "npm_package": "@sprite-foundry/goblin-warband-48",
+  "version": "1.0.0",
+  "art_style": "pixel-art",
+  "tile_size": 48,
+  "directions": 8,
+  "layers": ["albedo", "normal", "depth"],
+  "body_plan": "humanoid (7 bipeds + 1 mounted)",
+  "controlnet": {
+    "depth_strength": 0.60,
+    "depth_end_pct": 0.85,
+    "canny": false,
+    "notes": "Standard humanoid tuning for 7 bipeds. Wolf-Rider uses same settings — treat as single combined subject, not separable rider+mount."
+  },
+  "subjects": [
+    {
+      "subject_id": "goblin_grunt",
+      "config": "pipeline/chars/goblin_grunt.json",
+      "slug": "grunt",
+      "export_dir": "assets/grunt"
+    },
+    {
+      "subject_id": "goblin_archer",
+      "config": "pipeline/chars/goblin_archer.json",
+      "slug": "archer",
+      "export_dir": "assets/archer"
+    },
+    {
+      "subject_id": "goblin_shaman",
+      "config": "pipeline/chars/goblin_shaman.json",
+      "slug": "shaman",
+      "export_dir": "assets/shaman"
+    },
+    {
+      "subject_id": "goblin_brute",
+      "config": "pipeline/chars/goblin_brute.json",
+      "slug": "brute",
+      "export_dir": "assets/brute"
+    },
+    {
+      "subject_id": "goblin_scout",
+      "config": "pipeline/chars/goblin_scout.json",
+      "slug": "scout",
+      "export_dir": "assets/scout"
+    },
+    {
+      "subject_id": "goblin_bomber",
+      "config": "pipeline/chars/goblin_bomber.json",
+      "slug": "bomber",
+      "export_dir": "assets/bomber"
+    },
+    {
+      "subject_id": "goblin_warchief",
+      "config": "pipeline/chars/goblin_warchief.json",
+      "slug": "warchief",
+      "export_dir": "assets/warchief"
+    },
+    {
+      "subject_id": "goblin_wolf_rider",
+      "config": "pipeline/chars/goblin_wolf_rider.json",
+      "slug": "wolf-rider",
+      "export_dir": "assets/wolf-rider",
+      "risk_lane": true,
+      "risk_notes": "Mounted unit breaks body-plan uniformity. Must ship as single combined subject. If 48px readability fails, cut variant — do not redesign pack around it."
+    }
+  ],
+  "export_law": {
+    "structure": "{export_dir}/{layer}/{direction}.png",
+    "preview": "{export_dir}/preview/contact_sheet.png",
+    "manifest": "{export_dir}/manifest.json"
+  },
+  "production_notes": [
+    "7 variants are humanoid bipeds, 1 (wolf-rider) is mounted — treat wolf-rider as risk lane",
+    "Each variant MUST have a distinct silhouette at 48px — review contact sheets side by side",
+    "Anti-convergence law: posture + head shape + gear silhouette + threat read + body mass must all differ per variant",
+    "Pack-wide palette should feel coherent: green skin tones (olive to forest to sage), earth-tone gear, dark metals",
+    "Direction readability must hold across all 8 views for every variant",
+    "Reject any generation that collapses into 'same goblin, different prop' — check body_lock in each config",
+    "Key confusion pairs to watch: Scout vs Grunt (crouch+hood vs standing+bare), Brute vs Warchief (bare+wide vs armored+tall)",
+    "Wolf-rider ships as combined unit. If readability at 48px fails after 3 generation attempts, cut it and ship 7-variant pack"
+  ]
+}
