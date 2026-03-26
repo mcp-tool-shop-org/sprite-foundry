@@ -39,3 +39,5 @@ Thumbs.db
 .vscode/
 .idea/
 site/.astro/
+site/dist/
+site/node_modules/
