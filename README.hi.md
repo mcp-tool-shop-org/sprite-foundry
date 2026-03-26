@@ -1,0 +1,141 @@
+<p align="center">
+  <a href="README.ja.md">日本語</a> | <a href="README.zh.md">中文</a> | <a href="README.es.md">Español</a> | <a href="README.fr.md">Français</a> | <a href="README.md">English</a> | <a href="README.it.md">Italiano</a> | <a href="README.pt-BR.md">Português (BR)</a>
+</p>
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/mcp-tool-shop/brand/main/logos/sprite-foundry/readme.png" alt="Sprite Foundry" width="600">
+</p>
+
+<p align="center">
+  <strong>Headless sprite generation pipeline for Star Freight</strong>
+</p>
+
+<p align="center">
+  <a href="https://github.com/mcp-tool-shop-org/sprite-foundry/actions/workflows/ci.yml"><img src="https://github.com/mcp-tool-shop-org/sprite-foundry/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a>
+  <a href="https://mcp-tool-shop.github.io/sprite-foundry/"><img src="https://img.shields.io/badge/docs-handbook-blue" alt="Handbook"></a>
+</p>
+
+---
+
+स्प्राइट फाउंड्री एक स्थानीय स्तर पर चलने वाला टूल है जो 8 दिशाओं वाले पिक्सेल स्प्राइट (छवियां) बनाता है, उनकी समीक्षा करता है और उन्हें निर्यात करता है। इसमें सामान्य (normal) और गहराई (depth) मानचित्र भी शामिल होते हैं। यह ComfyUI का उपयोग करके छवियों का निर्माण करता है, SQLite का उपयोग करके उनके जीवनचक्र को ट्रैक करता है, और Godot 4.6 का उपयोग करके "फिनिश-लैब" लाइटिंग की जांच करता है - और ये सभी एक ही कमांड-लाइन इंटरफेस (CLI) से नियंत्रित होते हैं।
+
+## आर्किटेक्चर।
+
+```
+Subject Sheet ──► ComfyUI Generation ──► Mechanical Gates
+                  (SDXL + LoRA +          (transparency,
+                   ControlNet)             dimensions, count)
+                                                │
+                                                ▼
+                                        Raw/Pixel Review
+                                                │
+                                                ▼
+                                    Normal + Depth Map Gen
+                                                │
+                                                ▼
+                                     Godot Finish Lab
+                                     (4 lighting states)
+                                                │
+                                                ▼
+                                      Deterministic Export
+                                      (manifest + checksums)
+```
+
+## रोस्टर (एक सूची या कार्यक्रम)
+
+20 उत्पादन इकाइयां, निर्यात के लिए तैयार, और कोई भी अनुबंध उल्लंघन नहीं:
+
+| लेन। | गिनती। | विषय। |
+|------|-------|----------|
+| क्रू (या दल) | 7 | सेरा वैली, आइलेन मार, थल, थल (खतरनाक स्थिति के लिए सुरक्षा सूट), वेरेक, काएल मॉरो, हल डाइवर। |
+| प्राणी। | 6 | कार्गो बीस्ट, ड्रिफ्ट माऊ, स्किटर ड्रोन, ड्रिफ्ट लर्कर, वॉइड रैप्टर, केथ हीलर-ड्रोन। |
+| शत्रुतापूर्ण। | 3 | स्कैव रेडर, रीच समुद्री डाकू, कॉम्पैक्ट इंटरडिक्शन एजेंट। |
+| अधिकार। | 2 | कॉम्पैक्ट पेट्रोल अधिकारी, वेशान हाउस के प्रतिनिधि। |
+| नागरिक। | 2 | नेरा क्विल, ऑरिन ब्रोकर। |
+
+## एक्सपोर्ट अनुबंध, संस्करण 1.0.0 (अंतिम)।
+
+```
+exports/{subject_slug}/{run_id}/
+├── albedo/    8 × 48px transparent PNGs
+├── normal/    8 × matching normal maps
+├── depth/     8 × matching depth maps
+├── preview/   contact sheet
+└── manifest.json  (schema v1.0.0, SHA-256 checksums, provenance)
+```
+
+- 8 दिशाएं: सामने, सामने-बाएं, बाएं, पीछे-बाएं, पीछे, पीछे-दाएं, दाएं, सामने-दाएं।
+- 48x48 पिक्सेल का पारदर्शी PNG चित्र, जिसका केंद्र बिंदु नीचे की ओर है।
+- उपयोगकर्ता डेटा लोड करने से पहले `schema_version: "1.0.0"` की पुष्टि करते हैं।
+
+## आवश्यक शर्तें।
+
+- पायथन 3.11 या उससे ऊपर का संस्करण
+- [ComfyUI](https://github.com/comfyanonymous/ComfyUI) स्थानीय रूप से स्थापित (छवि निर्माण के लिए)
+- गॉडोट 4.6 (अंतिम चरण में रेंडरिंग के लिए)
+- एनवीडिया जीपीयू की सिफारिश की जाती है (आरटीएक्स 5080 / 16 जीबी वीआरएएम का परीक्षण किया गया)
+
+## शुरुआत कैसे करें।
+
+```bash
+# Clone
+git clone https://github.com/mcp-tool-shop-org/sprite-foundry.git
+cd sprite-foundry
+
+# Initialize the registry
+python -m foundry init
+
+# Register a subject
+python -m foundry subject-add sera_vale "Sera Vale" --role crew --consumer star-freight
+
+# Check the full pipeline status
+python -m foundry status
+```
+
+## कमांड लाइन इंटरफेस (सीएलआई) के आदेश।
+
+| आदेश। | विवरण। |
+|---------|-------------|
+| `init` | फाउंड्री एसक्यूलाइट रजिस्ट्री को आरंभ करें। |
+| `subject-add` | एक नया चरित्र विषय पंजीकृत करें। |
+| `register-run` | एक आरामदायक यूआई (ComfyUI) जनरेशन प्रक्रिया को रिकॉर्ड करें। |
+| `register-attempt` | एक रन के दौरान किसी व्यक्ति के प्रदर्शन को रिकॉर्ड करें। |
+| `check` | यांत्रिक सत्यापन प्रक्रिया शुरू करें। |
+| `review-show` | एक विशेष रन के लिए समीक्षाओं की सूची प्रदर्शित करें। |
+| `review-accept` | वर्तमान समीक्षा चरण में किए गए प्रयास को स्वीकार करें। |
+| `review-reject` | किसी प्रयास को एक अस्वीकृति कोड के साथ अस्वीकार करें। |
+| `batch-accept` | एक बार में सभी लंबित प्रयासों को स्वीकार करें। |
+| `batch-reject` | एक ही कोड का उपयोग करके, सभी लंबित अनुरोधों को एक साथ अस्वीकार करें। |
+| `regen` | अस्वीकृत प्रयासों के लिए कतार को फिर से शुरू करना। |
+| `attempt-detail` | एक प्रयास के लिए संपूर्ण जीवनचक्र प्रदर्शित करें। |
+| `finish-board` | एक "फिनिश-लैब तुलना बोर्ड" तैयार करें। |
+| `status` | पाइपलाइन की स्थिति का सारांश। |
+| `story` | किसी विशेष वस्तु के इतिहास और उत्पत्ति का विस्तृत विवरण। |
+| `lineage` | "रीजेन चेन" का एक प्रयास। |
+| `winner` | प्रत्येक श्रेणी में सर्वश्रेष्ठ विजेता। |
+| `drift` | विफलता के कारणों का विश्लेषण और सफलता दर। |
+| `metrics` | उत्पादन क्षमता के आंकड़े (प्रत्येक उत्पादन चक्र के लिए या पूरी उत्पादन इकाई के लिए)। |
+| `produce` | एक ही कमांड से: मानचित्र और अंतिम परिणाम प्रदर्शित करें, जो एक सफल प्रयास को दर्शाते हैं। |
+| `export` | एक "फिनिश-एक्सेप्टेड" रन को एक निश्चित (डिटरमिनिस्टिक) एसेट पैकेज के रूप में निर्यात करें। |
+
+## खतरे का मॉडल।
+
+स्प्राइट फाउंड्री एक **स्थानीय विकास उपकरण** है। यह निम्नलिखित कार्य नहीं करता:
+
+- नेटवर्क से कनेक्ट करें (कॉम्फीयूआई लोकलहोस्ट पर चलता है)।
+- गोपनीय जानकारी, टोकन या क्रेडेंशियल्स का प्रबंधन करें।
+- टेलीमेट्री डेटा एकत्र करें या भेजें।
+- अपने कार्यशील डायरेक्टरी के बाहर फ़ाइलें लिखें।
+
+फ़ाइल संचालन केवल `exports/`, `bakeoff/`, `boards/`, `derived/` और SQLite रजिस्ट्री तक ही सीमित हैं। सबप्रोसेस कॉल केवल ComfyUI के स्थानीय एपीआई और Godot के हेडलेस रेंडरिंग तक ही सीमित हैं।
+
+## लाइसेंस।
+
+[एमआईटी] (लाइसेंस)
+
+---
+
+<p align="center">
+  Built by <a href="https://github.com/mcp-tool-shop-org">MCP Tool Shop</a>
+</p>
