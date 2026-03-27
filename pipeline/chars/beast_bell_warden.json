@@ -1,0 +1,7 @@
+{
+  "subject_id": "beast_bell_warden",
+  "display_name": "Bell Warden",
+  "seed": 819200,
+  "subject_prompt": "solo, single creature only, one monster, tall robed figure with a giant rusty iron bell fused where its head should be, bell replacing entire head sitting on shoulders with opening facing down, dark brown heavy monk's robe draped to ground, thick iron chain wrapped around torso and arms, bell surface has deep cracks with faint red-orange glow emanating from inside, clapper visible hanging inside bell opening, heavy imposing wide stance with arms at sides, hands hidden in robe sleeves, rusted corroded iron texture on bell, dark iron and brown fabric palette, 48px top-down pixel art, fantasy horror boss creature, single centered figure",
+  "negative_prompt": "multiple creatures, two characters, group, couple, pair, reflection, mirror, side by side, comparison, turnaround sheet, model sheet, reference sheet, split view, dual view, before and after, blurry, smooth, photorealistic, 3D render, low quality, deformed, extra limbs, text, watermark, signature, frame, border, modern clothing, sci-fi, futuristic, bright neon colors, busy background, cropped, cut off, partial body"
+}

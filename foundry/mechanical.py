@@ -202,8 +202,12 @@ def gate_foreground_content(conn, attempt_id: int) -> dict:
     )
 
 
-def gate_single_subject(conn, attempt_id: int) -> dict:
-    """Check that the raw artifact contains a single subject (thirds analysis)."""
+def gate_single_subject(conn, attempt_id: int, body_class: str = None) -> dict:
+    """Check that the raw artifact contains a single subject (thirds analysis).
+
+    Body classes like 'amorphous' and 'wide_squat' have relaxed thresholds
+    because their mass naturally spreads across the frame.
+    """
     import numpy as np
 
     abs_path, rel_path = _resolve_artifact(conn, attempt_id, "raw")
@@ -257,14 +261,23 @@ def gate_single_subject(conn, attempt_id: int) -> dict:
     center_r = center_fg / total_fg
     right_r = right_fg / total_fg
 
-    # Multi-subject heuristic: significant mass in both edges, weak center
-    multi = left_r > 0.25 and right_r > 0.25 and center_r < 0.35
+    # Body-class-aware thresholds
+    # Amorphous/wide creatures naturally spread mass across the frame
+    WIDE_BODY_CLASSES = {"amorphous", "wide_squat", "quadruped", "arthropod"}
+    if body_class in WIDE_BODY_CLASSES:
+        # Relaxed: only fail if extreme split with very weak center
+        multi = left_r > 0.35 and right_r > 0.35 and center_r < 0.20
+        expected = f"single subject (relaxed for {body_class})"
+    else:
+        # Standard: significant mass in both edges, weak center
+        multi = left_r > 0.25 and right_r > 0.25 and center_r < 0.35
+        expected = "single subject (center-dominant composition)"
 
     return dict(
         gate_name="single_subject",
         result="fail" if multi else "pass",
         measured=f"thirds: L={left_r:.2f} C={center_r:.2f} R={right_r:.2f} (total_fg={total_fg})",
-        expected="single subject (center-dominant composition)",
+        expected=expected,
         artifact_kind="raw",
         artifact_path=rel_path,
     )
@@ -282,12 +295,17 @@ GATE_FAIL_CODES = {
 }
 
 
-def run_all_gates(conn, attempt_id: int, target: int) -> list[dict]:
-    """Run all mechanical gates on an attempt. Returns list of evidence dicts."""
+def run_all_gates(conn, attempt_id: int, target: int, body_class: str = None) -> list[dict]:
+    """Run all mechanical gates on an attempt. Returns list of evidence dicts.
+
+    Args:
+        body_class: Optional body class for relaxed gate thresholds (e.g. 'amorphous', 'wide_squat').
+                    Loaded from subject config if available.
+    """
     return [
         gate_dimension(conn, attempt_id, target),
         gate_alpha(conn, attempt_id),
         gate_corner_transparency(conn, attempt_id, target),
         gate_foreground_content(conn, attempt_id),
-        gate_single_subject(conn, attempt_id),
+        gate_single_subject(conn, attempt_id, body_class=body_class),
     ]

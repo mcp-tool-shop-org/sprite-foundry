@@ -1,0 +1,7 @@
+{
+  "subject_id": "beast_hollow_knight",
+  "display_name": "Hollow Knight",
+  "seed": 818000,
+  "subject_prompt": "solo, single creature only, one monster, animated empty suit of dark plate armor floating slightly off the ground, visible gap at neck where nothing connects helmet to body, hollow interior visible through neck gap, faint blue ethereal glow emanating from inside armor, sword held loosely in gauntleted hand at side, medieval full plate armor with dented battle-worn surface, helmet visor down with blue light behind eye slits, feet hovering above ground with faint shadow below, dark steel and iron coloring, 48px top-down pixel art, fantasy horror boss creature, single centered figure",
+  "negative_prompt": "multiple creatures, two characters, group, couple, pair, reflection, mirror, side by side, comparison, turnaround sheet, model sheet, reference sheet, split view, dual view, before and after, blurry, smooth, photorealistic, 3D render, low quality, deformed, extra limbs, text, watermark, signature, frame, border, modern clothing, sci-fi, futuristic, bright neon colors, busy background, cropped, cut off, partial body"
+}

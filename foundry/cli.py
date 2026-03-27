@@ -162,19 +162,35 @@ def cmd_register_attempt(args):
 
 # -- foundry check --------------------------------------------
 
+def _resolve_body_class(subject_id: str) -> str | None:
+    """Look up body_class from the character config JSON, if it exists."""
+    config_path = db.FOUNDRY_ROOT / "pipeline" / "chars" / f"{subject_id}.json"
+    if config_path.exists():
+        try:
+            with open(config_path) as f:
+                config = json.load(f)
+            return config.get("body_class")
+        except (json.JSONDecodeError, OSError):
+            pass
+    return None
+
+
 def cmd_check(args):
     """Run mechanical gates on a run's attempts with durable evidence."""
     from . import mechanical
 
     conn = db.init_db()
 
-    run = conn.execute("SELECT id, sprite_target FROM runs WHERE id = ?", (args.run_id,)).fetchone()
+    run = conn.execute("SELECT id, subject_id, sprite_target FROM runs WHERE id = ?", (args.run_id,)).fetchone()
     if not run:
         print(f"Run '{args.run_id}' not found.")
         conn.close()
         sys.exit(1)
 
     target = run["sprite_target"]
+    body_class = _resolve_body_class(run["subject_id"])
+    if body_class:
+        print(f"  Body class: {body_class} (gate thresholds adjusted)")
 
     attempts = conn.execute(
         "SELECT id, direction, state FROM attempts WHERE run_id = ? ORDER BY direction",
@@ -203,8 +219,8 @@ def cmd_check(args):
             print(f"  [{direction}] SKIP -- state is '{attempt['state']}', not 'generated'")
             continue
 
-        # Run all gates — returns structured evidence
-        gate_results = mechanical.run_all_gates(conn, attempt_id, target)
+        # Run all gates — body_class relaxes thresholds for monster sprites
+        gate_results = mechanical.run_all_gates(conn, attempt_id, target, body_class=body_class)
 
         # Store every gate result durably
         for gr in gate_results:
@@ -1609,6 +1625,379 @@ def cmd_export(args):
     conn.close()
 
 
+# -- foundry ship-check ----------------------------------------
+
+def cmd_ship_check(args):
+    """Run ship-specific mechanical gates on a run's attempts."""
+    from . import mechanical_ships
+
+    conn = db.init_db()
+
+    run = conn.execute("SELECT id, sprite_target FROM runs WHERE id = ?", (args.run_id,)).fetchone()
+    if not run:
+        print(f"Run '{args.run_id}' not found.")
+        conn.close()
+        sys.exit(1)
+
+    target = run["sprite_target"]
+
+    attempts = conn.execute(
+        "SELECT id, direction, state FROM attempts WHERE run_id = ? ORDER BY direction",
+        (args.run_id,),
+    ).fetchall()
+
+    if not attempts:
+        print(f"No attempts found for run '{args.run_id}'.")
+        conn.close()
+        return
+
+    dir_count = len(set(a["direction"] for a in attempts))
+    expected_dirs = args.direction_count or 8
+    if dir_count < expected_dirs:
+        print(f"  WARNING: only {dir_count}/{expected_dirs} directions registered for this run")
+
+    pass_count = 0
+    fail_count = 0
+
+    checkable = [a for a in attempts if a["state"] == "generated"]
+    if not checkable:
+        print(f"  No attempts in 'generated' state to check.")
+        conn.close()
+        return
+
+    for attempt in checkable:
+        attempt_id = attempt["id"]
+        direction = attempt["direction"]
+
+        gate_results = mechanical_ships.run_per_attempt_gates(conn, attempt_id, target)
+
+        for gr in gate_results:
+            db.add_gate_result(
+                conn,
+                attempt_id=attempt_id,
+                gate_name=gr["gate_name"],
+                result=gr["result"],
+                measured=gr["measured"],
+                expected=gr["expected"],
+                artifact_kind=gr.get("artifact_kind"),
+                artifact_path=gr.get("artifact_path"),
+            )
+
+        failures = [gr for gr in gate_results if gr["result"] == "fail"]
+        fail_codes = [
+            mechanical_ships.GATE_FAIL_CODES.get(gr["gate_name"], gr["gate_name"])
+            for gr in failures
+        ]
+
+        if failures:
+            for code in fail_codes:
+                db.add_review(conn, attempt_id, "mechanical", "fail", "auto", code=code)
+            db.transition_attempt(conn, attempt_id, "mechanical_fail")
+            fail_count += 1
+            print(f"  [{direction}] FAIL: {', '.join(fail_codes)}")
+            for gr in failures:
+                print(f"    {gr['gate_name']}: measured={gr['measured']}, expected={gr['expected']}")
+        else:
+            db.add_review(conn, attempt_id, "mechanical", "pass", "auto")
+            db.transition_attempt(conn, attempt_id, "mechanical_pass")
+            pass_count += 1
+            print(f"  [{direction}] PASS (5 ship gates)")
+
+    conn.commit()
+
+    # Auto-advance passing attempts to raw_review_pending
+    advanced = 0
+    for attempt in checkable:
+        row = conn.execute(
+            "SELECT id, state FROM attempts WHERE id = ?", (attempt["id"],)
+        ).fetchone()
+        if row and row["state"] == "mechanical_pass":
+            db.transition_attempt(conn, row["id"], "raw_review_pending")
+            advanced += 1
+    conn.commit()
+
+    print(f"\n  Ship check: {pass_count} pass, {fail_count} fail")
+    if advanced:
+        print(f"  Auto-advanced {advanced} to raw_review_pending")
+
+    # Run-level footprint consistency gate (informational, does not block)
+    run_results = mechanical_ships.gate_ship_footprint_consistency(conn, args.run_id)
+    if run_results:
+        print(f"\n  --- Run-level footprint consistency ---")
+        for gr in run_results:
+            status = "PASS" if gr["result"] == "pass" else "WARN"
+            print(f"  [{status}] {gr['gate_name']}: {gr['measured']}")
+            # Store run-level results against first attempt for traceability
+            if checkable:
+                db.add_gate_result(
+                    conn,
+                    attempt_id=checkable[0]["id"],
+                    gate_name=gr["gate_name"],
+                    result=gr["result"],
+                    measured=gr["measured"],
+                    expected=gr["expected"],
+                    artifact_kind=gr.get("artifact_kind"),
+                    artifact_path=gr.get("artifact_path"),
+                )
+        conn.commit()
+
+    conn.close()
+
+
+# -- foundry ship-export --------------------------------------
+
+SHIP_EXPORT_SCHEMA_VERSION = "2.0.0"
+SHIP_STATES = ["new", "damaged", "destroyed"]
+
+
+def cmd_ship_export(args):
+    """Export an accepted ship run into the 3-state ship export schema.
+
+    Ship closeout path: exports from 'accepted' state (after pixel review).
+    No maps, no Godot finish capture — albedo only.
+
+    Export structure (3-state aware):
+      exports/ships/{class_slug}/
+        new/albedo/{dir}.png          ← from --state new (default)
+        damaged/albedo/{dir}.png      ← from --state damaged
+        destroyed/albedo/{dir}.png    ← from --state destroyed
+        preview/contact_sheet_new.png
+        preview/contact_sheet_damaged.png
+        preview/contact_sheet_destroyed.png
+        manifest.json                 ← tracks which states are populated
+
+    Each invocation populates one state slot. Manifest accumulates across invocations.
+    """
+    import shutil
+    import subprocess
+
+    conn = db.init_db()
+    run_id = args.run_id
+    state = args.state or "new"
+
+    if state not in SHIP_STATES:
+        print(f"Error: invalid state '{state}'. Must be one of: {', '.join(SHIP_STATES)}")
+        conn.close()
+        sys.exit(1)
+
+    run = conn.execute("SELECT * FROM runs WHERE id = ?", (run_id,)).fetchone()
+    if not run:
+        print(f"Error: run '{run_id}' not found.")
+        conn.close()
+        sys.exit(1)
+
+    subject_id = run["subject_id"]
+    subject = conn.execute("SELECT * FROM subjects WHERE id = ?", (subject_id,)).fetchone()
+    display_name = subject["display_name"] if subject else subject_id
+
+    # Derive class_slug from subject_id (strip "ship_" prefix if present)
+    class_slug = subject_id.replace("ship_", "") if subject_id.startswith("ship_") else subject_id
+
+    # Ship export accepts from 'accepted' state (pixel-reviewed) — no finish required
+    accepted = conn.execute(
+        """SELECT direction FROM attempts
+           WHERE run_id = ? AND state = 'accepted'
+           ORDER BY direction""",
+        (run_id,),
+    ).fetchall()
+    accepted_dirs = [r["direction"] for r in accepted]
+
+    if not accepted_dirs:
+        accepted = conn.execute(
+            """SELECT direction FROM attempts
+               WHERE run_id = ? AND state = 'finish_accepted'
+               ORDER BY direction""",
+            (run_id,),
+        ).fetchall()
+        accepted_dirs = [r["direction"] for r in accepted]
+
+    if not accepted_dirs:
+        print(f"Error: run '{run_id}' has no accepted or finish_accepted attempts.")
+        print(f"  Ship export requires pixel-reviewed attempts (state='accepted').")
+        conn.close()
+        sys.exit(1)
+
+    # Export root is per-class (not per-run), states accumulate
+    export_root = db.FOUNDRY_ROOT / "exports" / "ships" / class_slug
+    state_dir = export_root / state / "albedo"
+    preview_dir = export_root / "preview"
+
+    # Check if this state slot is already populated
+    if state_dir.exists() and any(state_dir.iterdir()) and not args.overwrite:
+        print(f"Error: state '{state}' already exported at {state_dir}")
+        print(f"  Use --overwrite to replace.")
+        conn.close()
+        sys.exit(1)
+
+    bakeoff_dir = db.FOUNDRY_ROOT / "bakeoff" / run_id
+    if not bakeoff_dir.exists():
+        print(f"Error: bakeoff directory not found: {bakeoff_dir}")
+        conn.close()
+        sys.exit(1)
+
+    # Verify source files
+    source_map = {}
+    for d in accepted_dirs:
+        albedo_src = bakeoff_dir / f"{d}.png"
+        if not albedo_src.exists():
+            print(f"Error: missing source file: {albedo_src}")
+            conn.close()
+            sys.exit(1)
+        source_map[d] = albedo_src
+
+    contact_src = bakeoff_dir / "contact_sheet.png"
+
+    # Create export structure
+    if state_dir.exists():
+        shutil.rmtree(state_dir)
+    state_dir.mkdir(parents=True, exist_ok=True)
+    preview_dir.mkdir(parents=True, exist_ok=True)
+
+    print(f"{'=' * 60}")
+    print(f"SHIP EXPORT: {display_name} [{state}]")
+    print(f"Run: {run_id}")
+    print(f"Target: {export_root}")
+    print(f"State: {state}")
+    print(f"Directions: {len(accepted_dirs)}")
+    print(f"{'=' * 60}")
+
+    # Copy files and compute checksums
+    file_checksums = {}
+
+    for d, src in source_map.items():
+        dst = state_dir / f"{d}.png"
+        shutil.copy2(src, dst)
+        rel = f"{state}/albedo/{d}.png"
+        file_checksums[rel] = hash_file(dst)
+        print(f"  [{state}/albedo] {d}.png  OK")
+
+    if contact_src.exists():
+        dst = preview_dir / f"contact_sheet_{state}.png"
+        shutil.copy2(contact_src, dst)
+        file_checksums[f"preview/contact_sheet_{state}.png"] = hash_file(dst)
+        print(f"  [preview] contact_sheet_{state}.png  OK")
+
+    # Provenance
+    reject_count = conn.execute(
+        "SELECT COUNT(*) as c FROM attempts WHERE run_id = ? AND state IN ('raw_rejected', 'rejected')",
+        (run_id,),
+    ).fetchone()["c"]
+
+    regen_count = conn.execute(
+        "SELECT COUNT(*) as c FROM attempts WHERE run_id = ? AND parent_attempt_id IS NOT NULL",
+        (run_id,),
+    ).fetchone()["c"]
+
+    accepted_at = conn.execute(
+        """SELECT MAX(r.created_at) as t FROM reviews r
+           JOIN attempts a ON r.attempt_id = a.id
+           WHERE a.run_id = ? AND r.decision = 'accept' AND r.review_type = 'pixel'""",
+        (run_id,),
+    ).fetchone()
+    accepted_at_str = accepted_at["t"] if accepted_at else None
+
+    recipe = {}
+    recipe_path = bakeoff_dir / "recipe.json"
+    if recipe_path.exists():
+        with open(recipe_path) as f:
+            recipe = json.load(f)
+
+    git_hash = "unknown"
+    try:
+        result = subprocess.run(
+            ["git", "rev-parse", "--short", "HEAD"],
+            capture_output=True, text=True, cwd=str(db.FOUNDRY_ROOT),
+        )
+        if result.returncode == 0:
+            git_hash = result.stdout.strip()
+    except Exception:
+        pass
+
+    # Sprite dimensions
+    first_albedo = state_dir / f"{accepted_dirs[0]}.png"
+    width, height = 0, 0
+    try:
+        from PIL import Image
+        with Image.open(first_albedo) as img:
+            width, height = img.size
+    except Exception:
+        pass
+
+    # Load existing manifest if present (accumulate states)
+    manifest_path = export_root / "manifest.json"
+    if manifest_path.exists():
+        with open(manifest_path) as f:
+            manifest = json.load(f)
+    else:
+        manifest = {
+            "schema_version": SHIP_EXPORT_SCHEMA_VERSION,
+            "asset_family": "ship",
+            "identity": {
+                "subject_slug": subject_id,
+                "display_name": display_name,
+                "body_family": "ship",
+                "class_slug": class_slug,
+            },
+            "render_contract": {
+                "width": width,
+                "height": height,
+                "sprite_size": width,
+                "direction_count": len(accepted_dirs),
+                "direction_order": accepted_dirs,
+                "layers": ["albedo"],
+                "states": SHIP_STATES,
+                "pivot": "center",
+                "transparency": True,
+            },
+            "states": {},
+            "files": {},
+        }
+
+    # Update manifest with this state's data
+    manifest["exported_at"] = now_iso()
+    manifest["foundry_version"] = git_hash
+
+    manifest["states"][state] = {
+        "run_id": run_id,
+        "seed": run["seed"],
+        "generated_at": run["created_at"],
+        "accepted_at": accepted_at_str,
+        "regen_count": regen_count,
+        "reject_count": reject_count,
+        "direction_count": len(accepted_dirs),
+        "generation": {
+            "stack_id": run["stack"],
+            "checkpoint": recipe.get("checkpoint", "unknown"),
+            "lora": recipe.get("lora", "none"),
+            "style": recipe.get("body_family", "rendered"),
+        },
+        "source": {
+            "bakeoff_dir": str(bakeoff_dir.relative_to(db.FOUNDRY_ROOT)),
+        },
+    }
+
+    # Merge file checksums
+    manifest["files"].update(file_checksums)
+
+    # Write updated manifest
+    with open(manifest_path, "w") as f:
+        json.dump(manifest, f, indent=2)
+
+    populated = [s for s in SHIP_STATES if s in manifest["states"]]
+    print(f"\n  manifest.json written ({len(manifest['files'])} total files)")
+    print(f"  States populated: {', '.join(populated)} ({len(populated)}/{len(SHIP_STATES)})")
+
+    print(f"\n{'=' * 60}")
+    print(f"SHIP EXPORT COMPLETE: {display_name} [{state}]")
+    print(f"  Pack: {export_root}")
+    print(f"  State: {state} ({len(accepted_dirs)} directions)")
+    print(f"  Total files: {len(manifest['files'])}")
+    print(f"  Schema: v{SHIP_EXPORT_SCHEMA_VERSION}")
+    print(f"{'=' * 60}")
+
+    conn.close()
+
+
 # -- CLI argument parser --------------------------------------
 
 def build_parser() -> argparse.ArgumentParser:
@@ -1734,6 +2123,18 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("run_id", help="Run ID")
     p.add_argument("--overwrite", action="store_true", help="Overwrite existing export")
 
+    # ship-check (Ship Lane)
+    p = sub.add_parser("ship-check", help="Run ship-specific mechanical gates on a run")
+    p.add_argument("run_id", help="Run ID")
+    p.add_argument("--direction-count", type=int, default=8, help="Expected direction count (default: 8)")
+
+    # ship-export (Ship Lane)
+    p = sub.add_parser("ship-export", help="Export an accepted ship run into 3-state schema")
+    p.add_argument("run_id", help="Run ID")
+    p.add_argument("--state", choices=["new", "damaged", "destroyed"], default="new",
+                   help="Ship state slot to populate (default: new)")
+    p.add_argument("--overwrite", action="store_true", help="Overwrite existing state slot")
+
     return parser
 
 
@@ -1763,6 +2164,8 @@ def main():
         "batch-reject": cmd_batch_reject,
         "metrics": cmd_metrics,
         "export": cmd_export,
+        "ship-check": cmd_ship_check,
+        "ship-export": cmd_ship_export,
     }
 
     if args.command in commands:

@@ -1,0 +1,8 @@
+{
+  "subject_id": "beast_rat_king",
+  "display_name": "Rat King",
+  "body_class": "amorphous",
+  "seed": 818100,
+  "subject_prompt": "solo, single creature only, one monster, 1man, tall humanoid figure composed of fused rats, standing upright, rat bodies forming the torso and limbs like living armor, tangled knotted rat tails wrapped around waist, many small red glowing eyes scattered across chest and shoulders, individual rat heads protruding from shoulders and arms, dark brown and grey matted fur covering entire humanoid frame, hunched forward stance with clawed hands, wet glistening fur texture, wearing tattered dark robe torn open revealing rat-body torso, fully visible standing figure, 48px top-down pixel art, fantasy horror boss creature, single centered figure",
+  "negative_prompt": "multiple creatures, two characters, group, couple, pair, reflection, mirror, side by side, comparison, turnaround sheet, model sheet, reference sheet, split view, dual view, before and after, blurry, smooth, photorealistic, 3D render, low quality, deformed, extra limbs, text, watermark, signature, frame, border, modern clothing, sci-fi, futuristic, bright neon colors, busy background, cropped, cut off, partial body"
+}

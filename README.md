@@ -18,7 +18,7 @@
 
 ---
 
-Sprite Foundry is a local-only asset pipeline that generates, reviews, and exports 8-direction pixel sprites with normal and depth maps. It drives ComfyUI for generation, SQLite for lifecycle tracking, and Godot 4.6 for finish-lab lighting verification — all controlled from a single CLI.
+Sprite Foundry is a local-only asset pipeline that generates, reviews, and exports 8-direction pixel sprites with normal and depth maps. It drives ComfyUI for generation with ControlNet morphology control (8 body classes), SQLite for lifecycle tracking, and Godot 4.6 for finish-lab lighting verification — all controlled from a single CLI.
 
 ## Architecture
 
@@ -44,7 +44,7 @@ Subject Sheet ──► ComfyUI Generation ──► Mechanical Gates
 
 ## Roster
 
-20 production export packs, zero contract violations:
+26 production export packs, zero contract violations:
 
 | Lane | Count | Subjects |
 |------|-------|----------|
@@ -53,6 +53,27 @@ Subject Sheet ──► ComfyUI Generation ──► Mechanical Gates
 | Hostile | 3 | Scav Raider, Reach Pirate, Compact Interdiction Agent |
 | Authority | 2 | Compact Patrol Officer, Veshan House Envoy |
 | Civilian | 2 | Nera Quill, Orryn Broker |
+| Beast | 6 | Rat King, Lantern Angler, Grinning Idol, Spore Mother, Root Puppet, Mud Revenant |
+
+## Monster Lane
+
+Non-humanoid creatures use body-class-specific ControlNet depth guides instead of the standard humanoid skeleton. Each body class has its own depth reference silhouette, ControlNet strength, and timing parameters.
+
+| Body Class | Depth Strength | End % | Creatures |
+|------------|---------------|-------|-----------|
+| Amorphous | 0.35 | 65% | Rat King, Spore Mother, Mud Revenant |
+| Wide/Squat | 0.40 | 70% | Grinning Idol |
+| Tall/Thin | 0.40 | 70% | Lantern Angler, Root Puppet |
+
+Depth guides are joint-free primitives (blobs, pillars, columns) that lock in mass and orientation without dictating skeleton or limb placement. The `body_class` field in character configs auto-selects the correct preset:
+
+```bash
+# Body class auto-resolved from config
+python -m pipeline.foundry_gen_morph --config pipeline/chars/beast_rat_king.json
+
+# CLI override
+python -m pipeline.foundry_gen_morph --config pipeline/chars/beast_rat_king.json --body-class tall_thin
+```
 
 ## Export Contract v1.0.0 (frozen)
 
@@ -137,5 +158,5 @@ File operations are constrained to `exports/`, `bakeoff/`, `boards/`, `derived/`
 ---
 
 <p align="center">
-  Built by <a href="https://github.com/mcp-tool-shop-org">MCP Tool Shop</a>
+  Built by <a href="https://mcp-tool-shop.github.io/">MCP Tool Shop</a>
 </p>

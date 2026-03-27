@@ -1,0 +1,8 @@
+{
+  "subject_id": "beast_mud_revenant",
+  "display_name": "Mud Revenant",
+  "body_class": "amorphous",
+  "seed": 818500,
+  "subject_prompt": "solo, single creature only, one monster, 1man, tall humanoid figure made entirely of dripping wet mud and clay, standing upright full body visible, cracked dried clay patches on face and torso, hollow empty eye sockets with burning orange glow deep inside, gaping mouth stretched open dripping mud, arms reaching forward with clawed muddy fingers, legs thick and heavy like columns of packed earth, dark brown earth tones with orange ember glow from eyes and mouth, mud dripping from entire body, fully clothed in remnants of burial shroud fused with clay, 48px top-down pixel art, fantasy horror boss creature, single centered figure",
+  "negative_prompt": "multiple creatures, two characters, group, couple, pair, reflection, mirror, side by side, comparison, turnaround sheet, model sheet, reference sheet, split view, dual view, before and after, blurry, smooth, photorealistic, 3D render, low quality, deformed, extra limbs, text, watermark, signature, frame, border, modern clothing, sci-fi, futuristic, bright neon colors, busy background, cropped, cut off, partial body"
+}

@@ -24,6 +24,63 @@ import numpy as np
 COMFY_URL = "http://127.0.0.1:8188"
 FOUNDRY_ROOT = Path(__file__).parent.parent
 SPRITE_TARGET = 48
+MORPH_REFS_DIR = FOUNDRY_ROOT / "pipeline" / "morph_refs"
+
+# Body class presets — auto-select depth refs + ControlNet params
+BODY_CLASS_PRESETS = {
+    "humanoid": {
+        "depth_refs": None,  # humanoid lane uses foundry_gen.py, not morph
+        "depth_strength": 0.60,
+        "depth_end_pct": 0.85,
+        "canny": False,
+    },
+    "arthropod": {
+        "depth_refs": "skitter_drone_depth",
+        "depth_strength": 0.55,
+        "depth_end_pct": 0.80,
+        "canny": False,
+    },
+    "quadruped": {
+        "depth_refs": "cargo_beast_depth",
+        "depth_strength": 0.65,
+        "depth_end_pct": 0.90,
+        "canny": False,
+    },
+    "crouching_predator": {
+        "depth_refs": "drift_lurker_depth",
+        "depth_strength": 0.55,
+        "depth_end_pct": 0.80,
+        "canny": False,
+    },
+    "winged": {
+        "depth_refs": "void_raptor_depth",
+        "edge_refs": "void_raptor_edge",
+        "depth_strength": 0.55,
+        "depth_end_pct": 0.90,
+        "canny": True,
+        "canny_strength": 0.45,
+        "canny_end_pct": 0.85,
+    },
+    # Monster lane body classes
+    "amorphous": {
+        "depth_refs": "amorphous_depth",
+        "depth_strength": 0.35,
+        "depth_end_pct": 0.65,
+        "canny": False,
+    },
+    "wide_squat": {
+        "depth_refs": "wide_squat_depth",
+        "depth_strength": 0.40,
+        "depth_end_pct": 0.70,
+        "canny": False,
+    },
+    "tall_thin": {
+        "depth_refs": "tall_thin_depth",
+        "depth_strength": 0.40,
+        "depth_end_pct": 0.70,
+        "canny": False,
+    },
+}
 
 DIRECTIONS = [
     ("front", "facing the viewer, front view, looking at camera"),
@@ -214,14 +271,29 @@ def upload_image(filepath: Path) -> str:
     return result["name"]
 
 
-def remove_bg(img, tolerance=35):
+def remove_bg(img, tolerance=45):
     arr = np.array(img.convert("RGBA")).copy()
     h, w = arr.shape[:2]
-    corners = [arr[0, 0, :3], arr[0, w-1, :3], arr[h-1, 0, :3], arr[h-1, w-1, :3]]
-    bg_color = np.mean(corners, axis=0).astype(np.float32)
+    # Sample top corners + bottom corners separately to handle ground planes.
+    # Use top corners as primary bg estimate (sky/empty space).
+    # If top and bottom corners differ significantly, also remove bottom bg.
+    top_corners = np.array([arr[0, 0, :3], arr[0, w-1, :3]], dtype=np.float32)
+    bot_corners = np.array([arr[h-1, 0, :3], arr[h-1, w-1, :3]], dtype=np.float32)
+    top_bg = np.mean(top_corners, axis=0)
+    bot_bg = np.mean(bot_corners, axis=0)
+
     rgb = arr[:, :, :3].astype(np.float32)
-    diff = np.sqrt(np.sum((rgb - bg_color) ** 2, axis=2))
-    arr[diff < tolerance, 3] = 0
+
+    # Remove pixels close to top bg estimate
+    diff_top = np.sqrt(np.sum((rgb - top_bg) ** 2, axis=2))
+    arr[diff_top < tolerance, 3] = 0
+
+    # If bottom corners differ from top, also remove bottom bg
+    corner_diff = np.sqrt(np.sum((top_bg - bot_bg) ** 2))
+    if corner_diff > 30:
+        diff_bot = np.sqrt(np.sum((rgb - bot_bg) ** 2, axis=2))
+        arr[diff_bot < tolerance, 3] = 0
+
     return Image.fromarray(arr)
 
 
@@ -416,12 +488,58 @@ def generate_morph(config: dict, depth_refs_dir: Path,
     return run_id
 
 
+def resolve_body_class(config: dict, cli_body_class: str = None,
+                       cli_depth_refs: str = None) -> tuple[Path, float, float, Path | None, float, float]:
+    """Resolve depth refs and ControlNet params from body_class or CLI overrides.
+
+    Priority: CLI flags > config body_class > manual --depth-refs (required fallback).
+    Returns: (depth_dir, strength, end_pct, edge_dir, edge_strength, edge_end_pct)
+    """
+    body_class = cli_body_class or config.get("body_class")
+
+    if body_class:
+        if body_class not in BODY_CLASS_PRESETS:
+            print(f"Unknown body_class: {body_class}")
+            print(f"Available: {', '.join(BODY_CLASS_PRESETS.keys())}")
+            sys.exit(1)
+
+        preset = BODY_CLASS_PRESETS[body_class]
+        print(f"  Body class: {body_class}")
+
+        # Config-level controlnet overrides take precedence over preset defaults
+        config_cn = config.get("controlnet", {})
+
+        depth_refs_name = preset["depth_refs"]
+        if not depth_refs_name:
+            print(f"  Body class '{body_class}' has no morph depth refs (use foundry_gen.py instead)")
+            sys.exit(1)
+
+        depth_dir = cli_depth_refs and Path(cli_depth_refs) or (MORPH_REFS_DIR / depth_refs_name)
+        strength = config_cn.get("depth_strength", preset["depth_strength"])
+        end_pct = config_cn.get("depth_end_pct", preset["depth_end_pct"])
+
+        edge_dir = None
+        edge_strength = 0.45
+        edge_end_pct = 0.85
+        if preset.get("canny"):
+            edge_refs_name = preset.get("edge_refs")
+            if edge_refs_name:
+                edge_dir = MORPH_REFS_DIR / edge_refs_name
+            edge_strength = config_cn.get("canny_strength", preset.get("canny_strength", 0.45))
+            edge_end_pct = config_cn.get("canny_end_pct", preset.get("canny_end_pct", 0.85))
+
+        return depth_dir, strength, end_pct, edge_dir, edge_strength, edge_end_pct
+
+    return None, None, None, None, None, None
+
+
 def main():
     parser = argparse.ArgumentParser(description="Morphology-controlled generation")
     parser.add_argument("--config", required=True, help="Path to character config JSON")
-    parser.add_argument("--depth-refs", required=True, help="Directory with depth reference images")
-    parser.add_argument("--strength", type=float, default=CONTROLNET_STRENGTH, help="Depth ControlNet strength (default 0.55)")
-    parser.add_argument("--end-percent", type=float, default=0.8, help="Depth ControlNet end_percent (default 0.8)")
+    parser.add_argument("--depth-refs", default=None, help="Directory with depth reference images (auto-resolved from body_class if set)")
+    parser.add_argument("--body-class", default=None, help=f"Body class preset ({', '.join(BODY_CLASS_PRESETS.keys())})")
+    parser.add_argument("--strength", type=float, default=None, help="Depth ControlNet strength (overrides body_class preset)")
+    parser.add_argument("--end-percent", type=float, default=None, help="Depth ControlNet end_percent (overrides body_class preset)")
     parser.add_argument("--edge-refs", default=None, help="Directory with Canny edge reference images (optional, for dual control)")
     parser.add_argument("--edge-strength", type=float, default=0.45, help="Edge ControlNet strength (default 0.45)")
     parser.add_argument("--edge-end-percent", type=float, default=0.85, help="Edge ControlNet end_percent (default 0.85)")
@@ -432,25 +550,41 @@ def main():
         print(f"Config not found: {config_path}")
         sys.exit(1)
 
-    depth_dir = Path(args.depth_refs)
+    with open(config_path) as f:
+        config = json.load(f)
+
+    # Resolve body_class → depth refs + ControlNet params
+    bc_depth, bc_strength, bc_end, bc_edge, bc_edge_str, bc_edge_end = \
+        resolve_body_class(config, args.body_class, args.depth_refs)
+
+    # CLI flags override body_class presets
+    depth_dir = Path(args.depth_refs) if args.depth_refs else bc_depth
+    if depth_dir is None:
+        print("ERROR: No depth refs specified. Use --depth-refs or --body-class or add body_class to config JSON.")
+        sys.exit(1)
     if not depth_dir.exists():
         print(f"Depth refs directory not found: {depth_dir}")
         sys.exit(1)
 
+    strength = args.strength if args.strength is not None else (bc_strength or CONTROLNET_STRENGTH)
+    end_pct = args.end_percent if args.end_percent is not None else (bc_end or 0.8)
+
     edge_dir = None
     if args.edge_refs:
         edge_dir = Path(args.edge_refs)
-        if not edge_dir.exists():
-            print(f"Edge refs directory not found: {edge_dir}")
-            sys.exit(1)
+    elif bc_edge:
+        edge_dir = bc_edge
+    if edge_dir and not edge_dir.exists():
+        print(f"Edge refs directory not found: {edge_dir}")
+        sys.exit(1)
 
-    with open(config_path) as f:
-        config = json.load(f)
+    edge_strength = args.edge_strength if args.edge_refs else (bc_edge_str or 0.45)
+    edge_end_pct = args.edge_end_percent if args.edge_refs else (bc_edge_end or 0.85)
 
     generate_morph(config, depth_dir,
-                   cn_strength=args.strength, cn_end_percent=args.end_percent,
-                   edge_refs_dir=edge_dir, edge_strength=args.edge_strength,
-                   edge_end_percent=args.edge_end_percent)
+                   cn_strength=strength, cn_end_percent=end_pct,
+                   edge_refs_dir=edge_dir, edge_strength=edge_strength,
+                   edge_end_percent=edge_end_pct)
 
 
 if __name__ == "__main__":

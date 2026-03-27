@@ -1,0 +1,8 @@
+{
+  "subject_id": "beast_spore_mother",
+  "display_name": "Spore Mother",
+  "body_class": "amorphous",
+  "seed": 819300,
+  "subject_prompt": "solo, single creature only, one monster, large fungal mass with vaguely maternal humanoid silhouette, multiple mushroom caps growing from shoulders and top of head forming a crown-like crest, trailing clouds of spore particles drifting from cap gills, purple and sickly green coloring throughout, soft bulbous round body with spongy mycelium texture, stubby thick arms ending in fungal tendrils instead of fingers, no visible face just a smooth fungal surface with a darker indent where mouth would be, wide base with root-like mycelium spreading on ground, bioluminescent purple spots on caps, 48px top-down pixel art, fantasy horror boss creature, single centered figure",
+  "negative_prompt": "multiple creatures, two characters, group, couple, pair, reflection, mirror, side by side, comparison, turnaround sheet, model sheet, reference sheet, split view, dual view, before and after, blurry, smooth, photorealistic, 3D render, low quality, deformed, extra limbs, text, watermark, signature, frame, border, modern clothing, sci-fi, futuristic, bright neon colors, busy background, cropped, cut off, partial body"
+}

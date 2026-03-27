@@ -17,7 +17,7 @@ Sprite Foundry is a headless sprite generation pipeline that produces game-ready
 
 ## Current roster
 
-20 production export packs across 5 lanes:
+26 production export packs across 6 lanes:
 
 | Lane | Count | Subjects |
 |------|-------|----------|
@@ -26,6 +26,7 @@ Sprite Foundry is a headless sprite generation pipeline that produces game-ready
 | Hostile | 3 | Scav Raider, Reach Pirate, Compact Interdiction Agent |
 | Authority | 2 | Compact Patrol Officer, Veshan House Envoy |
 | Civilian | 2 | Nera Quill, Orryn Broker |
+| Beast | 6 | Rat King, Lantern Angler, Grinning Idol, Spore Mother, Root Puppet, Mud Revenant |
 
 ## Next steps
 

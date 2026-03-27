@@ -1,0 +1,7 @@
+{
+  "subject_id": "beast_chain_dancer",
+  "display_name": "Chain Dancer",
+  "seed": 819400,
+  "subject_prompt": "solo, single creature only, one monster, pallid humanoid suspended by its own heavy iron chains extending upward from wrists and shoulders, marionette-like slack pose with limbs hanging loosely, thick dark iron chains wrapped tightly around arms torso and neck, arms spread wide to sides pulled by chains, head drooping forward with lank dark hair covering face, bare pallid grey-white skin visible between chain wrappings, feet dangling not touching ground, tattered dark cloth remnants around waist, chain links rusted and dark, body limp yet hovering upright, 48px top-down pixel art, fantasy horror boss creature, single centered figure",
+  "negative_prompt": "multiple creatures, two characters, group, couple, pair, reflection, mirror, side by side, comparison, turnaround sheet, model sheet, reference sheet, split view, dual view, before and after, blurry, smooth, photorealistic, 3D render, low quality, deformed, extra limbs, text, watermark, signature, frame, border, modern clothing, sci-fi, futuristic, bright neon colors, busy background, cropped, cut off, partial body"
+}

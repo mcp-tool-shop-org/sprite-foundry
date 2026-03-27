@@ -1,0 +1,8 @@
+{
+  "subject_id": "beast_ink_shade",
+  "display_name": "Ink Shade",
+  "body_class": "tall_thin",
+  "seed": 819100,
+  "subject_prompt": "solo, single creature only, one monster, shadow creature made of living darkness and liquid ink, flat two-dimensional appearance like a shadow cast on nothing, wispy fraying edges dissolving into dark smoke and ink droplets, pure black silhouette body with only two white glowing pinpoint eyes, thin elongated stretched humanoid form with impossibly long arms, fingers tapering into smoke wisps, no visible mouth or features besides eyes, hovering slightly above ground with trailing shadow pool beneath, ink dripping upward defying gravity at edges, 48px top-down pixel art, fantasy horror boss creature, single centered figure",
+  "negative_prompt": "multiple creatures, two characters, group, couple, pair, reflection, mirror, side by side, comparison, turnaround sheet, model sheet, reference sheet, split view, dual view, before and after, blurry, smooth, photorealistic, 3D render, low quality, deformed, extra limbs, text, watermark, signature, frame, border, modern clothing, sci-fi, futuristic, bright neon colors, busy background, cropped, cut off, partial body"
+}

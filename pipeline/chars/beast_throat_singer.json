@@ -1,0 +1,8 @@
+{
+  "subject_id": "beast_throat_singer",
+  "display_name": "Throat Singer",
+  "body_class": "tall_thin",
+  "seed": 818900,
+  "subject_prompt": "solo, single creature only, one monster, tall unnaturally thin eyeless humanoid, smooth pale white skin stretched over skull where eyes should be with no eye sockets at all, impossibly wide mouth stretching from ear to ear showing rows of small teeth, long thin spindly fingers with extra joints, tattered dark black robe hanging from narrow shoulders, elongated limbs with wrong proportions too long for body, hunched forward with mouth open wide as if screaming silently, visible ribcage through thin skin on chest, barefoot with elongated toes, unsettling uncanny valley proportions, 48px top-down pixel art, fantasy horror boss creature, single centered figure",
+  "negative_prompt": "multiple creatures, two characters, group, couple, pair, reflection, mirror, side by side, comparison, turnaround sheet, model sheet, reference sheet, split view, dual view, before and after, blurry, smooth, photorealistic, 3D render, low quality, deformed, extra limbs, text, watermark, signature, frame, border, modern clothing, sci-fi, futuristic, bright neon colors, busy background, cropped, cut off, partial body"
+}

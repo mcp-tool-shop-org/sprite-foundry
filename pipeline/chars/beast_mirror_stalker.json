@@ -1,0 +1,8 @@
+{
+  "subject_id": "beast_mirror_stalker",
+  "display_name": "Mirror Stalker",
+  "body_class": "tall_thin",
+  "seed": 818200,
+  "subject_prompt": "solo, single creature only, one monster, humanoid figure made entirely of jagged reflective mirror shards, angular crystalline body with sharp faceted surfaces, prismatic rainbow light refractions at edges, no face just a smooth flat reflective oval surface, thin razor-sharp limbs with pointed shard fingers, tall slender proportions, light glinting off mirror surfaces, silver and white coloring with chromatic light fragments, stalking forward pose with one arm extended, cracked glass texture on torso, 48px top-down pixel art, fantasy horror boss creature, single centered figure",
+  "negative_prompt": "multiple creatures, two characters, group, couple, pair, reflection, mirror, side by side, comparison, turnaround sheet, model sheet, reference sheet, split view, dual view, before and after, blurry, smooth, photorealistic, 3D render, low quality, deformed, extra limbs, text, watermark, signature, frame, border, modern clothing, sci-fi, futuristic, bright neon colors, busy background, cropped, cut off, partial body"
+}

@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.1.0] - 2026-03-27
+
+### Added
+
+- **Monster Lane** — pipeline extension for non-humanoid sprites with 3 new body classes (amorphous, wide/squat, tall/thin)
+- **Body Class Presets** — `body_class` field in character configs auto-selects depth refs, ControlNet strength, and timing
+- **3 New Depth Ref Generators** — `gen_amorphous_depth.py`, `gen_wide_squat_depth.py`, `gen_tall_thin_depth.py`
+- **Body-Class-Aware Gates** — `single_subject` gate uses relaxed thresholds for wide body classes
+- **6 Beast Export Packs** — Rat King, Lantern Angler, Grinning Idol, Spore Mother, Root Puppet, Mud Revenant
+- **`--body-class` CLI Flag** — override body class from command line for `foundry_gen_morph`
+
+### Changed
+
+- Roster expanded from 20 to 26 production packs (new beast lane)
+- Background removal uses dual-corner sampling to handle ground planes
+- Scene setting stripped from beast prompts for clean bg removal
+- `run_all_gates` and `gate_single_subject` accept optional `body_class` parameter
+- `cmd_check` auto-resolves body class from character config JSON
+
 ## [1.0.0] - 2026-03-26
 
 ### Added

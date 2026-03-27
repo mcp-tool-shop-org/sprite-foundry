@@ -1,0 +1,7 @@
+{
+  "subject_id": "beast_hive_keeper",
+  "display_name": "Hive Keeper",
+  "seed": 818600,
+  "subject_prompt": "solo, single creature only, one monster, humanoid torso fused with a living wasp nest, large papery wasp nest growing from back and shoulders forming a hunchback shape, wasps swarming in a cloud around head and upper body, yellowed sickly skin on exposed arms and chest, amber and brown color palette, hexagonal honeycomb texture visible on nest surface, dark hollow openings in nest where wasps emerge, arms hanging at sides with swollen fingers, standing upright with heavy nest weighing down shoulders, tattered remains of clothing around waist, 48px top-down pixel art, fantasy horror boss creature, single centered figure",
+  "negative_prompt": "multiple creatures, two characters, group, couple, pair, reflection, mirror, side by side, comparison, turnaround sheet, model sheet, reference sheet, split view, dual view, before and after, blurry, smooth, photorealistic, 3D render, low quality, deformed, extra limbs, text, watermark, signature, frame, border, modern clothing, sci-fi, futuristic, bright neon colors, busy background, cropped, cut off, partial body"
+}

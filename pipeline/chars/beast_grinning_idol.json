@@ -1,0 +1,8 @@
+{
+  "subject_id": "beast_grinning_idol",
+  "display_name": "Grinning Idol",
+  "body_class": "wide_squat",
+  "seed": 818800,
+  "subject_prompt": "solo, single creature only, one monster, ancient stone statue that moves, cracked weathered grey granite surface texture, frozen unnaturally wide grin carved into face, hollow deeply carved eye sockets with darkness inside, green moss and lichen growing in surface cracks, rigid stiff pose but clearly mobile with one foot forward, thick stocky proportions like a carved totem, stone fingers curled into fists, flat angular carved features, chunks of stone missing from edges revealing darker stone beneath, standing upright with shoulders squared, heavy imposing presence, 48px top-down pixel art, fantasy horror boss creature, single centered figure",
+  "negative_prompt": "multiple creatures, two characters, group, couple, pair, reflection, mirror, side by side, comparison, turnaround sheet, model sheet, reference sheet, split view, dual view, before and after, blurry, smooth, photorealistic, 3D render, low quality, deformed, extra limbs, text, watermark, signature, frame, border, modern clothing, sci-fi, futuristic, bright neon colors, busy background, cropped, cut off, partial body"
+}

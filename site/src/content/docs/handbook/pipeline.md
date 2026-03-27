@@ -28,20 +28,38 @@ The pipeline drives ComfyUI headlessly:
 - **Model:** SDXL with pixel-art-xl LoRA
 - **Control:** ControlNet Depth + Canny for pose consistency
 - **Output:** 8 directions × 48px transparent PNGs
-- **Morphology:** For non-humanoid subjects, depth/edge reference images guide body shape (arthropod, quadruped, winged)
+- **Morphology:** Body-class-specific ControlNet depth guides enforce non-humanoid body plans (see below)
 
 Each generation creates a **run** — a batch of 8-direction **attempts**.
+
+### Body class system
+
+The `body_class` field in character configs auto-selects depth references and ControlNet parameters. Depth guides are joint-free primitives that lock in mass and orientation without dictating skeleton or limb placement.
+
+| Body Class | Depth Strength | End % | Shape | Example Creatures |
+|------------|---------------|-------|-------|-------------------|
+| Humanoid | 0.60 | 85% | Upright bipedal | Sera Vale, Scav Raider |
+| Arthropod | 0.55 | 80% | Flat wide, 6 legs | Skitter Drone |
+| Quadruped | 0.65 | 90% | Horizontal, 4 legs | Cargo Beast, Drift Maw |
+| Crouching Predator | 0.55 | 80% | Low-slung, ground-hugging | Drift Lurker |
+| Winged | 0.55 | 90% | Digitigrade + wings (dual Depth+Canny) | Void Raptor |
+| Amorphous | 0.35 | 65% | Irregular blob, no limbs | Rat King, Spore Mother |
+| Wide/Squat | 0.40 | 70% | Short wide pillar | Grinning Idol |
+| Tall/Thin | 0.40 | 70% | Narrow vertical column | Lantern Angler, Root Puppet |
+
+Lower strength values give the model more creative freedom. Earlier end percentages release the guide sooner, allowing more detail variation in the final denoising steps. Monster body classes use lower values than humanoid because exotic shapes benefit from looseness.
 
 ## 3. Mechanical gates
 
 Automated validation checks each attempt:
 
-- Transparency check (must have alpha channel)
-- Direction count (must be exactly 8)
-- Dimension check (must be 48×48)
-- Duplicate detection
+- **Dimension** — must be exactly 48x48
+- **Alpha** — must have RGBA transparency
+- **Corner transparency** — at least 3 of 4 corners must be transparent
+- **Foreground content** — must contain visible subject (not empty)
+- **Single subject** — foreground mass must be center-dominant (body-class-aware thresholds for wide creatures)
 
-Failed attempts are tagged `mechanical_fail` and excluded from review.
+Failed attempts are tagged `mechanical_fail` and excluded from review. Wide body classes (amorphous, wide/squat, quadruped, arthropod) use relaxed single-subject thresholds because their mass naturally spreads across the frame.
 
 ## 4. Review workflow
 

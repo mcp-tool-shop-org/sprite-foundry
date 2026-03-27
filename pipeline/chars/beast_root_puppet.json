@@ -1,0 +1,8 @@
+{
+  "subject_id": "beast_root_puppet",
+  "display_name": "Root Puppet",
+  "body_class": "tall_thin",
+  "seed": 819000,
+  "subject_prompt": "solo, single creature only, one monster, 1man, standing humanoid corpse animated by parasitic tree roots, full body visible, thick roots growing through cracked pale skin on arms and torso, bark-covered lower legs, green leaves sprouting from shoulders, tattered peasant clothing torn by root growth, head tilted to one side with roots emerging from mouth, brown and green coloring with patches of pale dead skin, stiff upright puppet-like pose, arms hanging at sides, fully clothed in ruined medieval peasant garb, 48px top-down pixel art, fantasy horror boss creature, single centered figure",
+  "negative_prompt": "multiple creatures, two characters, group, couple, pair, reflection, mirror, side by side, comparison, turnaround sheet, model sheet, reference sheet, split view, dual view, before and after, blurry, smooth, photorealistic, 3D render, low quality, deformed, extra limbs, text, watermark, signature, frame, border, modern clothing, sci-fi, futuristic, bright neon colors, busy background, cropped, cut off, partial body"
+}
