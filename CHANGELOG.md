@@ -18,7 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
-- Roster expanded from 20 to 26 production packs (new beast lane)
+- Roster expanded to 82 production packs (added townsfolk, goblin, hero, pirate, villain, zombie, and beast lanes)
 - Background removal uses dual-corner sampling to handle ground planes
 - Scene setting stripped from beast prompts for clean bg removal
 - `run_all_gates` and `gate_single_subject` accept optional `body_class` parameter

@@ -17,16 +17,22 @@ Sprite Foundry is a headless sprite generation pipeline that produces game-ready
 
 ## Current roster
 
-26 production export packs across 6 lanes:
+82 production export packs across 12 lanes:
 
 | Lane | Count | Subjects |
 |------|-------|----------|
-| Crew | 7 | Sera Vale, Ilen Marr, Thal, Thal (Hazard Suit), Varek, Kael Morrow, Hull Diver |
+| Townsfolk | 16 | Barmaid, Beggar, Blacksmith, Child, Elder, Farmer, Fisherman, Guard, Herbalist, Innkeeper, Lamplighter, Merchant, Minstrel, Noble, Scribe, Stable Hand |
+| Goblin | 8 | Archer, Bomber, Brute, Grunt, Scout, Shaman, Warchief, Wolf Rider |
+| Hero | 8 | Barbarian, Cleric, Fighter, Mage, Monk, Paladin, Ranger, Rogue |
+| Pirate | 8 | Captain, Cutthroat, Drowned, Governor, Navy Sailor, Pistoleer, Quartermaster, Sea Priest |
+| Villain | 8 | Assassin, Blackguard, Cult Priest, Dark Monk, Dread Ranger, Necromancer, Reaver, Warlord |
+| Zombie | 8 | Bloater, Elite, Hazmat, Riot, Runner, Shambler, Skeletal, Worker |
+| Beast | 6 | Rat King, Lantern Angler, Grinning Idol, Spore Mother, Root Puppet, Mud Revenant |
 | Creature | 6 | Cargo Beast, Drift Maw, Skitter Drone, Drift Lurker, Void Raptor, Keth Healer-Drone |
+| Crew | 7 | Sera Vale, Ilen Marr, Thal, Thal (Hazard Suit), Varek, Kael Morrow, Hull Diver |
 | Hostile | 3 | Scav Raider, Reach Pirate, Compact Interdiction Agent |
 | Authority | 2 | Compact Patrol Officer, Veshan House Envoy |
 | Civilian | 2 | Nera Quill, Orryn Broker |
-| Beast | 6 | Rat King, Lantern Angler, Grinning Idol, Spore Mother, Root Puppet, Mud Revenant |
 
 ## Next steps
 
