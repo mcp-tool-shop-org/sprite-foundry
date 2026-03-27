@@ -1,0 +1,2959 @@
+{
+  "version": 1,
+  "entries": {
+    "36d40fd9b81cac1e": {
+      "translation": "Sprite Foundryは、ローカル環境でのみ動作するアセット生成パイプラインで、8方向のピクセルスプライトを生成、レビューし、ノーマルマップと深度マップとともにエクスポートします。生成にはComfyUI、ライフサイクル管理にはSQLite、レンダリング検証にはGodot 4.6を使用し、これらはすべて単一のCLIから制御されます。",
+      "model": "translategemma:12b",
+      "timestamp": 1774549973240,
+      "source": "Sprite Foundry is a local-only asset pipeline that generates, reviews, and exports 8-direction pixel sprites with normal and depth maps. It drives ComfyUI for generation, SQLite for lifecycle tracking, and Godot 4.6 for finish-lab lighting verification — all controlled from a single CLI.",
+      "targetLang": "ja"
+    },
+    "7b1fedad86f33fe3": {
+      "translation": "アーキテクチャ",
+      "model": "translategemma:12b",
+      "timestamp": 1774549973240,
+      "source": "Architecture",
+      "targetLang": "ja"
+    },
+    "56547f3b297d70ac": {
+      "translation": "登場人物リスト",
+      "model": "translategemma:12b",
+      "timestamp": 1774549973240,
+      "source": "Roster",
+      "targetLang": "ja"
+    },
+    "d685162795bacfae": {
+      "translation": "20件のプロダクションエクスポートパッケージ、契約違反ゼロ：",
+      "model": "translategemma:12b",
+      "timestamp": 1774549973240,
+      "source": "20 production export packs, zero contract violations:",
+      "targetLang": "ja"
+    },
+    "3f67c6712f9fc9d6": {
+      "translation": "キャラクター",
+      "model": "translategemma:12b",
+      "timestamp": 1774549973240,
+      "source": "Lane",
+      "targetLang": "ja"
+    },
+    "93004548b2a64c96": {
+      "translation": "数",
+      "model": "translategemma:12b",
+      "timestamp": 1774549973240,
+      "source": "Count",
+      "targetLang": "ja"
+    },
+    "606822432fa46de5": {
+      "translation": "対象",
+      "model": "translategemma:12b",
+      "timestamp": 1774549973240,
+      "source": "Subjects",
+      "targetLang": "ja"
+    },
+    "4974c80d0a124bf0": {
+      "translation": "クルー",
+      "model": "translategemma:12b",
+      "timestamp": 1774549973240,
+      "source": "Crew",
+      "targetLang": "ja"
+    },
+    "40e80b053cef991e": {
+      "translation": "セラ・ヴェール、イレン・マール、タル、タル（ハザードスーツ）、ヴァレク、カエル・モロウ、ハルダイバー",
+      "model": "translategemma:12b",
+      "timestamp": 1774549973240,
+      "source": "Sera Vale, Ilen Marr, Thal, Thal (Hazard Suit), Varek, Kael Morrow, Hull Diver",
+      "targetLang": "ja"
+    },
+    "3587f29de64f03ab": {
+      "translation": "クリーチャー",
+      "model": "translategemma:12b",
+      "timestamp": 1774549973240,
+      "source": "Creature",
+      "targetLang": "ja"
+    },
+    "3eb40e8231a2d491": {
+      "translation": "カーゴビースト、ドリフトマウ、スキッタードローン、ドリフトラーカー、ボイドラプター、ケス・ヒーラー・ドローン",
+      "model": "translategemma:12b",
+      "timestamp": 1774549973240,
+      "source": "Cargo Beast, Drift Maw, Skitter Drone, Drift Lurker, Void Raptor, Keth Healer-Drone",
+      "targetLang": "ja"
+    },
+    "a5249340332b6da0": {
+      "translation": "敵",
+      "model": "translategemma:12b",
+      "timestamp": 1774549973240,
+      "source": "Hostile",
+      "targetLang": "ja"
+    },
+    "60c7416cf3e51dec": {
+      "translation": "スカベンジャー・レイダー、リーチ・パイレート、コンパクト・インターディクション・エージェント",
+      "model": "translategemma:12b",
+      "timestamp": 1774549973240,
+      "source": "Scav Raider, Reach Pirate, Compact Interdiction Agent",
+      "targetLang": "ja"
+    },
+    "756fe4c69c018bbd": {
+      "translation": "権力者",
+      "model": "translategemma:12b",
+      "timestamp": 1774549973240,
+      "source": "Authority",
+      "targetLang": "ja"
+    },
+    "42da834b250f0306": {
+      "translation": "コンパクト・パトロール・オフィサー、ヴェシャン・ハウス・エ Envoy",
+      "model": "translategemma:12b",
+      "timestamp": 1774549973240,
+      "source": "Compact Patrol Officer, Veshan House Envoy",
+      "targetLang": "ja"
+    },
+    "ff2edd386152d4e2": {
+      "translation": "一般市民",
+      "model": "translategemma:12b",
+      "timestamp": 1774549973240,
+      "source": "Civilian",
+      "targetLang": "ja"
+    },
+    "ae405660c4a49252": {
+      "translation": "ネラ・クイル、オリーン・ブローカー",
+      "model": "translategemma:12b",
+      "timestamp": 1774549973241,
+      "source": "Nera Quill, Orryn Broker",
+      "targetLang": "ja"
+    },
+    "e8a3b9bb858c5e47": {
+      "translation": "エクスポート契約 v1.0.0 (固定)",
+      "model": "translategemma:12b",
+      "timestamp": 1774549973241,
+      "source": "Export Contract v1.0.0 (frozen)",
+      "targetLang": "ja"
+    },
+    "4ac43f88a625d33f": {
+      "translation": "- 8方向：正面、左正面、左、左背面、背面、右背面、右、右正面\n- 48x48ピクセルの透過PNG、中心下を原点\n- 読み込み前に、クライアントは`schema_version: \"1.0.0\"`を検証します。",
+      "model": "translategemma:12b",
+      "timestamp": 1774549973241,
+      "source": "- 8 directions: front, front_left, left, back_left, back, back_right, right, front_right\n- 48×48 transparent PNG, center_bottom pivot\n- Consumers validate `schema_version: \"1.0.0\"` before loading",
+      "targetLang": "ja"
+    },
+    "651b78d8c0ebde91": {
+      "translation": "前提条件",
+      "model": "translategemma:12b",
+      "timestamp": 1774549973241,
+      "source": "Prerequisites",
+      "targetLang": "ja"
+    },
+    "51e391014d93750d": {
+      "translation": "- Python 3.11以上\n- ローカルで動作している[ComfyUI](https://github.com/comfyanonymous/ComfyUI) (生成用)\n- Godot 4.6 (finish labレンダリング用)\n- NVIDIA GPU推奨 (RTX 5080 / 16 GB VRAMで検証済み)",
+      "model": "translategemma:12b",
+      "timestamp": 1774549973241,
+      "source": "- Python 3.11+\n- [ComfyUI](https://github.com/comfyanonymous/ComfyUI) running locally (for generation)\n- Godot 4.6 (for finish lab rendering)\n- NVIDIA GPU recommended (RTX 5080 / 16 GB VRAM tested)",
+      "targetLang": "ja"
+    },
+    "d182d24c54cc50a7": {
+      "translation": "クイックスタート",
+      "model": "translategemma:12b",
+      "timestamp": 1774549973241,
+      "source": "Quick Start",
+      "targetLang": "ja"
+    },
+    "9fcac926276efe13": {
+      "translation": "CLIコマンド",
+      "model": "translategemma:12b",
+      "timestamp": 1774549973241,
+      "source": "CLI Commands",
+      "targetLang": "ja"
+    },
+    "377d830094c5bc2a": {
+      "translation": "コマンド",
+      "model": "translategemma:12b",
+      "timestamp": 1774549973241,
+      "source": "Command",
+      "targetLang": "ja"
+    },
+    "67731479bd4e364b": {
+      "translation": "説明",
+      "model": "translategemma:12b",
+      "timestamp": 1774549973241,
+      "source": "Description",
+      "targetLang": "ja"
+    },
+    "2dd451b3e23d6ddd": {
+      "translation": "SQLiteレジストリを初期化します。",
+      "model": "translategemma:12b",
+      "timestamp": 1774549973241,
+      "source": "Initialize the foundry SQLite registry",
+      "targetLang": "ja"
+    },
+    "966a213149245d71": {
+      "translation": "新しいキャラクターを登録します。",
+      "model": "translategemma:12b",
+      "timestamp": 1774549973241,
+      "source": "Register a new character subject",
+      "targetLang": "ja"
+    },
+    "197524588b5e2b5f": {
+      "translation": "ComfyUIによる生成ジョブを記録します。",
+      "model": "translategemma:12b",
+      "timestamp": 1774549973241,
+      "source": "Record a ComfyUI generation run",
+      "targetLang": "ja"
+    },
+    "2f830024c9d5cfc4": {
+      "translation": "ジョブ内の一連の試行を記録します。",
+      "model": "translategemma:12b",
+      "timestamp": 1774549973241,
+      "source": "Record an individual attempt within a run",
+      "targetLang": "ja"
+    },
+    "478c2b5c0b9f7f7e": {
+      "translation": "機械的な検証を実行します。",
+      "model": "translategemma:12b",
+      "timestamp": 1774549973241,
+      "source": "Run mechanical validation gates",
+      "targetLang": "ja"
+    },
+    "4f7067eee42e0ca3": {
+      "translation": "ジョブのレビューキューを表示します。",
+      "model": "translategemma:12b",
+      "timestamp": 1774549973241,
+      "source": "Display review queue for a run",
+      "targetLang": "ja"
+    },
+    "167cf1261841265d": {
+      "translation": "現在のレビュー段階での試行を承認します。",
+      "model": "translategemma:12b",
+      "timestamp": 1774549973241,
+      "source": "Accept an attempt at current review stage",
+      "targetLang": "ja"
+    },
+    "5e2217f3ae8bc599": {
+      "translation": "拒否コードを使用して試行を拒否します。",
+      "model": "translategemma:12b",
+      "timestamp": 1774549973241,
+      "source": "Reject an attempt with a reject code",
+      "targetLang": "ja"
+    },
+    "4287a4f19db706a0": {
+      "translation": "ジョブ内の保留中のすべての試行を承認します。",
+      "model": "translategemma:12b",
+      "timestamp": 1774549973241,
+      "source": "Accept all pending attempts in a run",
+      "targetLang": "ja"
+    },
+    "13c95000f70beb95": {
+      "translation": "ジョブ内の保留中のすべての試行を、1つのコードで拒否します。",
+      "model": "translategemma:12b",
+      "timestamp": 1774549973241,
+      "source": "Reject all pending in a run with one code",
+      "targetLang": "ja"
+    },
+    "91e911eb52a5f049": {
+      "translation": "拒否された試行の再生成をキューに入れます。",
+      "model": "translategemma:12b",
+      "timestamp": 1774549973241,
+      "source": "Queue regeneration for rejected attempts",
+      "targetLang": "ja"
+    },
+    "bf2d92862a40f999": {
+      "translation": "特定の試行のライフサイクル全体を表示します。",
+      "model": "translategemma:12b",
+      "timestamp": 1774549973241,
+      "source": "Show full lifecycle for one attempt",
+      "targetLang": "ja"
+    },
+    "d5aacb96bb04d7e1": {
+      "translation": "finish-labの比較ボードを生成します。",
+      "model": "translategemma:12b",
+      "timestamp": 1774549973241,
+      "source": "Generate a finish-lab comparison board",
+      "targetLang": "ja"
+    },
+    "f7f04e16a56228c0": {
+      "translation": "パイプラインの状態の概要を表示します。",
+      "model": "translategemma:12b",
+      "timestamp": 1774549973241,
+      "source": "Pipeline status summary",
+      "targetLang": "ja"
+    },
+    "84d08848ea27a039": {
+      "translation": "特定の対象に関する完全なトレーサビリティ情報を表示します。",
+      "model": "translategemma:12b",
+      "timestamp": 1774549973241,
+      "source": "Full provenance narrative for a subject",
+      "targetLang": "ja"
+    },
+    "6040d612084aaaae": {
+      "translation": "試行の再生成チェーンを表示します。",
+      "model": "translategemma:12b",
+      "timestamp": 1774549973241,
+      "source": "Regen chain for an attempt",
+      "targetLang": "ja"
+    },
+    "45283f2fc5f72f2b": {
+      "translation": "各方向の最適な結果を表示します。",
+      "model": "translategemma:12b",
+      "timestamp": 1774549973241,
+      "source": "Canonical winner per direction",
+      "targetLang": "ja"
+    },
+    "a2d2c9d61dd6f8f3": {
+      "translation": "失敗パターン分析と合格率を表示します。",
+      "model": "translategemma:12b",
+      "timestamp": 1774549973241,
+      "source": "Failure pattern analysis and pass rates",
+      "targetLang": "ja"
+    },
+    "1a4748e0b63fb423": {
+      "translation": "スループットの指標 (ジョブごとまたは全体) を表示します。",
+      "model": "translategemma:12b",
+      "timestamp": 1774549973241,
+      "source": "Throughput metrics (per-run or foundry-wide)",
+      "targetLang": "ja"
+    },
+    "440a690213201263": {
+      "translation": "1つのコマンドで、承認されたジョブのマップとfinishキャプチャを取得します。",
+      "model": "translategemma:12b",
+      "timestamp": 1774549973241,
+      "source": "One-command: maps + finish captures for an accepted run",
+      "targetLang": "ja"
+    },
+    "64f2c2a5130af9c8": {
+      "translation": "承認されたジョブを、決定論的なアセットパックとしてエクスポートします。",
+      "model": "translategemma:12b",
+      "timestamp": 1774549973241,
+      "source": "Export a finish-accepted run as a deterministic asset pack",
+      "targetLang": "ja"
+    },
+    "bbdadeecad1abca6": {
+      "translation": "脅威モデル",
+      "model": "translategemma:12b",
+      "timestamp": 1774549973241,
+      "source": "Threat Model",
+      "targetLang": "ja"
+    },
+    "c08ae6093df2d88e": {
+      "translation": "Sprite Foundryは、**ローカル開発ツール**です。以下の機能はありません。",
+      "model": "translategemma:12b",
+      "timestamp": 1774549973241,
+      "source": "Sprite Foundry is a **local developer tool**. It does not:",
+      "targetLang": "ja"
+    },
+    "cdc3a8968b9a47b1": {
+      "translation": "- ネットワークへのアクセス (ComfyUIはlocalhostで動作)\n- シークレット、トークン、または認証情報の処理\n- テレメトリーの収集または送信\n- 自身の作業ディレクトリ以外の場所に書き込み",
+      "model": "translategemma:12b",
+      "timestamp": 1774549973241,
+      "source": "- Access the network (ComfyUI runs on localhost)\n- Handle secrets, tokens, or credentials\n- Collect or send telemetry\n- Write outside its own working directory",
+      "targetLang": "ja"
+    },
+    "7bdf861e2ebdeb7b": {
+      "translation": "ファイル操作は、`exports/`、`bakeoff/`、`boards/`、`derived/`、およびSQLiteレジストリに限定されます。サブプロセス呼び出しは、ComfyUIのローカルAPIとGodotのヘッドレスレンダリングに限定されます。",
+      "model": "translategemma:12b",
+      "timestamp": 1774549973241,
+      "source": "File operations are constrained to `exports/`, `bakeoff/`, `boards/`, `derived/`, and the SQLite registry. Subprocess calls are limited to ComfyUI's local API and Godot headless rendering.",
+      "targetLang": "ja"
+    },
+    "08ea9dfbe36d981b": {
+      "translation": "ライセンス",
+      "model": "translategemma:12b",
+      "timestamp": 1774549973241,
+      "source": "License",
+      "targetLang": "ja"
+    },
+    "15d62865ccefd77b": {
+      "translation": "[MIT](LICENSE)",
+      "model": "translategemma:12b",
+      "timestamp": 1774549973241,
+      "source": "[MIT](LICENSE)",
+      "targetLang": "ja"
+    },
+    "debffefdc8415d99": {
+      "translation": "Sprite Foundry est un système de gestion de ressources local qui génère, examine et exporte des sprites pixelisés 8 directions avec des cartes de normales et de profondeur. Il utilise ComfyUI pour la génération, SQLite pour le suivi du cycle de vie et Godot 4.6 pour la vérification de l'éclairage via finish-lab, le tout contrôlé à partir d'une seule interface en ligne de commande.",
+      "model": "translategemma:12b",
+      "timestamp": 1774550008749,
+      "source": "Sprite Foundry is a local-only asset pipeline that generates, reviews, and exports 8-direction pixel sprites with normal and depth maps. It drives ComfyUI for generation, SQLite for lifecycle tracking, and Godot 4.6 for finish-lab lighting verification — all controlled from a single CLI.",
+      "targetLang": "fr"
+    },
+    "2ced690b13b08b76": {
+      "translation": "Architecture",
+      "model": "translategemma:12b",
+      "timestamp": 1774550008749,
+      "source": "Architecture",
+      "targetLang": "fr"
+    },
+    "6233955cf5e18586": {
+      "translation": "Liste des personnages",
+      "model": "translategemma:12b",
+      "timestamp": 1774550008749,
+      "source": "Roster",
+      "targetLang": "fr"
+    },
+    "4f8a384179ea8547": {
+      "translation": "20 ensembles d'exportation de production, zéro violation de contrat :",
+      "model": "translategemma:12b",
+      "timestamp": 1774550008749,
+      "source": "20 production export packs, zero contract violations:",
+      "targetLang": "fr"
+    },
+    "ddfe07513bcffc88": {
+      "translation": "Personnage",
+      "model": "translategemma:12b",
+      "timestamp": 1774550008749,
+      "source": "Lane",
+      "targetLang": "fr"
+    },
+    "6032cb298a79392b": {
+      "translation": "Nombre",
+      "model": "translategemma:12b",
+      "timestamp": 1774550008749,
+      "source": "Count",
+      "targetLang": "fr"
+    },
+    "f234be27f91e00a8": {
+      "translation": "Sujets",
+      "model": "translategemma:12b",
+      "timestamp": 1774550008749,
+      "source": "Subjects",
+      "targetLang": "fr"
+    },
+    "3075a6cb3e57cb1e": {
+      "translation": "Équipage",
+      "model": "translategemma:12b",
+      "timestamp": 1774550008749,
+      "source": "Crew",
+      "targetLang": "fr"
+    },
+    "d1a46aa87f7d251c": {
+      "translation": "Sera Vale, Ilen Marr, Thal, Thal (Combinaison de protection), Varek, Kael Morrow, Plongeur",
+      "model": "translategemma:12b",
+      "timestamp": 1774550008749,
+      "source": "Sera Vale, Ilen Marr, Thal, Thal (Hazard Suit), Varek, Kael Morrow, Hull Diver",
+      "targetLang": "fr"
+    },
+    "4b1486723167d25e": {
+      "translation": "Créature",
+      "model": "translategemma:12b",
+      "timestamp": 1774550008749,
+      "source": "Creature",
+      "targetLang": "fr"
+    },
+    "0702276e60f71914": {
+      "translation": "Bête de chargement, Gueule de dérive, Drone d'exploration, Prédateur de dérive, Raptor du vide, Drone guérisseur Keth",
+      "model": "translategemma:12b",
+      "timestamp": 1774550008749,
+      "source": "Cargo Beast, Drift Maw, Skitter Drone, Drift Lurker, Void Raptor, Keth Healer-Drone",
+      "targetLang": "fr"
+    },
+    "7bfc528c5ea90ef7": {
+      "translation": "Hostile",
+      "model": "translategemma:12b",
+      "timestamp": 1774550008749,
+      "source": "Hostile",
+      "targetLang": "fr"
+    },
+    "f375cc49bdbd593c": {
+      "translation": "Pilleur, Pirate, Agent d'interdiction compact",
+      "model": "translategemma:12b",
+      "timestamp": 1774550008749,
+      "source": "Scav Raider, Reach Pirate, Compact Interdiction Agent",
+      "targetLang": "fr"
+    },
+    "b1a5e6adc7d538c7": {
+      "translation": "Autorité",
+      "model": "translategemma:12b",
+      "timestamp": 1774550008749,
+      "source": "Authority",
+      "targetLang": "fr"
+    },
+    "cebf32a20d1a4101": {
+      "translation": "Agent de patrouille compact, Envoy de la Maison Veshan",
+      "model": "translategemma:12b",
+      "timestamp": 1774550008749,
+      "source": "Compact Patrol Officer, Veshan House Envoy",
+      "targetLang": "fr"
+    },
+    "cbe31a14f78b1522": {
+      "translation": "Civil",
+      "model": "translategemma:12b",
+      "timestamp": 1774550008749,
+      "source": "Civilian",
+      "targetLang": "fr"
+    },
+    "f9174e38b90cfb59": {
+      "translation": "Nera Quill, Courtier Orryn",
+      "model": "translategemma:12b",
+      "timestamp": 1774550008749,
+      "source": "Nera Quill, Orryn Broker",
+      "targetLang": "fr"
+    },
+    "5c9c0fb9a7e90635": {
+      "translation": "Contrat d'exportation v1.0.0 (figé)",
+      "model": "translategemma:12b",
+      "timestamp": 1774550008749,
+      "source": "Export Contract v1.0.0 (frozen)",
+      "targetLang": "fr"
+    },
+    "b997b908666ff9c6": {
+      "translation": "- 8 directions : avant, avant_gauche, gauche, arrière_gauche, arrière, arrière_droite, droite, avant_droite\n- PNG transparent 48x48, point de pivot au centre-bas\n- Les consommateurs valident `schema_version: \"1.0.0\"` avant de charger",
+      "model": "translategemma:12b",
+      "timestamp": 1774550008749,
+      "source": "- 8 directions: front, front_left, left, back_left, back, back_right, right, front_right\n- 48×48 transparent PNG, center_bottom pivot\n- Consumers validate `schema_version: \"1.0.0\"` before loading",
+      "targetLang": "fr"
+    },
+    "de5ffc5e5ee34cae": {
+      "translation": "Prérequis",
+      "model": "translategemma:12b",
+      "timestamp": 1774550008749,
+      "source": "Prerequisites",
+      "targetLang": "fr"
+    },
+    "3a6d911e9428c190": {
+      "translation": "- Python 3.11+\n- [ComfyUI](https://github.com/comfyanonymous/ComfyUI) en cours d'exécution localement (pour la génération)\n- Godot 4.6 (pour le rendu finish lab)\n- GPU NVIDIA recommandé (RTX 5080 / 16 Go de VRAM testés)",
+      "model": "translategemma:12b",
+      "timestamp": 1774550008749,
+      "source": "- Python 3.11+\n- [ComfyUI](https://github.com/comfyanonymous/ComfyUI) running locally (for generation)\n- Godot 4.6 (for finish lab rendering)\n- NVIDIA GPU recommended (RTX 5080 / 16 GB VRAM tested)",
+      "targetLang": "fr"
+    },
+    "caef1b750e85e405": {
+      "translation": "Démarrage rapide",
+      "model": "translategemma:12b",
+      "timestamp": 1774550008749,
+      "source": "Quick Start",
+      "targetLang": "fr"
+    },
+    "03208393eebfb583": {
+      "translation": "Commandes de l'interface en ligne de commande",
+      "model": "translategemma:12b",
+      "timestamp": 1774550008749,
+      "source": "CLI Commands",
+      "targetLang": "fr"
+    },
+    "38ea467b84937d7f": {
+      "translation": "Commande",
+      "model": "translategemma:12b",
+      "timestamp": 1774550008749,
+      "source": "Command",
+      "targetLang": "fr"
+    },
+    "9a51c5b4f05710c0": {
+      "translation": "Description",
+      "model": "translategemma:12b",
+      "timestamp": 1774550008749,
+      "source": "Description",
+      "targetLang": "fr"
+    },
+    "e37fd904216de62a": {
+      "translation": "Initialise le registre SQLite de la forge.",
+      "model": "translategemma:12b",
+      "timestamp": 1774550008749,
+      "source": "Initialize the foundry SQLite registry",
+      "targetLang": "fr"
+    },
+    "daf02c80504980ed": {
+      "translation": "Enregistre un nouveau sujet de personnage.",
+      "model": "translategemma:12b",
+      "timestamp": 1774550008749,
+      "source": "Register a new character subject",
+      "targetLang": "fr"
+    },
+    "8e735117a4926910": {
+      "translation": "Enregistre une exécution de génération ComfyUI.",
+      "model": "translategemma:12b",
+      "timestamp": 1774550008749,
+      "source": "Record a ComfyUI generation run",
+      "targetLang": "fr"
+    },
+    "2e6935ad52a9ae8c": {
+      "translation": "Enregistre une tentative individuelle au sein d'une exécution.",
+      "model": "translategemma:12b",
+      "timestamp": 1774550008749,
+      "source": "Record an individual attempt within a run",
+      "targetLang": "fr"
+    },
+    "280969d6d74867c9": {
+      "translation": "Exécute les contrôles de validation mécaniques.",
+      "model": "translategemma:12b",
+      "timestamp": 1774550008749,
+      "source": "Run mechanical validation gates",
+      "targetLang": "fr"
+    },
+    "c8b58b3a0a6afd5e": {
+      "translation": "Affiche la file d'attente de révision pour une exécution.",
+      "model": "translategemma:12b",
+      "timestamp": 1774550008749,
+      "source": "Display review queue for a run",
+      "targetLang": "fr"
+    },
+    "95dd6872445651a2": {
+      "translation": "Accepte une tentative à l'étape de révision actuelle.",
+      "model": "translategemma:12b",
+      "timestamp": 1774550008749,
+      "source": "Accept an attempt at current review stage",
+      "targetLang": "fr"
+    },
+    "e7fcdc5a99b0657c": {
+      "translation": "Rejette une tentative avec un code de rejet.",
+      "model": "translategemma:12b",
+      "timestamp": 1774550008749,
+      "source": "Reject an attempt with a reject code",
+      "targetLang": "fr"
+    },
+    "a189432fa8fbc562": {
+      "translation": "Accepte toutes les tentatives en attente dans une exécution.",
+      "model": "translategemma:12b",
+      "timestamp": 1774550008749,
+      "source": "Accept all pending attempts in a run",
+      "targetLang": "fr"
+    },
+    "f181830313d38c66": {
+      "translation": "Rejette toutes les tentatives en attente dans une exécution avec un seul code.",
+      "model": "translategemma:12b",
+      "timestamp": 1774550008749,
+      "source": "Reject all pending in a run with one code",
+      "targetLang": "fr"
+    },
+    "adeaaf033888dc50": {
+      "translation": "Planifie la régénération des tentatives rejetées.",
+      "model": "translategemma:12b",
+      "timestamp": 1774550008749,
+      "source": "Queue regeneration for rejected attempts",
+      "targetLang": "fr"
+    },
+    "04ca113cdf26439d": {
+      "translation": "Affiche le cycle de vie complet d'une tentative.",
+      "model": "translategemma:12b",
+      "timestamp": 1774550008749,
+      "source": "Show full lifecycle for one attempt",
+      "targetLang": "fr"
+    },
+    "ec192370cd4d89ae": {
+      "translation": "Génère un tableau de comparaison finish-lab.",
+      "model": "translategemma:12b",
+      "timestamp": 1774550008749,
+      "source": "Generate a finish-lab comparison board",
+      "targetLang": "fr"
+    },
+    "a5f26e6a901b4feb": {
+      "translation": "Résumé de l'état du pipeline.",
+      "model": "translategemma:12b",
+      "timestamp": 1774550008749,
+      "source": "Pipeline status summary",
+      "targetLang": "fr"
+    },
+    "536bfaae954e1c8e": {
+      "translation": "Description complète de l'origine d'un sujet.",
+      "model": "translategemma:12b",
+      "timestamp": 1774550008749,
+      "source": "Full provenance narrative for a subject",
+      "targetLang": "fr"
+    },
+    "eb49516a9cbc4c96": {
+      "translation": "Chaîne de régénération pour une tentative.",
+      "model": "translategemma:12b",
+      "timestamp": 1774550008749,
+      "source": "Regen chain for an attempt",
+      "targetLang": "fr"
+    },
+    "64b8612ad2c15881": {
+      "translation": "Gagnant canonique par direction.",
+      "model": "translategemma:12b",
+      "timestamp": 1774550008749,
+      "source": "Canonical winner per direction",
+      "targetLang": "fr"
+    },
+    "d53b1912655225ec": {
+      "translation": "Analyse des schémas d'échec et taux de réussite.",
+      "model": "translategemma:12b",
+      "timestamp": 1774550008749,
+      "source": "Failure pattern analysis and pass rates",
+      "targetLang": "fr"
+    },
+    "dec3f6bd57b39cc9": {
+      "translation": "Métriques de débit (par exécution ou à l'échelle de la forge).",
+      "model": "translategemma:12b",
+      "timestamp": 1774550008749,
+      "source": "Throughput metrics (per-run or foundry-wide)",
+      "targetLang": "fr"
+    },
+    "7ee7c5946985f9a6": {
+      "translation": "Commande unique : cartes + captures finish pour une exécution acceptée.",
+      "model": "translategemma:12b",
+      "timestamp": 1774550008749,
+      "source": "One-command: maps + finish captures for an accepted run",
+      "targetLang": "fr"
+    },
+    "46472f829b79e90b": {
+      "translation": "Exporte une exécution acceptée par finish en tant que paquet de ressources déterministe.",
+      "model": "translategemma:12b",
+      "timestamp": 1774550008749,
+      "source": "Export a finish-accepted run as a deterministic asset pack",
+      "targetLang": "fr"
+    },
+    "877b642e2f566e96": {
+      "translation": "Modèle de menace",
+      "model": "translategemma:12b",
+      "timestamp": 1774550008749,
+      "source": "Threat Model",
+      "targetLang": "fr"
+    },
+    "a9e0a1c5908a4911": {
+      "translation": "Sprite Foundry est un **outil de développement local**. Il ne :",
+      "model": "translategemma:12b",
+      "timestamp": 1774550008749,
+      "source": "Sprite Foundry is a **local developer tool**. It does not:",
+      "targetLang": "fr"
+    },
+    "48ec224a60b706c0": {
+      "translation": "- Accède au réseau (ComfyUI s'exécute sur localhost)\n- Gère les secrets, les jetons ou les informations d'identification\n- Collecte ou envoie des données télémétriques\n- Écrit en dehors de son propre répertoire de travail",
+      "model": "translategemma:12b",
+      "timestamp": 1774550008749,
+      "source": "- Access the network (ComfyUI runs on localhost)\n- Handle secrets, tokens, or credentials\n- Collect or send telemetry\n- Write outside its own working directory",
+      "targetLang": "fr"
+    },
+    "8ba0a447c9b9a18c": {
+      "translation": "Les opérations de fichiers sont limitées à `exports/`, `bakeoff/`, `boards/`, `derived/` et le registre SQLite. Les appels de sous-processus sont limités à l'API locale de ComfyUI et au rendu headless de Godot.",
+      "model": "translategemma:12b",
+      "timestamp": 1774550008749,
+      "source": "File operations are constrained to `exports/`, `bakeoff/`, `boards/`, `derived/`, and the SQLite registry. Subprocess calls are limited to ComfyUI's local API and Godot headless rendering.",
+      "targetLang": "fr"
+    },
+    "0174ffc9d6992c72": {
+      "translation": "Licence",
+      "model": "translategemma:12b",
+      "timestamp": 1774550008749,
+      "source": "License",
+      "targetLang": "fr"
+    },
+    "aa7a0da60491e300": {
+      "translation": "[MIT](LICENSE)",
+      "model": "translategemma:12b",
+      "timestamp": 1774550008749,
+      "source": "[MIT](LICENSE)",
+      "targetLang": "fr"
+    },
+    "79045088b09bb799": {
+      "translation": "स्प्राइट फाउंड्री एक स्थानीय स्तर पर चलने वाला टूल है जो 8 दिशाओं वाले पिक्सेल स्प्राइट (छवियां) बनाता है, उनकी समीक्षा करता है और उन्हें निर्यात करता है। इसमें सामान्य (normal) और गहराई (depth) मानचित्र भी शामिल होते हैं। यह ComfyUI का उपयोग करके छवियों का निर्माण करता है, SQLite का उपयोग करके उनके जीवनचक्र को ट्रैक करता है, और Godot 4.6 का उपयोग करके \"फिनिश-लैब\" लाइटिंग की जांच करता है - और ये सभी एक ही कमांड-लाइन इंटरफेस (CLI) से नियंत्रित होते हैं।",
+      "model": "translategemma:12b",
+      "timestamp": 1774550078351,
+      "source": "Sprite Foundry is a local-only asset pipeline that generates, reviews, and exports 8-direction pixel sprites with normal and depth maps. It drives ComfyUI for generation, SQLite for lifecycle tracking, and Godot 4.6 for finish-lab lighting verification — all controlled from a single CLI.",
+      "targetLang": "hi"
+    },
+    "c601496221a20045": {
+      "translation": "आर्किटेक्चर।",
+      "model": "translategemma:12b",
+      "timestamp": 1774550078351,
+      "source": "Architecture",
+      "targetLang": "hi"
+    },
+    "586de3b0baed1ba1": {
+      "translation": "रोस्टर (एक सूची या कार्यक्रम)",
+      "model": "translategemma:12b",
+      "timestamp": 1774550078351,
+      "source": "Roster",
+      "targetLang": "hi"
+    },
+    "d1345f787a018af5": {
+      "translation": "20 उत्पादन इकाइयां, निर्यात के लिए तैयार, और कोई भी अनुबंध उल्लंघन नहीं:",
+      "model": "translategemma:12b",
+      "timestamp": 1774550078351,
+      "source": "20 production export packs, zero contract violations:",
+      "targetLang": "hi"
+    },
+    "1442065e09cce18f": {
+      "translation": "लेन।",
+      "model": "translategemma:12b",
+      "timestamp": 1774550078351,
+      "source": "Lane",
+      "targetLang": "hi"
+    },
+    "c4c09ea73fbfa2c7": {
+      "translation": "गिनती।",
+      "model": "translategemma:12b",
+      "timestamp": 1774550078351,
+      "source": "Count",
+      "targetLang": "hi"
+    },
+    "ab8a178397f2f015": {
+      "translation": "विषय।",
+      "model": "translategemma:12b",
+      "timestamp": 1774550078351,
+      "source": "Subjects",
+      "targetLang": "hi"
+    },
+    "6e3d28ca24a20135": {
+      "translation": "क्रू (या दल)",
+      "model": "translategemma:12b",
+      "timestamp": 1774550078351,
+      "source": "Crew",
+      "targetLang": "hi"
+    },
+    "cdca4d32722aaf63": {
+      "translation": "सेरा वैली, आइलेन मार, थल, थल (खतरनाक स्थिति के लिए सुरक्षा सूट), वेरेक, काएल मॉरो, हल डाइवर।",
+      "model": "translategemma:12b",
+      "timestamp": 1774550078351,
+      "source": "Sera Vale, Ilen Marr, Thal, Thal (Hazard Suit), Varek, Kael Morrow, Hull Diver",
+      "targetLang": "hi"
+    },
+    "9aa3044e9c61aef5": {
+      "translation": "प्राणी।",
+      "model": "translategemma:12b",
+      "timestamp": 1774550078351,
+      "source": "Creature",
+      "targetLang": "hi"
+    },
+    "1098b7d447f87c58": {
+      "translation": "कार्गो बीस्ट, ड्रिफ्ट माऊ, स्किटर ड्रोन, ड्रिफ्ट लर्कर, वॉइड रैप्टर, केथ हीलर-ड्रोन।",
+      "model": "translategemma:12b",
+      "timestamp": 1774550078351,
+      "source": "Cargo Beast, Drift Maw, Skitter Drone, Drift Lurker, Void Raptor, Keth Healer-Drone",
+      "targetLang": "hi"
+    },
+    "0b768ad3e9064a14": {
+      "translation": "शत्रुतापूर्ण।",
+      "model": "translategemma:12b",
+      "timestamp": 1774550078351,
+      "source": "Hostile",
+      "targetLang": "hi"
+    },
+    "c6052388e904645b": {
+      "translation": "स्कैव रेडर, रीच समुद्री डाकू, कॉम्पैक्ट इंटरडिक्शन एजेंट।",
+      "model": "translategemma:12b",
+      "timestamp": 1774550078351,
+      "source": "Scav Raider, Reach Pirate, Compact Interdiction Agent",
+      "targetLang": "hi"
+    },
+    "5e650922c0fd11bb": {
+      "translation": "अधिकार।",
+      "model": "translategemma:12b",
+      "timestamp": 1774550078351,
+      "source": "Authority",
+      "targetLang": "hi"
+    },
+    "361d51a2b5d8f4d2": {
+      "translation": "कॉम्पैक्ट पेट्रोल अधिकारी, वेशान हाउस के प्रतिनिधि।",
+      "model": "translategemma:12b",
+      "timestamp": 1774550078351,
+      "source": "Compact Patrol Officer, Veshan House Envoy",
+      "targetLang": "hi"
+    },
+    "028b01e520d261f6": {
+      "translation": "नागरिक।",
+      "model": "translategemma:12b",
+      "timestamp": 1774550078351,
+      "source": "Civilian",
+      "targetLang": "hi"
+    },
+    "264a9ace56351b9a": {
+      "translation": "नेरा क्विल, ऑरिन ब्रोकर।",
+      "model": "translategemma:12b",
+      "timestamp": 1774550078351,
+      "source": "Nera Quill, Orryn Broker",
+      "targetLang": "hi"
+    },
+    "ac1cfbed809f2c0b": {
+      "translation": "एक्सपोर्ट अनुबंध, संस्करण 1.0.0 (अंतिम)।",
+      "model": "translategemma:12b",
+      "timestamp": 1774550078351,
+      "source": "Export Contract v1.0.0 (frozen)",
+      "targetLang": "hi"
+    },
+    "79f1713313f4e994": {
+      "translation": "- 8 दिशाएं: सामने, सामने-बाएं, बाएं, पीछे-बाएं, पीछे, पीछे-दाएं, दाएं, सामने-दाएं।\n- 48x48 पिक्सेल का पारदर्शी PNG चित्र, जिसका केंद्र बिंदु नीचे की ओर है।\n- उपयोगकर्ता डेटा लोड करने से पहले `schema_version: \"1.0.0\"` की पुष्टि करते हैं।",
+      "model": "translategemma:12b",
+      "timestamp": 1774550078351,
+      "source": "- 8 directions: front, front_left, left, back_left, back, back_right, right, front_right\n- 48×48 transparent PNG, center_bottom pivot\n- Consumers validate `schema_version: \"1.0.0\"` before loading",
+      "targetLang": "hi"
+    },
+    "0bcf8688c5bc5719": {
+      "translation": "आवश्यक शर्तें।",
+      "model": "translategemma:12b",
+      "timestamp": 1774550078351,
+      "source": "Prerequisites",
+      "targetLang": "hi"
+    },
+    "5e82a07c690cfc6c": {
+      "translation": "- पायथन 3.11 या उससे ऊपर का संस्करण\n- [ComfyUI](https://github.com/comfyanonymous/ComfyUI) स्थानीय रूप से स्थापित (छवि निर्माण के लिए)\n- गॉडोट 4.6 (अंतिम चरण में रेंडरिंग के लिए)\n- एनवीडिया जीपीयू की सिफारिश की जाती है (आरटीएक्स 5080 / 16 जीबी वीआरएएम का परीक्षण किया गया)",
+      "model": "translategemma:12b",
+      "timestamp": 1774550078351,
+      "source": "- Python 3.11+\n- [ComfyUI](https://github.com/comfyanonymous/ComfyUI) running locally (for generation)\n- Godot 4.6 (for finish lab rendering)\n- NVIDIA GPU recommended (RTX 5080 / 16 GB VRAM tested)",
+      "targetLang": "hi"
+    },
+    "abb619d8b0588257": {
+      "translation": "शुरुआत कैसे करें।",
+      "model": "translategemma:12b",
+      "timestamp": 1774550078351,
+      "source": "Quick Start",
+      "targetLang": "hi"
+    },
+    "f1a4256cb2f0d7fe": {
+      "translation": "कमांड लाइन इंटरफेस (सीएलआई) के आदेश।",
+      "model": "translategemma:12b",
+      "timestamp": 1774550078351,
+      "source": "CLI Commands",
+      "targetLang": "hi"
+    },
+    "30e4c5d85406a4a4": {
+      "translation": "आदेश।",
+      "model": "translategemma:12b",
+      "timestamp": 1774550078351,
+      "source": "Command",
+      "targetLang": "hi"
+    },
+    "b8423b5b4842cbda": {
+      "translation": "विवरण।",
+      "model": "translategemma:12b",
+      "timestamp": 1774550078351,
+      "source": "Description",
+      "targetLang": "hi"
+    },
+    "e414114749b96c70": {
+      "translation": "फाउंड्री एसक्यूलाइट रजिस्ट्री को आरंभ करें।",
+      "model": "translategemma:12b",
+      "timestamp": 1774550078351,
+      "source": "Initialize the foundry SQLite registry",
+      "targetLang": "hi"
+    },
+    "be95ec858fd0895d": {
+      "translation": "एक नया चरित्र विषय पंजीकृत करें।",
+      "model": "translategemma:12b",
+      "timestamp": 1774550078351,
+      "source": "Register a new character subject",
+      "targetLang": "hi"
+    },
+    "68a45d6605b67c99": {
+      "translation": "एक आरामदायक यूआई (ComfyUI) जनरेशन प्रक्रिया को रिकॉर्ड करें।",
+      "model": "translategemma:12b",
+      "timestamp": 1774550078351,
+      "source": "Record a ComfyUI generation run",
+      "targetLang": "hi"
+    },
+    "37e831af7a9a3041": {
+      "translation": "एक रन के दौरान किसी व्यक्ति के प्रदर्शन को रिकॉर्ड करें।",
+      "model": "translategemma:12b",
+      "timestamp": 1774550078351,
+      "source": "Record an individual attempt within a run",
+      "targetLang": "hi"
+    },
+    "e1288dc10e3e6036": {
+      "translation": "यांत्रिक सत्यापन प्रक्रिया शुरू करें।",
+      "model": "translategemma:12b",
+      "timestamp": 1774550078351,
+      "source": "Run mechanical validation gates",
+      "targetLang": "hi"
+    },
+    "263c71e9114ad5ea": {
+      "translation": "एक विशेष रन के लिए समीक्षाओं की सूची प्रदर्शित करें।",
+      "model": "translategemma:12b",
+      "timestamp": 1774550078351,
+      "source": "Display review queue for a run",
+      "targetLang": "hi"
+    },
+    "90829142db5e4b6e": {
+      "translation": "वर्तमान समीक्षा चरण में किए गए प्रयास को स्वीकार करें।",
+      "model": "translategemma:12b",
+      "timestamp": 1774550078351,
+      "source": "Accept an attempt at current review stage",
+      "targetLang": "hi"
+    },
+    "767a3571b1bbed98": {
+      "translation": "किसी प्रयास को एक अस्वीकृति कोड के साथ अस्वीकार करें।",
+      "model": "translategemma:12b",
+      "timestamp": 1774550078351,
+      "source": "Reject an attempt with a reject code",
+      "targetLang": "hi"
+    },
+    "1cb5cb6549274f01": {
+      "translation": "एक बार में सभी लंबित प्रयासों को स्वीकार करें।",
+      "model": "translategemma:12b",
+      "timestamp": 1774550078351,
+      "source": "Accept all pending attempts in a run",
+      "targetLang": "hi"
+    },
+    "74899e3d9bbac545": {
+      "translation": "एक ही कोड का उपयोग करके, सभी लंबित अनुरोधों को एक साथ अस्वीकार करें।",
+      "model": "translategemma:12b",
+      "timestamp": 1774550078351,
+      "source": "Reject all pending in a run with one code",
+      "targetLang": "hi"
+    },
+    "271973a953eec94d": {
+      "translation": "अस्वीकृत प्रयासों के लिए कतार को फिर से शुरू करना।",
+      "model": "translategemma:12b",
+      "timestamp": 1774550078351,
+      "source": "Queue regeneration for rejected attempts",
+      "targetLang": "hi"
+    },
+    "c17fdd26e598d8a3": {
+      "translation": "एक प्रयास के लिए संपूर्ण जीवनचक्र प्रदर्शित करें।",
+      "model": "translategemma:12b",
+      "timestamp": 1774550078351,
+      "source": "Show full lifecycle for one attempt",
+      "targetLang": "hi"
+    },
+    "db65f04b084bae36": {
+      "translation": "एक \"फिनिश-लैब तुलना बोर्ड\" तैयार करें।",
+      "model": "translategemma:12b",
+      "timestamp": 1774550078351,
+      "source": "Generate a finish-lab comparison board",
+      "targetLang": "hi"
+    },
+    "1cf35ab703696907": {
+      "translation": "पाइपलाइन की स्थिति का सारांश।",
+      "model": "translategemma:12b",
+      "timestamp": 1774550078351,
+      "source": "Pipeline status summary",
+      "targetLang": "hi"
+    },
+    "2a00f7ae93175a64": {
+      "translation": "किसी विशेष वस्तु के इतिहास और उत्पत्ति का विस्तृत विवरण।",
+      "model": "translategemma:12b",
+      "timestamp": 1774550078351,
+      "source": "Full provenance narrative for a subject",
+      "targetLang": "hi"
+    },
+    "c4f61d2af96e5396": {
+      "translation": "\"रीजेन चेन\" का एक प्रयास।",
+      "model": "translategemma:12b",
+      "timestamp": 1774550078351,
+      "source": "Regen chain for an attempt",
+      "targetLang": "hi"
+    },
+    "9f9b4a2ccf964f90": {
+      "translation": "प्रत्येक श्रेणी में सर्वश्रेष्ठ विजेता।",
+      "model": "translategemma:12b",
+      "timestamp": 1774550078351,
+      "source": "Canonical winner per direction",
+      "targetLang": "hi"
+    },
+    "1c240cfbcd7ccf80": {
+      "translation": "विफलता के कारणों का विश्लेषण और सफलता दर।",
+      "model": "translategemma:12b",
+      "timestamp": 1774550078351,
+      "source": "Failure pattern analysis and pass rates",
+      "targetLang": "hi"
+    },
+    "8ac3e28e1fc6f826": {
+      "translation": "उत्पादन क्षमता के आंकड़े (प्रत्येक उत्पादन चक्र के लिए या पूरी उत्पादन इकाई के लिए)।",
+      "model": "translategemma:12b",
+      "timestamp": 1774550078351,
+      "source": "Throughput metrics (per-run or foundry-wide)",
+      "targetLang": "hi"
+    },
+    "fb63f41309a85c25": {
+      "translation": "एक ही कमांड से: मानचित्र और अंतिम परिणाम प्रदर्शित करें, जो एक सफल प्रयास को दर्शाते हैं।",
+      "model": "translategemma:12b",
+      "timestamp": 1774550078351,
+      "source": "One-command: maps + finish captures for an accepted run",
+      "targetLang": "hi"
+    },
+    "cf6874d7ee247e83": {
+      "translation": "एक \"फिनिश-एक्सेप्टेड\" रन को एक निश्चित (डिटरमिनिस्टिक) एसेट पैकेज के रूप में निर्यात करें।",
+      "model": "translategemma:12b",
+      "timestamp": 1774550078351,
+      "source": "Export a finish-accepted run as a deterministic asset pack",
+      "targetLang": "hi"
+    },
+    "937b167f83903beb": {
+      "translation": "खतरे का मॉडल।",
+      "model": "translategemma:12b",
+      "timestamp": 1774550078351,
+      "source": "Threat Model",
+      "targetLang": "hi"
+    },
+    "c40ad8a717e7fc8f": {
+      "translation": "स्प्राइट फाउंड्री एक **स्थानीय विकास उपकरण** है। यह निम्नलिखित कार्य नहीं करता:",
+      "model": "translategemma:12b",
+      "timestamp": 1774550078351,
+      "source": "Sprite Foundry is a **local developer tool**. It does not:",
+      "targetLang": "hi"
+    },
+    "d800285bb131b733": {
+      "translation": "- नेटवर्क से कनेक्ट करें (कॉम्फीयूआई लोकलहोस्ट पर चलता है)।\n- गोपनीय जानकारी, टोकन या क्रेडेंशियल्स का प्रबंधन करें।\n- टेलीमेट्री डेटा एकत्र करें या भेजें।\n- अपने कार्यशील डायरेक्टरी के बाहर फ़ाइलें लिखें।",
+      "model": "translategemma:12b",
+      "timestamp": 1774550078351,
+      "source": "- Access the network (ComfyUI runs on localhost)\n- Handle secrets, tokens, or credentials\n- Collect or send telemetry\n- Write outside its own working directory",
+      "targetLang": "hi"
+    },
+    "0f65d5c89eb8d282": {
+      "translation": "फ़ाइल संचालन केवल `exports/`, `bakeoff/`, `boards/`, `derived/` और SQLite रजिस्ट्री तक ही सीमित हैं। सबप्रोसेस कॉल केवल ComfyUI के स्थानीय एपीआई और Godot के हेडलेस रेंडरिंग तक ही सीमित हैं।",
+      "model": "translategemma:12b",
+      "timestamp": 1774550078351,
+      "source": "File operations are constrained to `exports/`, `bakeoff/`, `boards/`, `derived/`, and the SQLite registry. Subprocess calls are limited to ComfyUI's local API and Godot headless rendering.",
+      "targetLang": "hi"
+    },
+    "cfbc372f8058f151": {
+      "translation": "लाइसेंस।",
+      "model": "translategemma:12b",
+      "timestamp": 1774550078351,
+      "source": "License",
+      "targetLang": "hi"
+    },
+    "ae4cf2d82f027958": {
+      "translation": "[एमआईटी] (लाइसेंस)",
+      "model": "translategemma:12b",
+      "timestamp": 1774550078351,
+      "source": "[MIT](LICENSE)",
+      "targetLang": "hi"
+    },
+    "c814e66f880359e5": {
+      "translation": "Sprite Foundry é um sistema de gerenciamento de recursos que opera localmente e que gera, revisa e exporta sprites de pixels em 8 direções, com mapas de normal e profundidade. Ele utiliza o ComfyUI para geração, o SQLite para rastreamento do ciclo de vida e o Godot 4.6 para verificação de iluminação (finish-lab), tudo controlado a partir de uma única interface de linha de comando (CLI).",
+      "model": "translategemma:12b",
+      "timestamp": 1774550104079,
+      "source": "Sprite Foundry is a local-only asset pipeline that generates, reviews, and exports 8-direction pixel sprites with normal and depth maps. It drives ComfyUI for generation, SQLite for lifecycle tracking, and Godot 4.6 for finish-lab lighting verification — all controlled from a single CLI.",
+      "targetLang": "pt"
+    },
+    "57a87b809fa8de1a": {
+      "translation": "Arquitetura",
+      "model": "translategemma:12b",
+      "timestamp": 1774550104079,
+      "source": "Architecture",
+      "targetLang": "pt"
+    },
+    "b5284c490ba32992": {
+      "translation": "Lista de Personagens",
+      "model": "translategemma:12b",
+      "timestamp": 1774550104079,
+      "source": "Roster",
+      "targetLang": "pt"
+    },
+    "dd47600966214b5e": {
+      "translation": "20 pacotes de exportação de produção, sem violações de contrato:",
+      "model": "translategemma:12b",
+      "timestamp": 1774550104079,
+      "source": "20 production export packs, zero contract violations:",
+      "targetLang": "pt"
+    },
+    "51127f4ffddc232d": {
+      "translation": "Personagem",
+      "model": "translategemma:12b",
+      "timestamp": 1774550104079,
+      "source": "Lane",
+      "targetLang": "pt"
+    },
+    "0133c7602fbbfdc3": {
+      "translation": "Número",
+      "model": "translategemma:12b",
+      "timestamp": 1774550104079,
+      "source": "Count",
+      "targetLang": "pt"
+    },
+    "231ff91430433b1e": {
+      "translation": "Tipos",
+      "model": "translategemma:12b",
+      "timestamp": 1774550104079,
+      "source": "Subjects",
+      "targetLang": "pt"
+    },
+    "7f6aca7b2f15dfc8": {
+      "translation": "Equipe",
+      "model": "translategemma:12b",
+      "timestamp": 1774550104079,
+      "source": "Crew",
+      "targetLang": "pt"
+    },
+    "7f3dd4adc8595888": {
+      "translation": "Sera Vale, Ilen Marr, Thal, Thal (Traje de Proteção), Varek, Kael Morrow, Hull Diver",
+      "model": "translategemma:12b",
+      "timestamp": 1774550104079,
+      "source": "Sera Vale, Ilen Marr, Thal, Thal (Hazard Suit), Varek, Kael Morrow, Hull Diver",
+      "targetLang": "pt"
+    },
+    "74a4196a91a67e31": {
+      "translation": "Criaturas",
+      "model": "translategemma:12b",
+      "timestamp": 1774550104079,
+      "source": "Creature",
+      "targetLang": "pt"
+    },
+    "8d0e4ae7bc65eedb": {
+      "translation": "Cargo Beast, Drift Maw, Skitter Drone, Drift Lurker, Void Raptor, Keth Healer-Drone",
+      "model": "translategemma:12b",
+      "timestamp": 1774550104079,
+      "source": "Cargo Beast, Drift Maw, Skitter Drone, Drift Lurker, Void Raptor, Keth Healer-Drone",
+      "targetLang": "pt"
+    },
+    "1c3b593484367690": {
+      "translation": "Hostis",
+      "model": "translategemma:12b",
+      "timestamp": 1774550104079,
+      "source": "Hostile",
+      "targetLang": "pt"
+    },
+    "d5f3840155883c78": {
+      "translation": "Scav Raider, Reach Pirate, Compact Interdiction Agent",
+      "model": "translategemma:12b",
+      "timestamp": 1774550104079,
+      "source": "Scav Raider, Reach Pirate, Compact Interdiction Agent",
+      "targetLang": "pt"
+    },
+    "08315a85fecbce92": {
+      "translation": "Autoridade",
+      "model": "translategemma:12b",
+      "timestamp": 1774550104079,
+      "source": "Authority",
+      "targetLang": "pt"
+    },
+    "135de49c0386f8b5": {
+      "translation": "Compact Patrol Officer, Veshan House Envoy",
+      "model": "translategemma:12b",
+      "timestamp": 1774550104079,
+      "source": "Compact Patrol Officer, Veshan House Envoy",
+      "targetLang": "pt"
+    },
+    "cc858f3092330101": {
+      "translation": "Civis",
+      "model": "translategemma:12b",
+      "timestamp": 1774550104079,
+      "source": "Civilian",
+      "targetLang": "pt"
+    },
+    "5f6d19c7482fc22d": {
+      "translation": "Nera Quill, Orryn Broker",
+      "model": "translategemma:12b",
+      "timestamp": 1774550104079,
+      "source": "Nera Quill, Orryn Broker",
+      "targetLang": "pt"
+    },
+    "3e53b364fd4bb3b9": {
+      "translation": "Contrato de Exportação v1.0.0 (fixo)",
+      "model": "translategemma:12b",
+      "timestamp": 1774550104079,
+      "source": "Export Contract v1.0.0 (frozen)",
+      "targetLang": "pt"
+    },
+    "12ed44886fbe9036": {
+      "translation": "- 8 direções: frente, frente_esquerda, esquerda, trás_esquerda, trás, trás_direita, direita, frente_direita\n- PNG transparente de 48x48, ponto de pivô no centro_inferior\n- Os sistemas validam `schema_version: \"1.0.0\"` antes de carregar",
+      "model": "translategemma:12b",
+      "timestamp": 1774550104079,
+      "source": "- 8 directions: front, front_left, left, back_left, back, back_right, right, front_right\n- 48×48 transparent PNG, center_bottom pivot\n- Consumers validate `schema_version: \"1.0.0\"` before loading",
+      "targetLang": "pt"
+    },
+    "b0b778d66fad6c3e": {
+      "translation": "Pré-requisitos",
+      "model": "translategemma:12b",
+      "timestamp": 1774550104079,
+      "source": "Prerequisites",
+      "targetLang": "pt"
+    },
+    "1c0745efe345e168": {
+      "translation": "- Python 3.11+\n- [ComfyUI](https://github.com/comfyanonymous/ComfyUI) instalado localmente (para geração)\n- Godot 4.6 (para renderização finish lab)\n- GPU NVIDIA recomendada (RTX 5080 / 16 GB de VRAM testados)",
+      "model": "translategemma:12b",
+      "timestamp": 1774550104079,
+      "source": "- Python 3.11+\n- [ComfyUI](https://github.com/comfyanonymous/ComfyUI) running locally (for generation)\n- Godot 4.6 (for finish lab rendering)\n- NVIDIA GPU recommended (RTX 5080 / 16 GB VRAM tested)",
+      "targetLang": "pt"
+    },
+    "c88bcdb0dd505b6b": {
+      "translation": "Início Rápido",
+      "model": "translategemma:12b",
+      "timestamp": 1774550104079,
+      "source": "Quick Start",
+      "targetLang": "pt"
+    },
+    "ae820a4378256a08": {
+      "translation": "Comandos da CLI",
+      "model": "translategemma:12b",
+      "timestamp": 1774550104079,
+      "source": "CLI Commands",
+      "targetLang": "pt"
+    },
+    "d1e1550c54676195": {
+      "translation": "Comando",
+      "model": "translategemma:12b",
+      "timestamp": 1774550104079,
+      "source": "Command",
+      "targetLang": "pt"
+    },
+    "4fe83802bbc45fcc": {
+      "translation": "Descrição",
+      "model": "translategemma:12b",
+      "timestamp": 1774550104079,
+      "source": "Description",
+      "targetLang": "pt"
+    },
+    "6c60700f6d664f1f": {
+      "translation": "Inicializa o registro SQLite do Sprite Foundry",
+      "model": "translategemma:12b",
+      "timestamp": 1774550104079,
+      "source": "Initialize the foundry SQLite registry",
+      "targetLang": "pt"
+    },
+    "69683f92752e1d38": {
+      "translation": "Registra um novo personagem",
+      "model": "translategemma:12b",
+      "timestamp": 1774550104079,
+      "source": "Register a new character subject",
+      "targetLang": "pt"
+    },
+    "0cd99059c6880040": {
+      "translation": "Registra uma execução de geração do ComfyUI",
+      "model": "translategemma:12b",
+      "timestamp": 1774550104079,
+      "source": "Record a ComfyUI generation run",
+      "targetLang": "pt"
+    },
+    "c25d4fdec9215b41": {
+      "translation": "Registra uma tentativa individual dentro de uma execução",
+      "model": "translategemma:12b",
+      "timestamp": 1774550104079,
+      "source": "Record an individual attempt within a run",
+      "targetLang": "pt"
+    },
+    "8943ee2c864cfc69": {
+      "translation": "Executa verificações mecânicas",
+      "model": "translategemma:12b",
+      "timestamp": 1774550104079,
+      "source": "Run mechanical validation gates",
+      "targetLang": "pt"
+    },
+    "2cb9d1f7522ff19c": {
+      "translation": "Exibe a fila de revisão para uma execução",
+      "model": "translategemma:12b",
+      "timestamp": 1774550104079,
+      "source": "Display review queue for a run",
+      "targetLang": "pt"
+    },
+    "812a2f87cbbe928d": {
+      "translation": "Aceita uma tentativa na fase de revisão atual",
+      "model": "translategemma:12b",
+      "timestamp": 1774550104079,
+      "source": "Accept an attempt at current review stage",
+      "targetLang": "pt"
+    },
+    "8d69569685a1f505": {
+      "translation": "Rejeita uma tentativa com um código de rejeição",
+      "model": "translategemma:12b",
+      "timestamp": 1774550104079,
+      "source": "Reject an attempt with a reject code",
+      "targetLang": "pt"
+    },
+    "994dd3fc14df46b7": {
+      "translation": "Aceita todas as tentativas pendentes em uma execução",
+      "model": "translategemma:12b",
+      "timestamp": 1774550104079,
+      "source": "Accept all pending attempts in a run",
+      "targetLang": "pt"
+    },
+    "4cfdfea71969f216": {
+      "translation": "Rejeita todas as tentativas pendentes em uma execução com um único código",
+      "model": "translategemma:12b",
+      "timestamp": 1774550104079,
+      "source": "Reject all pending in a run with one code",
+      "targetLang": "pt"
+    },
+    "fa2c996f0ff28dd6": {
+      "translation": "Agenda a regeneração para tentativas rejeitadas",
+      "model": "translategemma:12b",
+      "timestamp": 1774550104079,
+      "source": "Queue regeneration for rejected attempts",
+      "targetLang": "pt"
+    },
+    "67466953f5855f95": {
+      "translation": "Mostra o ciclo de vida completo de uma tentativa",
+      "model": "translategemma:12b",
+      "timestamp": 1774550104079,
+      "source": "Show full lifecycle for one attempt",
+      "targetLang": "pt"
+    },
+    "0fe18f78922bc015": {
+      "translation": "Gera um painel de comparação finish-lab",
+      "model": "translategemma:12b",
+      "timestamp": 1774550104079,
+      "source": "Generate a finish-lab comparison board",
+      "targetLang": "pt"
+    },
+    "2ef834228937db19": {
+      "translation": "Resumo do status do pipeline",
+      "model": "translategemma:12b",
+      "timestamp": 1774550104079,
+      "source": "Pipeline status summary",
+      "targetLang": "pt"
+    },
+    "90c5f45565a320b7": {
+      "translation": "Histórico completo de uma personagem",
+      "model": "translategemma:12b",
+      "timestamp": 1774550104079,
+      "source": "Full provenance narrative for a subject",
+      "targetLang": "pt"
+    },
+    "a18f298cb1888e6e": {
+      "translation": "Cadeia de regeneração para uma tentativa",
+      "model": "translategemma:12b",
+      "timestamp": 1774550104080,
+      "source": "Regen chain for an attempt",
+      "targetLang": "pt"
+    },
+    "5d3afd1c5131ea31": {
+      "translation": "Vencedor canônico por direção",
+      "model": "translategemma:12b",
+      "timestamp": 1774550104080,
+      "source": "Canonical winner per direction",
+      "targetLang": "pt"
+    },
+    "41ddaca658369090": {
+      "translation": "Análise de padrões de falha e taxas de aprovação",
+      "model": "translategemma:12b",
+      "timestamp": 1774550104080,
+      "source": "Failure pattern analysis and pass rates",
+      "targetLang": "pt"
+    },
+    "63ca392e0df499d2": {
+      "translation": "Métricas de desempenho (por execução ou em todo o Sprite Foundry)",
+      "model": "translategemma:12b",
+      "timestamp": 1774550104080,
+      "source": "Throughput metrics (per-run or foundry-wide)",
+      "targetLang": "pt"
+    },
+    "920f7c223a71322d": {
+      "translation": "Um único comando: mapas + capturas finish para uma execução aceita",
+      "model": "translategemma:12b",
+      "timestamp": 1774550104080,
+      "source": "One-command: maps + finish captures for an accepted run",
+      "targetLang": "pt"
+    },
+    "a0a353fe6b5e630a": {
+      "translation": "Exporta uma execução aceita como um pacote de recursos determinístico",
+      "model": "translategemma:12b",
+      "timestamp": 1774550104080,
+      "source": "Export a finish-accepted run as a deterministic asset pack",
+      "targetLang": "pt"
+    },
+    "fd0074bc99cc165c": {
+      "translation": "Modelo de Ameaças",
+      "model": "translategemma:12b",
+      "timestamp": 1774550104080,
+      "source": "Threat Model",
+      "targetLang": "pt"
+    },
+    "1d0189394ba3a887": {
+      "translation": "O Sprite Foundry é uma **ferramenta para desenvolvedores que opera localmente**. Ele não:",
+      "model": "translategemma:12b",
+      "timestamp": 1774550104080,
+      "source": "Sprite Foundry is a **local developer tool**. It does not:",
+      "targetLang": "pt"
+    },
+    "8ff5788706cd9bb9": {
+      "translation": "- Acessa a rede (o ComfyUI é executado no localhost)\n- Lida com segredos, tokens ou credenciais\n- Coleta ou envia dados de telemetria\n- Escreve fora de seu próprio diretório de trabalho",
+      "model": "translategemma:12b",
+      "timestamp": 1774550104080,
+      "source": "- Access the network (ComfyUI runs on localhost)\n- Handle secrets, tokens, or credentials\n- Collect or send telemetry\n- Write outside its own working directory",
+      "targetLang": "pt"
+    },
+    "0afa1d3f0a662365": {
+      "translation": "As operações de arquivo são restritas aos diretórios `exports/`, `bakeoff/`, `boards/`, `derived/` e ao registro SQLite. As chamadas de subprocessos são limitadas à API local do ComfyUI e à renderização headless do Godot.",
+      "model": "translategemma:12b",
+      "timestamp": 1774550104080,
+      "source": "File operations are constrained to `exports/`, `bakeoff/`, `boards/`, `derived/`, and the SQLite registry. Subprocess calls are limited to ComfyUI's local API and Godot headless rendering.",
+      "targetLang": "pt"
+    },
+    "2aca9b0e72841008": {
+      "translation": "Licença",
+      "model": "translategemma:12b",
+      "timestamp": 1774550104080,
+      "source": "License",
+      "targetLang": "pt"
+    },
+    "ad95c5eded1421d9": {
+      "translation": "[MIT](LICENSE)",
+      "model": "translategemma:12b",
+      "timestamp": 1774550104080,
+      "source": "[MIT](LICENSE)",
+      "targetLang": "pt"
+    },
+    "626f8c13b9a03002": {
+      "translation": "Sprite Foundry 是一个本地资源流水线，用于生成、审查和导出 8 个方向的像素精灵图，并带有法线和深度贴图。它使用 ComfyUI 进行图像生成，利用 ControlNet 技术进行身体姿态控制（8 种身体类型），使用 SQLite 跟踪生命周期，并使用 Godot 4.6 进行 finish-lab 渲染验证，所有操作都通过单个命令行界面进行控制。",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Sprite Foundry is a local-only asset pipeline that generates, reviews, and exports 8-direction pixel sprites with normal and depth maps. It drives ComfyUI for generation with ControlNet morphology control (8 body classes), SQLite for lifecycle tracking, and Godot 4.6 for finish-lab lighting verification — all controlled from a single CLI.\r",
+      "targetLang": "zh"
+    },
+    "ec8506a5dbb06220": {
+      "translation": "架构",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Architecture",
+      "targetLang": "zh"
+    },
+    "e6679b4bf47ba5f3": {
+      "translation": "角色列表",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Roster",
+      "targetLang": "zh"
+    },
+    "67dec04fe89b27c0": {
+      "translation": "共有 92 个生产导出包，分布在 12 个类别中：",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "92 production export packs across 12 lanes:\r",
+      "targetLang": "zh"
+    },
+    "80f0dc3a12b1fd56": {
+      "translation": "类别",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Lane",
+      "targetLang": "zh"
+    },
+    "369ebeaf3ed7dde6": {
+      "translation": "数量",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Count",
+      "targetLang": "zh"
+    },
+    "39cd093f65013099": {
+      "translation": "角色",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Subjects",
+      "targetLang": "zh"
+    },
+    "b9ac89821b90b4d5": {
+      "translation": "野兽",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Beast",
+      "targetLang": "zh"
+    },
+    "624093b4c905e3d2": {
+      "translation": "钟楼守卫、骨骼编织者、机械傀儡、咧嘴偶像、蜂巢守护者、空洞骑士、墨水幽灵、灯笼钓鱼者、镜像潜伏者、泥土复生者、鼠王、根系傀儡、孢子之母、牙齿收集者、喉咙吟唱者、飞龙",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Bell Warden, Bone Weaver, Clock Golem, Grinning Idol, Hive Keeper, Hollow Knight, Ink Shade, Lantern Angler, Mirror Stalker, Mud Revenant, Rat King, Root Puppet, Spore Mother, Teeth Collector, Throat Singer, Wyvern",
+      "targetLang": "zh"
+    },
+    "be6ca746d2c12e45": {
+      "translation": "城镇居民",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Townsfolk",
+      "targetLang": "zh"
+    },
+    "907bc037448abecb": {
+      "translation": "酒馆女招待、乞丐、铁匠、儿童、老人、农民、渔夫、卫兵、草药师、客栈老板、点灯人、商人、吟游诗人、贵族、书记员、马厩工人",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Barmaid, Beggar, Blacksmith, Child, Elder, Farmer, Fisherman, Guard, Herbalist, Innkeeper, Lamplighter, Merchant, Minstrel, Noble, Scribe, Stable Hand",
+      "targetLang": "zh"
+    },
+    "adabe5c9311fd85b": {
+      "translation": "哥布林",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Goblin",
+      "targetLang": "zh"
+    },
+    "170a9a468249f324": {
+      "translation": "弓箭手、炸弹兵、蛮汉、喽啰、侦察兵、萨满、战争首领、狼骑兵",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Archer, Bomber, Brute, Grunt, Scout, Shaman, Warchief, Wolf Rider",
+      "targetLang": "zh"
+    },
+    "ba57a0b14496b41e": {
+      "translation": "英雄",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Hero",
+      "targetLang": "zh"
+    },
+    "b886fa3bfb3904bb": {
+      "translation": "野蛮人、牧师、战士、法师、武僧、圣骑士、游侠、盗贼",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Barbarian, Cleric, Fighter, Mage, Monk, Paladin, Ranger, Rogue",
+      "targetLang": "zh"
+    },
+    "7c110a61b0b94a0d": {
+      "translation": "海盗",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Pirate",
+      "targetLang": "zh"
+    },
+    "137dd76326933004": {
+      "translation": "船长、杀人犯、溺水者、总督、海军水手、枪手、副船长、海神",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Captain, Cutthroat, Drowned, Governor, Navy Sailor, Pistoleer, Quartermaster, Sea Priest",
+      "targetLang": "zh"
+    },
+    "0a910c6ab4e53998": {
+      "translation": "反派",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Villain",
+      "targetLang": "zh"
+    },
+    "7bb405804d6d81ca": {
+      "translation": "刺客、黑骑士、邪教祭司、黑暗武僧、黑暗游侠、死灵法师、掠夺者、军阀",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Assassin, Blackguard, Cult Priest, Dark Monk, Dread Ranger, Necromancer, Reaver, Warlord",
+      "targetLang": "zh"
+    },
+    "02fd3940e3e0fae6": {
+      "translation": "僵尸",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Zombie",
+      "targetLang": "zh"
+    },
+    "9c528e5f5d728f9e": {
+      "translation": "肿胀者、精英、防护服、暴动者、奔跑者、蹒跚者、骷髅、工人",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Bloater, Elite, Hazmat, Riot, Runner, Shambler, Skeletal, Worker",
+      "targetLang": "zh"
+    },
+    "09c87a021f80db3b": {
+      "translation": "生物",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Creature",
+      "targetLang": "zh"
+    },
+    "e92fdda678f506f7": {
+      "translation": "货物野兽、漂浮巨口、小型无人机、漂浮潜伏者、虚空掠夺者、治疗无人机",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Cargo Beast, Drift Maw, Skitter Drone, Drift Lurker, Void Raptor, Keth Healer-Drone",
+      "targetLang": "zh"
+    },
+    "4231eea411ea4aa0": {
+      "translation": "船员",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Crew",
+      "targetLang": "zh"
+    },
+    "443a8f37a04f78ec": {
+      "translation": "塞拉·维尔、伊伦·马尔、塔尔、塔尔（防护服）、瓦雷克、凯尔·莫罗、深海潜水员",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Sera Vale, Ilen Marr, Thal, Thal (Hazard Suit), Varek, Kael Morrow, Hull Diver",
+      "targetLang": "zh"
+    },
+    "4e84f85693b18f16": {
+      "translation": "敌对生物",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Hostile",
+      "targetLang": "zh"
+    },
+    "dc4c319dbe587d1f": {
+      "translation": "拾荒者、海盗、紧凑型拦截特工",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Scav Raider, Reach Pirate, Compact Interdiction Agent",
+      "targetLang": "zh"
+    },
+    "d22e02c08df012c4": {
+      "translation": "执法者",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Authority",
+      "targetLang": "zh"
+    },
+    "7ff7bc079c7d4ff4": {
+      "translation": "紧凑型巡逻官、维沙之家使节",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Compact Patrol Officer, Veshan House Envoy",
+      "targetLang": "zh"
+    },
+    "c58b2e3266f96579": {
+      "translation": "平民",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Civilian",
+      "targetLang": "zh"
+    },
+    "2dd014a63b6f4293": {
+      "translation": "内拉·奎尔、奥林·经纪人",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Nera Quill, Orryn Broker",
+      "targetLang": "zh"
+    },
+    "41eceaa556a6a35b": {
+      "translation": "怪物类别",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Monster Lane",
+      "targetLang": "zh"
+    },
+    "6e93841d641d3496": {
+      "translation": "非人形生物使用特定于身体类型的 ControlNet 深度引导，而不是标准的人形骨骼。每个身体类型都有其自己的深度参考轮廓、ControlNet 强度和时间参数。",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Non-humanoid creatures use body-class-specific ControlNet depth guides instead of the standard humanoid skeleton. Each body class has its own depth reference silhouette, ControlNet strength, and timing parameters.\r",
+      "targetLang": "zh"
+    },
+    "60a8aea2f7fc3fb7": {
+      "translation": "身体类型",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Body Class",
+      "targetLang": "zh"
+    },
+    "023d06d1a5739066": {
+      "translation": "深度强度",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Depth Strength",
+      "targetLang": "zh"
+    },
+    "a02d8757f1b91206": {
+      "translation": "结束百分比",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "End %",
+      "targetLang": "zh"
+    },
+    "44cb7d32e39b8103": {
+      "translation": "生物",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Creatures",
+      "targetLang": "zh"
+    },
+    "37826eb8816a19e5": {
+      "translation": "非人形",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Amorphous",
+      "targetLang": "zh"
+    },
+    "5f3e986c8adcea75": {
+      "translation": "鼠王、孢子之母、泥土复生者",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Rat King, Spore Mother, Mud Revenant",
+      "targetLang": "zh"
+    },
+    "b90cb8f4274a3c6c": {
+      "translation": "宽/矮",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Wide/Squat",
+      "targetLang": "zh"
+    },
+    "6d87b6a3d0e5c7a1": {
+      "translation": "咧嘴偶像",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Grinning Idol",
+      "targetLang": "zh"
+    },
+    "0c6b0cae256081e1": {
+      "translation": "高/瘦",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Tall/Thin",
+      "targetLang": "zh"
+    },
+    "32b51fd9ecd07c83": {
+      "translation": "灯笼钓鱼者、根系傀儡",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Lantern Angler, Root Puppet",
+      "targetLang": "zh"
+    },
+    "dfd24c83f7d87dd7": {
+      "translation": "深度引导是无关节的原始图形（块状、柱状、圆柱状），它们锁定质量和方向，而不会规定骨骼或肢体的放置。角色配置中的 `body_class` 字段会自动选择正确的预设：",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Depth guides are joint-free primitives (blobs, pillars, columns) that lock in mass and orientation without dictating skeleton or limb placement. The `body_class` field in character configs auto-selects the correct preset:\r",
+      "targetLang": "zh"
+    },
+    "a16fe345016df2b8": {
+      "translation": "导出合约 v1.0.0 (已冻结)",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Export Contract v1.0.0 (frozen)",
+      "targetLang": "zh"
+    },
+    "72dba75c11e8e9ab": {
+      "translation": "- 8 个方向：正面、正面左侧、左侧、背面左侧、背面、背面右侧、右侧、正面右侧\n- 48x48 透明 PNG，中心底部作为旋转中心\n- 消费者在加载之前验证 `schema_version: \"1.0.0\"`",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "- 8 directions: front, front_left, left, back_left, back, back_right, right, front_right\r\n- 48×48 transparent PNG, center_bottom pivot\r\n- Consumers validate `schema_version: \"1.0.0\"` before loading\r",
+      "targetLang": "zh"
+    },
+    "f6c30ea5bc48fbb7": {
+      "translation": "先决条件",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Prerequisites",
+      "targetLang": "zh"
+    },
+    "632ad80a5a45c691": {
+      "translation": "- Python 3.11+\n- 运行中的本地 [ComfyUI](https://github.com/comfyanonymous/ComfyUI)（用于生成）\n- Godot 4.6（用于 finish lab 渲染）\n- 推荐使用 NVIDIA GPU（已测试 RTX 5080 / 16 GB VRAM）",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "- Python 3.11+\r\n- [ComfyUI](https://github.com/comfyanonymous/ComfyUI) running locally (for generation)\r\n- Godot 4.6 (for finish lab rendering)\r\n- NVIDIA GPU recommended (RTX 5080 / 16 GB VRAM tested)\r",
+      "targetLang": "zh"
+    },
+    "3e6394397900eaa1": {
+      "translation": "快速开始",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Quick Start",
+      "targetLang": "zh"
+    },
+    "11666bfd46dec570": {
+      "translation": "命令行界面命令",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "CLI Commands",
+      "targetLang": "zh"
+    },
+    "ac280590ce6877ab": {
+      "translation": "命令",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Command",
+      "targetLang": "zh"
+    },
+    "601d6e570e22e932": {
+      "translation": "描述",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Description",
+      "targetLang": "zh"
+    },
+    "c00edd77b525ab5e": {
+      "translation": "初始化 Foundry 的 SQLite 注册表",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Initialize the foundry SQLite registry",
+      "targetLang": "zh"
+    },
+    "9b934fa23f5899b8": {
+      "translation": "注册新的角色",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Register a new character subject",
+      "targetLang": "zh"
+    },
+    "f8d44970d2e147af": {
+      "translation": "记录 ComfyUI 生成过程",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Record a ComfyUI generation run",
+      "targetLang": "zh"
+    },
+    "410fc1a58d72ede3": {
+      "translation": "记录单个尝试",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Record an individual attempt within a run",
+      "targetLang": "zh"
+    },
+    "8843e95abb908040": {
+      "translation": "运行机械验证",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Run mechanical validation gates",
+      "targetLang": "zh"
+    },
+    "7f9713f3b202e7a1": {
+      "translation": "显示运行的审查队列",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Display review queue for a run",
+      "targetLang": "zh"
+    },
+    "98dd3a5305f707c9": {
+      "translation": "接受当前审查阶段的尝试",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Accept an attempt at current review stage",
+      "targetLang": "zh"
+    },
+    "81a0dd4d05c28be5": {
+      "translation": "拒绝带有拒绝代码的尝试。",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Reject an attempt with a reject code",
+      "targetLang": "zh"
+    },
+    "d20cbcd14ddbf524": {
+      "translation": "接受一个运行中的所有待处理的尝试。",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Accept all pending attempts in a run",
+      "targetLang": "zh"
+    },
+    "1d6749ed2258e439": {
+      "translation": "使用一个代码拒绝一个运行中的所有待处理的尝试。",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Reject all pending in a run with one code",
+      "targetLang": "zh"
+    },
+    "36a7b31035f54d3d": {
+      "translation": "为被拒绝的尝试重新生成队列。",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Queue regeneration for rejected attempts",
+      "targetLang": "zh"
+    },
+    "94f16b2fb51c67d1": {
+      "translation": "显示一个尝试的完整生命周期。",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Show full lifecycle for one attempt",
+      "targetLang": "zh"
+    },
+    "46f5600680779771": {
+      "translation": "生成一个比较板，用于比较最终结果。",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Generate a finish-lab comparison board",
+      "targetLang": "zh"
+    },
+    "ed0fcea681ebb5f5": {
+      "translation": "流水线状态摘要。",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Pipeline status summary",
+      "targetLang": "zh"
+    },
+    "81a89af7611aa0bb": {
+      "translation": "一个对象的完整溯源信息。",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Full provenance narrative for a subject",
+      "targetLang": "zh"
+    },
+    "c9cd01558df544ae": {
+      "translation": "一个尝试的重新生成链。",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Regen chain for an attempt",
+      "targetLang": "zh"
+    },
+    "92240fe1a28a5b07": {
+      "translation": "每个方向的规范胜者。",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Canonical winner per direction",
+      "targetLang": "zh"
+    },
+    "68c1bb359dd252a4": {
+      "translation": "故障模式分析和通过率。",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Failure pattern analysis and pass rates",
+      "targetLang": "zh"
+    },
+    "f29b8ba2c31900d3": {
+      "translation": "吞吐量指标（按运行或整个工厂）。",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Throughput metrics (per-run or foundry-wide)",
+      "targetLang": "zh"
+    },
+    "7f22735973d1c370": {
+      "translation": "一个命令：将已接受的运行的地图和最终结果导出。",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "One-command: maps + finish captures for an accepted run",
+      "targetLang": "zh"
+    },
+    "ce36cd2cb532732c": {
+      "translation": "将已接受的运行导出为可确定性的资源包。",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Export a finish-accepted run as a deterministic asset pack",
+      "targetLang": "zh"
+    },
+    "1a27e2fbbd533a34": {
+      "translation": "威胁模型。",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Threat Model",
+      "targetLang": "zh"
+    },
+    "2910da16a282812e": {
+      "translation": "Sprite Foundry 是一个**本地开发工具**。它不：",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "Sprite Foundry is a **local developer tool**. It does not:\r",
+      "targetLang": "zh"
+    },
+    "3a702634a0e24d03": {
+      "translation": "- 访问网络（ComfyUI 在本地运行）。\n- 处理密钥、令牌或凭据。\n- 收集或发送遥测数据。\n- 在其自身的工作目录之外写入文件。",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "- Access the network (ComfyUI runs on localhost)\r\n- Handle secrets, tokens, or credentials\r\n- Collect or send telemetry\r\n- Write outside its own working directory\r",
+      "targetLang": "zh"
+    },
+    "1e87b60c158bbd93": {
+      "translation": "文件操作仅限于 `exports/`、`bakeoff/`、`boards/`、`derived/` 以及 SQLite 注册表。子进程调用仅限于 ComfyUI 的本地 API 和 Godot 的无头渲染。",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "File operations are constrained to `exports/`, `bakeoff/`, `boards/`, `derived/`, and the SQLite registry. Subprocess calls are limited to ComfyUI's local API and Godot headless rendering.\r",
+      "targetLang": "zh"
+    },
+    "1fb815b9a436fadb": {
+      "translation": "许可证",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "License",
+      "targetLang": "zh"
+    },
+    "892c2aa834c19cc2": {
+      "translation": "[MIT](LICENSE)",
+      "model": "translategemma:12b",
+      "timestamp": 1774655051864,
+      "source": "[MIT](LICENSE)\r",
+      "targetLang": "zh"
+    },
+    "dc1cb960c52199c4": {
+      "translation": "Sprite Foundry es una herramienta que genera, revisa y exporta sprites de píxeles de 8 direcciones, con mapas de normales y de profundidad, y que funciona solo en el entorno local. Utiliza ComfyUI para la generación, con ControlNet para el control de la morfología (8 clases de cuerpos), SQLite para el seguimiento del ciclo de vida, y Godot 4.6 para la verificación de la iluminación (finish-lab), todo controlado desde una única interfaz de línea de comandos (CLI).",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096570,
+      "source": "Sprite Foundry is a local-only asset pipeline that generates, reviews, and exports 8-direction pixel sprites with normal and depth maps. It drives ComfyUI for generation with ControlNet morphology control (8 body classes), SQLite for lifecycle tracking, and Godot 4.6 for finish-lab lighting verification — all controlled from a single CLI.\r",
+      "targetLang": "es"
+    },
+    "020594f2ddb90222": {
+      "translation": "Arquitectura",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Architecture",
+      "targetLang": "es"
+    },
+    "253cce30b10196be": {
+      "translation": "Lista de elementos",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Roster",
+      "targetLang": "es"
+    },
+    "58201cec3a1c3019": {
+      "translation": "92 paquetes de exportación para la producción, distribuidos en 12 categorías:",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "92 production export packs across 12 lanes:\r",
+      "targetLang": "es"
+    },
+    "31309bc9e9294c2d": {
+      "translation": "Categoría",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Lane",
+      "targetLang": "es"
+    },
+    "20da2aee6efc81bc": {
+      "translation": "Número",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Count",
+      "targetLang": "es"
+    },
+    "ffc2130751d8e569": {
+      "translation": "Temas",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Subjects",
+      "targetLang": "es"
+    },
+    "63005a47c1b94ccb": {
+      "translation": "Bestias",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Beast",
+      "targetLang": "es"
+    },
+    "2e7ea5d21f0aba37": {
+      "translation": "Bell Warden, Bone Weaver, Clock Golem, Grinning Idol, Hive Keeper, Hollow Knight, Ink Shade, Lantern Angler, Mirror Stalker, Mud Revenant, Rat King, Root Puppet, Spore Mother, Teeth Collector, Throat Singer, Wyvern",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Bell Warden, Bone Weaver, Clock Golem, Grinning Idol, Hive Keeper, Hollow Knight, Ink Shade, Lantern Angler, Mirror Stalker, Mud Revenant, Rat King, Root Puppet, Spore Mother, Teeth Collector, Throat Singer, Wyvern",
+      "targetLang": "es"
+    },
+    "bf34841a6d9bae0c": {
+      "translation": "Habitantes de la ciudad",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Townsfolk",
+      "targetLang": "es"
+    },
+    "eedab7c485937aac": {
+      "translation": "Barmaid, Beggar, Blacksmith, Child, Elder, Farmer, Fisherman, Guard, Herbalist, Innkeeper, Lamplighter, Merchant, Minstrel, Noble, Scribe, Stable Hand",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Barmaid, Beggar, Blacksmith, Child, Elder, Farmer, Fisherman, Guard, Herbalist, Innkeeper, Lamplighter, Merchant, Minstrel, Noble, Scribe, Stable Hand",
+      "targetLang": "es"
+    },
+    "d4369e3c4b10ad42": {
+      "translation": "Goblin",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Goblin",
+      "targetLang": "es"
+    },
+    "65177fc568050c29": {
+      "translation": "Archer, Bomber, Brute, Grunt, Scout, Shaman, Warchief, Wolf Rider",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Archer, Bomber, Brute, Grunt, Scout, Shaman, Warchief, Wolf Rider",
+      "targetLang": "es"
+    },
+    "5763c483c1b4af96": {
+      "translation": "Héroe",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Hero",
+      "targetLang": "es"
+    },
+    "55995c406f2c1d5c": {
+      "translation": "Barbarian, Cleric, Fighter, Mage, Monk, Paladin, Ranger, Rogue",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Barbarian, Cleric, Fighter, Mage, Monk, Paladin, Ranger, Rogue",
+      "targetLang": "es"
+    },
+    "98df5e441e46af0b": {
+      "translation": "Pirata",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Pirate",
+      "targetLang": "es"
+    },
+    "da80145092161024": {
+      "translation": "Captain, Cutthroat, Drowned, Governor, Navy Sailor, Pistoleer, Quartermaster, Sea Priest",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Captain, Cutthroat, Drowned, Governor, Navy Sailor, Pistoleer, Quartermaster, Sea Priest",
+      "targetLang": "es"
+    },
+    "5f40da14dc342334": {
+      "translation": "Villano",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Villain",
+      "targetLang": "es"
+    },
+    "30ac8858a49a44b1": {
+      "translation": "Assassin, Blackguard, Cult Priest, Dark Monk, Dread Ranger, Necromancer, Reaver, Warlord",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Assassin, Blackguard, Cult Priest, Dark Monk, Dread Ranger, Necromancer, Reaver, Warlord",
+      "targetLang": "es"
+    },
+    "9a90ef9dc0b1f886": {
+      "translation": "Zombi",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Zombie",
+      "targetLang": "es"
+    },
+    "2e7bd835a4b3d8a0": {
+      "translation": "Bloater, Elite, Hazmat, Riot, Runner, Shambler, Skeletal, Worker",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Bloater, Elite, Hazmat, Riot, Runner, Shambler, Skeletal, Worker",
+      "targetLang": "es"
+    },
+    "b6c769cc8da5cf11": {
+      "translation": "Criatura",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Creature",
+      "targetLang": "es"
+    },
+    "161a2d3518f00925": {
+      "translation": "Cargo Beast, Drift Maw, Skitter Drone, Drift Lurker, Void Raptor, Keth Healer-Drone",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Cargo Beast, Drift Maw, Skitter Drone, Drift Lurker, Void Raptor, Keth Healer-Drone",
+      "targetLang": "es"
+    },
+    "e99ea1059f35e052": {
+      "translation": "Tripulación",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Crew",
+      "targetLang": "es"
+    },
+    "83a4531ec82fab0e": {
+      "translation": "Sera Vale, Ilen Marr, Thal, Thal (Hazard Suit), Varek, Kael Morrow, Hull Diver",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Sera Vale, Ilen Marr, Thal, Thal (Hazard Suit), Varek, Kael Morrow, Hull Diver",
+      "targetLang": "es"
+    },
+    "cb9d48ad53d0f3c4": {
+      "translation": "Hostiles",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Hostile",
+      "targetLang": "es"
+    },
+    "ea86cfc8ea6cca0a": {
+      "translation": "Scav Raider, Reach Pirate, Compact Interdiction Agent",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Scav Raider, Reach Pirate, Compact Interdiction Agent",
+      "targetLang": "es"
+    },
+    "7843c1543c7d2640": {
+      "translation": "Autoridad",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Authority",
+      "targetLang": "es"
+    },
+    "98a3f3e45b30402e": {
+      "translation": "Compact Patrol Officer, Veshan House Envoy",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Compact Patrol Officer, Veshan House Envoy",
+      "targetLang": "es"
+    },
+    "e87e3dc98b9086ea": {
+      "translation": "Civiles",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Civilian",
+      "targetLang": "es"
+    },
+    "d1b186ee40c28f79": {
+      "translation": "Nera Quill, Orryn Broker",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Nera Quill, Orryn Broker",
+      "targetLang": "es"
+    },
+    "505974cdf225c4ae": {
+      "translation": "Categoría de monstruos",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Monster Lane",
+      "targetLang": "es"
+    },
+    "a55e3a3bb52c23e4": {
+      "translation": "Las criaturas no humanoides utilizan guías de profundidad específicas para cada clase de cuerpo, en lugar del esqueleto humanoide estándar. Cada clase de cuerpo tiene su propia silueta de referencia de profundidad, fuerza de ControlNet y parámetros de sincronización.",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Non-humanoid creatures use body-class-specific ControlNet depth guides instead of the standard humanoid skeleton. Each body class has its own depth reference silhouette, ControlNet strength, and timing parameters.\r",
+      "targetLang": "es"
+    },
+    "2349cb1b204b347d": {
+      "translation": "Clase de cuerpo",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Body Class",
+      "targetLang": "es"
+    },
+    "27374d8c2ae534e6": {
+      "translation": "Fuerza de profundidad",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Depth Strength",
+      "targetLang": "es"
+    },
+    "7a1c0d0709750046": {
+      "translation": "Porcentaje final",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "End %",
+      "targetLang": "es"
+    },
+    "7d354dc228517ce4": {
+      "translation": "Criaturas",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Creatures",
+      "targetLang": "es"
+    },
+    "a29f141492821968": {
+      "translation": "Amórfico",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Amorphous",
+      "targetLang": "es"
+    },
+    "93d6ef344b3cbd4a": {
+      "translation": "Rat King, Spore Mother, Mud Revenant",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Rat King, Spore Mother, Mud Revenant",
+      "targetLang": "es"
+    },
+    "7e84e563b869621d": {
+      "translation": "Ancho/Bajo",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Wide/Squat",
+      "targetLang": "es"
+    },
+    "b9fcf5f64d15bc2d": {
+      "translation": "Grinning Idol",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Grinning Idol",
+      "targetLang": "es"
+    },
+    "d53bca469d191b04": {
+      "translation": "Alto/Delgado",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Tall/Thin",
+      "targetLang": "es"
+    },
+    "6ab21e52e50dd67b": {
+      "translation": "Lantern Angler, Root Puppet",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Lantern Angler, Root Puppet",
+      "targetLang": "es"
+    },
+    "8f1d50b6551b29de": {
+      "translation": "Las guías de profundidad son primitivos sin articulaciones (blobs, pilares, columnas) que fijan la masa y la orientación sin determinar la ubicación del esqueleto o las extremidades. El campo `body_class` en las configuraciones de los personajes selecciona automáticamente la configuración correcta:",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Depth guides are joint-free primitives (blobs, pillars, columns) that lock in mass and orientation without dictating skeleton or limb placement. The `body_class` field in character configs auto-selects the correct preset:\r",
+      "targetLang": "es"
+    },
+    "676aff7862c7656c": {
+      "translation": "Contrato de exportación v1.0.0 (congelado)",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Export Contract v1.0.0 (frozen)",
+      "targetLang": "es"
+    },
+    "c6cb3e670e9bbbd8": {
+      "translation": "- 8 direcciones: frontal, frontal izquierdo, izquierdo, trasero izquierdo, trasero, trasero derecho, derecho, frontal derecho\n- PNG transparente de 48x48, punto de pivote en la parte inferior central\n- Los consumidores validan `schema_version: \"1.0.0\"` antes de la carga",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "- 8 directions: front, front_left, left, back_left, back, back_right, right, front_right\r\n- 48×48 transparent PNG, center_bottom pivot\r\n- Consumers validate `schema_version: \"1.0.0\"` before loading\r",
+      "targetLang": "es"
+    },
+    "c8d1eb8a11343ac4": {
+      "translation": "Requisitos previos",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Prerequisites",
+      "targetLang": "es"
+    },
+    "2b2570e61bd96aeb": {
+      "translation": "- Python 3.11+\n- [ComfyUI](https://github.com/comfyanonymous/ComfyUI) ejecutándose localmente (para la generación)\n- Godot 4.6 (para la renderización de finish lab)\n- GPU NVIDIA recomendada (RTX 5080 / 16 GB de VRAM probados)",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "- Python 3.11+\r\n- [ComfyUI](https://github.com/comfyanonymous/ComfyUI) running locally (for generation)\r\n- Godot 4.6 (for finish lab rendering)\r\n- NVIDIA GPU recommended (RTX 5080 / 16 GB VRAM tested)\r",
+      "targetLang": "es"
+    },
+    "785321ff8279266b": {
+      "translation": "Comienzo rápido",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Quick Start",
+      "targetLang": "es"
+    },
+    "7eb53d7ed5d3f657": {
+      "translation": "Comandos de la CLI",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "CLI Commands",
+      "targetLang": "es"
+    },
+    "c6098ef36396741e": {
+      "translation": "Comando",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Command",
+      "targetLang": "es"
+    },
+    "a0102622d03d4c0f": {
+      "translation": "Descripción",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Description",
+      "targetLang": "es"
+    },
+    "300adc23d47758bb": {
+      "translation": "Inicializa el registro SQLite de la herramienta.",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Initialize the foundry SQLite registry",
+      "targetLang": "es"
+    },
+    "f961400fb68980f0": {
+      "translation": "Registra un nuevo sujeto de personaje.",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Register a new character subject",
+      "targetLang": "es"
+    },
+    "726f23770827ca4e": {
+      "translation": "Registra una ejecución de generación de ComfyUI.",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Record a ComfyUI generation run",
+      "targetLang": "es"
+    },
+    "c67a3b788f0913d8": {
+      "translation": "Registra un intento individual dentro de una ejecución.",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Record an individual attempt within a run",
+      "targetLang": "es"
+    },
+    "9c01555fd7fcc004": {
+      "translation": "Ejecuta las validaciones mecánicas.",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Run mechanical validation gates",
+      "targetLang": "es"
+    },
+    "58a560ac338566fa": {
+      "translation": "Muestra la cola de revisión para una ejecución.",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Display review queue for a run",
+      "targetLang": "es"
+    },
+    "ecfda999ccf47144": {
+      "translation": "Acepta un intento en la etapa de revisión actual.",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Accept an attempt at current review stage",
+      "targetLang": "es"
+    },
+    "ae307baadda3b475": {
+      "translation": "Rechazar un intento con un código de rechazo.",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Reject an attempt with a reject code",
+      "targetLang": "es"
+    },
+    "c90a38a23c65d6b2": {
+      "translation": "Aceptar todos los intentos pendientes en una ejecución.",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Accept all pending attempts in a run",
+      "targetLang": "es"
+    },
+    "82c3be5d8de52f0c": {
+      "translation": "Rechazar todos los intentos pendientes en una ejecución con un solo código.",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Reject all pending in a run with one code",
+      "targetLang": "es"
+    },
+    "eac7159b5f3f1c88": {
+      "translation": "Regenerar la cola para los intentos rechazados.",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Queue regeneration for rejected attempts",
+      "targetLang": "es"
+    },
+    "d376b0889279f214": {
+      "translation": "Mostrar el ciclo de vida completo de un intento.",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Show full lifecycle for one attempt",
+      "targetLang": "es"
+    },
+    "9c64b0f8d2d7d245": {
+      "translation": "Generar un panel de comparación de resultados finales.",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Generate a finish-lab comparison board",
+      "targetLang": "es"
+    },
+    "a29f61f59285c255": {
+      "translation": "Resumen del estado del proceso.",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Pipeline status summary",
+      "targetLang": "es"
+    },
+    "66a011562374a639": {
+      "translation": "Narrativa completa del origen de un elemento.",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Full provenance narrative for a subject",
+      "targetLang": "es"
+    },
+    "e73caf9d8e382db9": {
+      "translation": "Cadena de regeneración para un intento.",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Regen chain for an attempt",
+      "targetLang": "es"
+    },
+    "084430bfba6f1081": {
+      "translation": "Ganador canónico por dirección.",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Canonical winner per direction",
+      "targetLang": "es"
+    },
+    "aa700f49832d276d": {
+      "translation": "Análisis de patrones de fallos y tasas de éxito.",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Failure pattern analysis and pass rates",
+      "targetLang": "es"
+    },
+    "fbd37c49b1f517e5": {
+      "translation": "Métricas de rendimiento (por ejecución o a nivel de toda la plataforma).",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Throughput metrics (per-run or foundry-wide)",
+      "targetLang": "es"
+    },
+    "1e26fb754899495e": {
+      "translation": "Un comando: mapas y capturas de resultados finales para una ejecución aceptada.",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "One-command: maps + finish captures for an accepted run",
+      "targetLang": "es"
+    },
+    "ca4b80e3a0df4b6a": {
+      "translation": "Exportar una ejecución con resultados finales aceptados como un paquete de recursos determinista.",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Export a finish-accepted run as a deterministic asset pack",
+      "targetLang": "es"
+    },
+    "6d0230a08e381ba0": {
+      "translation": "Modelo de amenazas.",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Threat Model",
+      "targetLang": "es"
+    },
+    "06d1fad9bbedefe6": {
+      "translation": "Sprite Foundry es una **herramienta de desarrollo local**. No:",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "Sprite Foundry is a **local developer tool**. It does not:\r",
+      "targetLang": "es"
+    },
+    "b7357d9da122f6ed": {
+      "translation": "- Accede a la red (ComfyUI se ejecuta en localhost).\n- Maneja secretos, tokens o credenciales.\n- Recopila o envía datos de telemetría.\n- Escribe fuera de su propio directorio de trabajo.",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "- Access the network (ComfyUI runs on localhost)\r\n- Handle secrets, tokens, or credentials\r\n- Collect or send telemetry\r\n- Write outside its own working directory\r",
+      "targetLang": "es"
+    },
+    "c8f750a76e08d6d5": {
+      "translation": "Las operaciones con archivos están restringidas a `exports/`, `bakeoff/`, `boards/`, `derived/` y el registro SQLite. Las llamadas a subprocesos están limitadas a la API local de ComfyUI y la renderización sin interfaz de Godot.",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "File operations are constrained to `exports/`, `bakeoff/`, `boards/`, `derived/`, and the SQLite registry. Subprocess calls are limited to ComfyUI's local API and Godot headless rendering.\r",
+      "targetLang": "es"
+    },
+    "9572f74b6d3f62b1": {
+      "translation": "Licencia",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "License",
+      "targetLang": "es"
+    },
+    "e4731ea7699353e4": {
+      "translation": "[MIT](LICENSE)",
+      "model": "translategemma:12b",
+      "timestamp": 1774655096571,
+      "source": "[MIT](LICENSE)\r",
+      "targetLang": "es"
+    },
+    "fe0e9a886beae60b": {
+      "translation": "स्प्राइट फाउंड्री एक स्थानीय स्तर पर चलने वाला टूल है जो 8 दिशाओं वाले पिक्सेल स्प्राइट (छवियां) बनाता है, उनकी समीक्षा करता है और उन्हें निर्यात करता है। इसमें सामान्य (normal) और गहराई (depth) मानचित्र भी शामिल होते हैं। यह ComfyUI को कंट्रोलनेट मॉर्फोलॉजी नियंत्रण (8 शरीर के प्रकार) के साथ छवियों को बनाने के लिए चलाता है, SQLite का उपयोग जीवनचक्र को ट्रैक करने के लिए करता है, और Godot 4.6 का उपयोग फिनिश-लैब लाइटिंग सत्यापन के लिए करता है - और ये सभी एक ही कमांड-लाइन इंटरफेस (CLI) से नियंत्रित होते हैं।",
+      "model": "translategemma:12b",
+      "timestamp": 1774655150537,
+      "source": "Sprite Foundry is a local-only asset pipeline that generates, reviews, and exports 8-direction pixel sprites with normal and depth maps. It drives ComfyUI for generation with ControlNet morphology control (8 body classes), SQLite for lifecycle tracking, and Godot 4.6 for finish-lab lighting verification — all controlled from a single CLI.\r",
+      "targetLang": "hi"
+    },
+    "af0357f25569dec9": {
+      "translation": "12 लेन में, कुल 92 उत्पादन पैकेज निर्यात के लिए तैयार हैं।",
+      "model": "translategemma:12b",
+      "timestamp": 1774655150537,
+      "source": "92 production export packs across 12 lanes:\r",
+      "targetLang": "hi"
+    },
+    "bffe40aba784409d": {
+      "translation": "जंगली जानवर।",
+      "model": "translategemma:12b",
+      "timestamp": 1774655150537,
+      "source": "Beast",
+      "targetLang": "hi"
+    },
+    "a0b1c49b25f6686b": {
+      "translation": "बेल वार्डन, बोन वीवर, क्लॉक गोलेम, मुस्कुराता हुआ मूर्ति, हाइव कीपर, होलो नाइट, इंक शेड, लैंटर्न एंग्लर, मिरर स्टॉकर, मड रिवेन्ट, रैट किंग, रूट पपेट, स्पोर मदर, दांतों का संग्रहकर्ता, थ्रोट सिंगर, वाइवरन।",
+      "model": "translategemma:12b",
+      "timestamp": 1774655150537,
+      "source": "Bell Warden, Bone Weaver, Clock Golem, Grinning Idol, Hive Keeper, Hollow Knight, Ink Shade, Lantern Angler, Mirror Stalker, Mud Revenant, Rat King, Root Puppet, Spore Mother, Teeth Collector, Throat Singer, Wyvern",
+      "targetLang": "hi"
+    },
+    "df2683be7e7fcc5f": {
+      "translation": "शहर के लोग।",
+      "model": "translategemma:12b",
+      "timestamp": 1774655150537,
+      "source": "Townsfolk",
+      "targetLang": "hi"
+    },
+    "509329ce739da51b": {
+      "translation": "बारटेंडर, भिखारी, लोहार, बच्चा, बुजुर्ग, किसान, मछुआरा, रक्षक, जड़ी-बूटी विशेषज्ञ, सराय का मालिक, दीपक जलाने वाला, व्यापारी, गायक, कुलीन व्यक्ति, लेखक, अस्तबल का कर्मचारी।",
+      "model": "translategemma:12b",
+      "timestamp": 1774655150537,
+      "source": "Barmaid, Beggar, Blacksmith, Child, Elder, Farmer, Fisherman, Guard, Herbalist, Innkeeper, Lamplighter, Merchant, Minstrel, Noble, Scribe, Stable Hand",
+      "targetLang": "hi"
+    },
+    "a25cf047636e673c": {
+      "translation": "गोब्लिन।",
+      "model": "translategemma:12b",
+      "timestamp": 1774655150537,
+      "source": "Goblin",
+      "targetLang": "hi"
+    },
+    "07b3cb3ac02fba62": {
+      "translation": "आर्चर (धनुर्धर), बॉम्बर (विस्फोटक), ब्रूट (शक्तिशाली योद्धा), ग्रंट (सामान्य सैनिक), स्काउट (जासूस), शमन (जादुई चिकित्सक), वॉरचीफ (सेनापति), वुल्फ राइडर (भेड़िया सवार)।",
+      "model": "translategemma:12b",
+      "timestamp": 1774655150537,
+      "source": "Archer, Bomber, Brute, Grunt, Scout, Shaman, Warchief, Wolf Rider",
+      "targetLang": "hi"
+    },
+    "2f698da939bc99e3": {
+      "translation": "हीरो।",
+      "model": "translategemma:12b",
+      "timestamp": 1774655150537,
+      "source": "Hero",
+      "targetLang": "hi"
+    },
+    "516973e3934e2dad": {
+      "translation": "बर्बेरियन, क्लैरिक, फाइटर, मेज, मंक, पलाडिन, रेंजर, रोग।",
+      "model": "translategemma:12b",
+      "timestamp": 1774655150537,
+      "source": "Barbarian, Cleric, Fighter, Mage, Monk, Paladin, Ranger, Rogue",
+      "targetLang": "hi"
+    },
+    "6ed91ad73bc2fb6c": {
+      "translation": "समुद्री डाकू।",
+      "model": "translategemma:12b",
+      "timestamp": 1774655150537,
+      "source": "Pirate",
+      "targetLang": "hi"
+    },
+    "2ab4df18dcc8756a": {
+      "translation": "कप्तान, डाकू, डूब गया, गवर्नर, नौसेना सैनिक, बंदूकधारी, रसद अधिकारी, समुद्री पुजारी।",
+      "model": "translategemma:12b",
+      "timestamp": 1774655150537,
+      "source": "Captain, Cutthroat, Drowned, Governor, Navy Sailor, Pistoleer, Quartermaster, Sea Priest",
+      "targetLang": "hi"
+    },
+    "45bce6ffb85a40ba": {
+      "translation": "खलनायक।",
+      "model": "translategemma:12b",
+      "timestamp": 1774655150537,
+      "source": "Villain",
+      "targetLang": "hi"
+    },
+    "198ef15d2b946d17": {
+      "translation": "असासिन, ब्लैकगार्ड, पंथ का पुजारी, अंधेरा साधु, ड्रेड रेंजर, नेक्रोमेंसर, रीवर, योद्धा सरदार।",
+      "model": "translategemma:12b",
+      "timestamp": 1774655150537,
+      "source": "Assassin, Blackguard, Cult Priest, Dark Monk, Dread Ranger, Necromancer, Reaver, Warlord",
+      "targetLang": "hi"
+    },
+    "4e78d33d724ee057": {
+      "translation": "ज़ोंबी।",
+      "model": "translategemma:12b",
+      "timestamp": 1774655150537,
+      "source": "Zombie",
+      "targetLang": "hi"
+    },
+    "373eaada5bb3df59": {
+      "translation": "ब्लूटर, एलीट, हैज़मेट, दंगा, धावक, लड़खड़ाने वाला, कंकालीय, श्रमिक.",
+      "model": "translategemma:12b",
+      "timestamp": 1774655150537,
+      "source": "Bloater, Elite, Hazmat, Riot, Runner, Shambler, Skeletal, Worker",
+      "targetLang": "hi"
+    },
+    "6ac922c4eaa4caaa": {
+      "translation": "मॉन्स्टर लेन।",
+      "model": "translategemma:12b",
+      "timestamp": 1774655150537,
+      "source": "Monster Lane",
+      "targetLang": "hi"
+    },
+    "1efdd31fed5df985": {
+      "translation": "गैर-मानव जैसे जीवों में, मानक मानव कंकाल की जगह, शरीर के प्रकार के अनुसार विशिष्ट कंट्रोलनेट डेप्थ गाइड का उपयोग किया जाता है। प्रत्येक शरीर के प्रकार के लिए, एक अलग डेप्थ संदर्भ सिल्हूट, कंट्रोलनेट की शक्ति और समय संबंधी पैरामीटर निर्धारित होते हैं।",
+      "model": "translategemma:12b",
+      "timestamp": 1774655150537,
+      "source": "Non-humanoid creatures use body-class-specific ControlNet depth guides instead of the standard humanoid skeleton. Each body class has its own depth reference silhouette, ControlNet strength, and timing parameters.\r",
+      "targetLang": "hi"
+    },
+    "b1f757404a4cd8dc": {
+      "translation": "बॉडी क्लास।",
+      "model": "translategemma:12b",
+      "timestamp": 1774655150537,
+      "source": "Body Class",
+      "targetLang": "hi"
+    },
+    "79b7d87573d064c8": {
+      "translation": "गहराई, शक्ति।",
+      "model": "translategemma:12b",
+      "timestamp": 1774655150537,
+      "source": "Depth Strength",
+      "targetLang": "hi"
+    },
+    "53ea484d43f8e840": {
+      "translation": "समाप्ति।",
+      "model": "translategemma:12b",
+      "timestamp": 1774655150537,
+      "source": "End %",
+      "targetLang": "hi"
+    },
+    "4f0dfad3950dc211": {
+      "translation": "अनाकार।",
+      "model": "translategemma:12b",
+      "timestamp": 1774655150537,
+      "source": "Amorphous",
+      "targetLang": "hi"
+    },
+    "924e1258aedc8543": {
+      "translation": "रैट किंग, स्पोर मदर, मड रीवेनंट।",
+      "model": "translategemma:12b",
+      "timestamp": 1774655150537,
+      "source": "Rat King, Spore Mother, Mud Revenant",
+      "targetLang": "hi"
+    },
+    "4363448c9a93c4ea": {
+      "translation": "चौड़ा/चौकोर।",
+      "model": "translategemma:12b",
+      "timestamp": 1774655150537,
+      "source": "Wide/Squat",
+      "targetLang": "hi"
+    },
+    "8c6b8d7d3c847d40": {
+      "translation": "मुस्कुराता हुआ मूर्ति।",
+      "model": "translategemma:12b",
+      "timestamp": 1774655150537,
+      "source": "Grinning Idol",
+      "targetLang": "hi"
+    },
+    "f4a4fd477df01501": {
+      "translation": "ऊँचा/पतला।",
+      "model": "translategemma:12b",
+      "timestamp": 1774655150537,
+      "source": "Tall/Thin",
+      "targetLang": "hi"
+    },
+    "8ea089a215b16927": {
+      "translation": "लैंटर्न एंगलर, रूट पपेट.",
+      "model": "translategemma:12b",
+      "timestamp": 1774655150537,
+      "source": "Lantern Angler, Root Puppet",
+      "targetLang": "hi"
+    },
+    "3e744931d420dd0c": {
+      "translation": "\"डेप्थ गाइड्स\" ऐसे बुनियादी तत्व (जैसे कि उभार, खंभे, या स्तंभ) होते हैं जो बिना किसी जोड़ के होते हैं और जो आकार और दिशा को स्थिर रखते हैं, लेकिन वे शरीर की संरचना या अंगों की स्थिति को निर्धारित नहीं करते हैं। कैरेक्टर कॉन्फ़िगरेशन में \"बॉडी क्लास\" फ़ील्ड स्वचालित रूप से सही प्रीसेट का चयन करता है।\"",
+      "model": "translategemma:12b",
+      "timestamp": 1774655150537,
+      "source": "Depth guides are joint-free primitives (blobs, pillars, columns) that lock in mass and orientation without dictating skeleton or limb placement. The `body_class` field in character configs auto-selects the correct preset:\r",
+      "targetLang": "hi"
+    },
+    "f471eab2a5426d93": {
+      "translation": "Sprite Foundry é um sistema de gerenciamento de recursos local que gera, revisa e exporta sprites de pixels em 8 direções, com mapas de normal e profundidade. Ele utiliza o ComfyUI para geração, com controle de morfologia via ControlNet (8 classes de corpos), SQLite para rastreamento do ciclo de vida e Godot 4.6 para verificação de iluminação (finish-lab) — tudo controlado a partir de uma única interface de linha de comando (CLI).",
+      "model": "translategemma:12b",
+      "timestamp": 1774655166705,
+      "source": "Sprite Foundry is a local-only asset pipeline that generates, reviews, and exports 8-direction pixel sprites with normal and depth maps. It drives ComfyUI for generation with ControlNet morphology control (8 body classes), SQLite for lifecycle tracking, and Godot 4.6 for finish-lab lighting verification — all controlled from a single CLI.\r",
+      "targetLang": "pt"
+    },
+    "1f947dbc3417f068": {
+      "translation": "92 pacotes de exportação para produção, divididos em 12 categorias:",
+      "model": "translategemma:12b",
+      "timestamp": 1774655166705,
+      "source": "92 production export packs across 12 lanes:\r",
+      "targetLang": "pt"
+    },
+    "1789c470e640f81d": {
+      "translation": "Bestiário",
+      "model": "translategemma:12b",
+      "timestamp": 1774655166705,
+      "source": "Beast",
+      "targetLang": "pt"
+    },
+    "3cb8537424ed6c89": {
+      "translation": "Bell Warden, Bone Weaver, Clock Golem, Grinning Idol, Hive Keeper, Hollow Knight, Ink Shade, Lantern Angler, Mirror Stalker, Mud Revenant, Rat King, Root Puppet, Spore Mother, Teeth Collector, Throat Singer, Wyvern",
+      "model": "translategemma:12b",
+      "timestamp": 1774655166705,
+      "source": "Bell Warden, Bone Weaver, Clock Golem, Grinning Idol, Hive Keeper, Hollow Knight, Ink Shade, Lantern Angler, Mirror Stalker, Mud Revenant, Rat King, Root Puppet, Spore Mother, Teeth Collector, Throat Singer, Wyvern",
+      "targetLang": "pt"
+    },
+    "5691def7594abc1a": {
+      "translation": "Habitantes da Cidade",
+      "model": "translategemma:12b",
+      "timestamp": 1774655166705,
+      "source": "Townsfolk",
+      "targetLang": "pt"
+    },
+    "ab57c305917df6c1": {
+      "translation": "Barmaid, Beggar, Blacksmith, Child, Elder, Farmer, Fisherman, Guard, Herbalist, Innkeeper, Lamplighter, Merchant, Minstrel, Noble, Scribe, Stable Hand",
+      "model": "translategemma:12b",
+      "timestamp": 1774655166705,
+      "source": "Barmaid, Beggar, Blacksmith, Child, Elder, Farmer, Fisherman, Guard, Herbalist, Innkeeper, Lamplighter, Merchant, Minstrel, Noble, Scribe, Stable Hand",
+      "targetLang": "pt"
+    },
+    "fd023777c68ee9f0": {
+      "translation": "Goblin",
+      "model": "translategemma:12b",
+      "timestamp": 1774655166705,
+      "source": "Goblin",
+      "targetLang": "pt"
+    },
+    "9f183ee5fb96b70a": {
+      "translation": "Archer, Bomber, Brute, Grunt, Scout, Shaman, Warchief, Wolf Rider",
+      "model": "translategemma:12b",
+      "timestamp": 1774655166705,
+      "source": "Archer, Bomber, Brute, Grunt, Scout, Shaman, Warchief, Wolf Rider",
+      "targetLang": "pt"
+    },
+    "900313eefd1e0dec": {
+      "translation": "Herói",
+      "model": "translategemma:12b",
+      "timestamp": 1774655166705,
+      "source": "Hero",
+      "targetLang": "pt"
+    },
+    "02ae7c0480560946": {
+      "translation": "Barbarian, Cleric, Fighter, Mage, Monk, Paladin, Ranger, Rogue",
+      "model": "translategemma:12b",
+      "timestamp": 1774655166705,
+      "source": "Barbarian, Cleric, Fighter, Mage, Monk, Paladin, Ranger, Rogue",
+      "targetLang": "pt"
+    },
+    "aee51246620b01e4": {
+      "translation": "Pirata",
+      "model": "translategemma:12b",
+      "timestamp": 1774655166705,
+      "source": "Pirate",
+      "targetLang": "pt"
+    },
+    "4b03ea0f11656e08": {
+      "translation": "Captain, Cutthroat, Drowned, Governor, Navy Sailor, Pistoleer, Quartermaster, Sea Priest",
+      "model": "translategemma:12b",
+      "timestamp": 1774655166705,
+      "source": "Captain, Cutthroat, Drowned, Governor, Navy Sailor, Pistoleer, Quartermaster, Sea Priest",
+      "targetLang": "pt"
+    },
+    "b1eca7d91332caa9": {
+      "translation": "Vilão",
+      "model": "translategemma:12b",
+      "timestamp": 1774655166705,
+      "source": "Villain",
+      "targetLang": "pt"
+    },
+    "555725341f4bafba": {
+      "translation": "Assassin, Blackguard, Cult Priest, Dark Monk, Dread Ranger, Necromancer, Reaver, Warlord",
+      "model": "translategemma:12b",
+      "timestamp": 1774655166705,
+      "source": "Assassin, Blackguard, Cult Priest, Dark Monk, Dread Ranger, Necromancer, Reaver, Warlord",
+      "targetLang": "pt"
+    },
+    "1beaa9b1b8a5b3bf": {
+      "translation": "Zumbi",
+      "model": "translategemma:12b",
+      "timestamp": 1774655166705,
+      "source": "Zombie",
+      "targetLang": "pt"
+    },
+    "4056c18b6b6d0a0e": {
+      "translation": "Bloater, Elite, Hazmat, Riot, Runner, Shambler, Skeletal, Worker",
+      "model": "translategemma:12b",
+      "timestamp": 1774655166705,
+      "source": "Bloater, Elite, Hazmat, Riot, Runner, Shambler, Skeletal, Worker",
+      "targetLang": "pt"
+    },
+    "bf33cb0d94202041": {
+      "translation": "Monstros",
+      "model": "translategemma:12b",
+      "timestamp": 1774655166706,
+      "source": "Monster Lane",
+      "targetLang": "pt"
+    },
+    "7a23f5a01df5f5e0": {
+      "translation": "Criaturas não humanoides utilizam guias de profundidade específicos para cada classe de corpo, em vez do esqueleto humanoide padrão. Cada classe de corpo possui seu próprio perfil de referência de profundidade, intensidade do ControlNet e parâmetros de tempo.",
+      "model": "translategemma:12b",
+      "timestamp": 1774655166706,
+      "source": "Non-humanoid creatures use body-class-specific ControlNet depth guides instead of the standard humanoid skeleton. Each body class has its own depth reference silhouette, ControlNet strength, and timing parameters.\r",
+      "targetLang": "pt"
+    },
+    "1405bbe01586831b": {
+      "translation": "Classe de Corpo",
+      "model": "translategemma:12b",
+      "timestamp": 1774655166706,
+      "source": "Body Class",
+      "targetLang": "pt"
+    },
+    "24000d0439912fc3": {
+      "translation": "Intensidade da Profundidade",
+      "model": "translategemma:12b",
+      "timestamp": 1774655166706,
+      "source": "Depth Strength",
+      "targetLang": "pt"
+    },
+    "ec896c6f7dd3bb9b": {
+      "translation": "Porcentagem Final",
+      "model": "translategemma:12b",
+      "timestamp": 1774655166706,
+      "source": "End %",
+      "targetLang": "pt"
+    },
+    "88bbf286f5eda5a8": {
+      "translation": "Amórfico",
+      "model": "translategemma:12b",
+      "timestamp": 1774655166706,
+      "source": "Amorphous",
+      "targetLang": "pt"
+    },
+    "385907036be47904": {
+      "translation": "Rat King, Spore Mother, Mud Revenant",
+      "model": "translategemma:12b",
+      "timestamp": 1774655166706,
+      "source": "Rat King, Spore Mother, Mud Revenant",
+      "targetLang": "pt"
+    },
+    "11adc3cba8051e6f": {
+      "translation": "Largo/Abaixado",
+      "model": "translategemma:12b",
+      "timestamp": 1774655166706,
+      "source": "Wide/Squat",
+      "targetLang": "pt"
+    },
+    "3b4997b76958bbf8": {
+      "translation": "Grinning Idol",
+      "model": "translategemma:12b",
+      "timestamp": 1774655166706,
+      "source": "Grinning Idol",
+      "targetLang": "pt"
+    },
+    "2cea689fc5a52965": {
+      "translation": "Alto/Fino",
+      "model": "translategemma:12b",
+      "timestamp": 1774655166706,
+      "source": "Tall/Thin",
+      "targetLang": "pt"
+    },
+    "d10ad638e25cb2a2": {
+      "translation": "Lantern Angler, Root Puppet",
+      "model": "translategemma:12b",
+      "timestamp": 1774655166706,
+      "source": "Lantern Angler, Root Puppet",
+      "targetLang": "pt"
+    },
+    "c9fcf6d1c98af0ee": {
+      "translation": "Os guias de profundidade são primitivos sem articulações (massas, pilares, colunas) que definem a massa e a orientação, sem determinar o posicionamento do esqueleto ou dos membros. O campo `body_class` nas configurações dos personagens seleciona automaticamente a configuração correta:",
+      "model": "translategemma:12b",
+      "timestamp": 1774655166706,
+      "source": "Depth guides are joint-free primitives (blobs, pillars, columns) that lock in mass and orientation without dictating skeleton or limb placement. The `body_class` field in character configs auto-selects the correct preset:\r",
+      "targetLang": "pt"
+    }
+  }
+}

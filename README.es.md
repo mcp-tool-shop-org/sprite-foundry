@@ -18,7 +18,7 @@
 
 ---
 
-Sprite Foundry es una herramienta de procesamiento de recursos que opera localmente y que genera, revisa y exporta sprites de píxeles de 8 direcciones, junto con mapas de normales y de profundidad. Utiliza ComfyUI para la generación, SQLite para el seguimiento del ciclo de vida y Godot 4.6 para la verificación de iluminación de finish-lab, todo controlado desde una única interfaz de línea de comandos (CLI).
+Sprite Foundry es una herramienta que genera, revisa y exporta sprites de píxeles de 8 direcciones, con mapas de normales y de profundidad, y que funciona solo en el entorno local. Utiliza ComfyUI para la generación, con ControlNet para el control de la morfología (8 clases de cuerpos), SQLite para el seguimiento del ciclo de vida, y Godot 4.6 para la verificación de la iluminación (finish-lab), todo controlado desde una única interfaz de línea de comandos (CLI).
 
 ## Arquitectura
 
@@ -42,17 +42,44 @@ Subject Sheet ──► ComfyUI Generation ──► Mechanical Gates
                                       (manifest + checksums)
 ```
 
-## Personajes
+## Lista de elementos
 
-20 paquetes de exportación de producción, sin incumplimientos de contrato:
+92 paquetes de exportación para la producción, distribuidos en 12 categorías:
 
-| Personaje | Número | Personajes |
+| Categoría | Número | Temas |
 |------|-------|----------|
-| Tripulación | 7 | Sera Vale, Ilen Marr, Thal, Thal (Traje de Protección), Varek, Kael Morrow, Hull Diver |
-| Criaturas | 6 | Cargo Beast, Drift Maw, Skitter Drone, Drift Lurker, Void Raptor, Keth Healer-Drone |
+| Bestias | 16 | Bell Warden, Bone Weaver, Clock Golem, Grinning Idol, Hive Keeper, Hollow Knight, Ink Shade, Lantern Angler, Mirror Stalker, Mud Revenant, Rat King, Root Puppet, Spore Mother, Teeth Collector, Throat Singer, Wyvern |
+| Habitantes de la ciudad | 16 | Barmaid, Beggar, Blacksmith, Child, Elder, Farmer, Fisherman, Guard, Herbalist, Innkeeper, Lamplighter, Merchant, Minstrel, Noble, Scribe, Stable Hand |
+| Goblin | 8 | Archer, Bomber, Brute, Grunt, Scout, Shaman, Warchief, Wolf Rider |
+| Héroe | 8 | Barbarian, Cleric, Fighter, Mage, Monk, Paladin, Ranger, Rogue |
+| Pirata | 8 | Captain, Cutthroat, Drowned, Governor, Navy Sailor, Pistoleer, Quartermaster, Sea Priest |
+| Villano | 8 | Assassin, Blackguard, Cult Priest, Dark Monk, Dread Ranger, Necromancer, Reaver, Warlord |
+| Zombi | 8 | Bloater, Elite, Hazmat, Riot, Runner, Shambler, Skeletal, Worker |
+| Criatura | 6 | Cargo Beast, Drift Maw, Skitter Drone, Drift Lurker, Void Raptor, Keth Healer-Drone |
+| Tripulación | 7 | Sera Vale, Ilen Marr, Thal, Thal (Hazard Suit), Varek, Kael Morrow, Hull Diver |
 | Hostiles | 3 | Scav Raider, Reach Pirate, Compact Interdiction Agent |
-| Autoridades | 2 | Compact Patrol Officer, Veshan House Envoy |
+| Autoridad | 2 | Compact Patrol Officer, Veshan House Envoy |
 | Civiles | 2 | Nera Quill, Orryn Broker |
+
+## Categoría de monstruos
+
+Las criaturas no humanoides utilizan guías de profundidad específicas para cada clase de cuerpo, en lugar del esqueleto humanoide estándar. Cada clase de cuerpo tiene su propia silueta de referencia de profundidad, fuerza de ControlNet y parámetros de sincronización.
+
+| Clase de cuerpo | Fuerza de profundidad | Porcentaje final | Criaturas |
+|------------|---------------|-------|-----------|
+| Amórfico | 0.35 | 65% | Rat King, Spore Mother, Mud Revenant |
+| Ancho/Bajo | 0.40 | 70% | Grinning Idol |
+| Alto/Delgado | 0.40 | 70% | Lantern Angler, Root Puppet |
+
+Las guías de profundidad son primitivos sin articulaciones (blobs, pilares, columnas) que fijan la masa y la orientación sin determinar la ubicación del esqueleto o las extremidades. El campo `body_class` en las configuraciones de los personajes selecciona automáticamente la configuración correcta:
+
+```bash
+# Body class auto-resolved from config
+python -m pipeline.foundry_gen_morph --config pipeline/chars/beast_rat_king.json
+
+# CLI override
+python -m pipeline.foundry_gen_morph --config pipeline/chars/beast_rat_king.json --body-class tall_thin
+```
 
 ## Contrato de exportación v1.0.0 (congelado)
 
@@ -65,18 +92,18 @@ exports/{subject_slug}/{run_id}/
 └── manifest.json  (schema v1.0.0, SHA-256 checksums, provenance)
 ```
 
-- 8 direcciones: frontal, frontal_izquierda, izquierda, trasero_izquierda, trasero, trasero_derecho, derecha, frontal_derecha
-- PNG transparente de 48x48, punto de pivote en el centro_inferior
+- 8 direcciones: frontal, frontal izquierdo, izquierdo, trasero izquierdo, trasero, trasero derecho, derecho, frontal derecho
+- PNG transparente de 48x48, punto de pivote en la parte inferior central
 - Los consumidores validan `schema_version: "1.0.0"` antes de la carga
 
 ## Requisitos previos
 
 - Python 3.11+
 - [ComfyUI](https://github.com/comfyanonymous/ComfyUI) ejecutándose localmente (para la generación)
-- Godot 4.6 (para el renderizado de finish lab)
+- Godot 4.6 (para la renderización de finish lab)
 - GPU NVIDIA recomendada (RTX 5080 / 16 GB de VRAM probados)
 
-## Inicio rápido
+## Comienzo rápido
 
 ```bash
 # Clone
@@ -97,38 +124,38 @@ python -m foundry status
 
 | Comando | Descripción |
 |---------|-------------|
-| `init` | Inicializa el registro SQLite de Sprite Foundry. |
-| `subject-add` | Registra un nuevo personaje. |
+| `init` | Inicializa el registro SQLite de la herramienta. |
+| `subject-add` | Registra un nuevo sujeto de personaje. |
 | `register-run` | Registra una ejecución de generación de ComfyUI. |
 | `register-attempt` | Registra un intento individual dentro de una ejecución. |
-| `check` | Ejecuta las pruebas de validación mecánica. |
+| `check` | Ejecuta las validaciones mecánicas. |
 | `review-show` | Muestra la cola de revisión para una ejecución. |
 | `review-accept` | Acepta un intento en la etapa de revisión actual. |
-| `review-reject` | Rechaza un intento con un código de rechazo. |
-| `batch-accept` | Acepta todos los intentos pendientes en una ejecución. |
-| `batch-reject` | Rechaza todos los intentos pendientes en una ejecución con un código. |
-| `regen` | Programa la regeneración de los intentos rechazados. |
-| `attempt-detail` | Muestra el ciclo de vida completo de un intento. |
-| `finish-board` | Genera una tabla de comparación de finish-lab. |
+| `review-reject` | Rechazar un intento con un código de rechazo. |
+| `batch-accept` | Aceptar todos los intentos pendientes en una ejecución. |
+| `batch-reject` | Rechazar todos los intentos pendientes en una ejecución con un solo código. |
+| `regen` | Regenerar la cola para los intentos rechazados. |
+| `attempt-detail` | Mostrar el ciclo de vida completo de un intento. |
+| `finish-board` | Generar un panel de comparación de resultados finales. |
 | `status` | Resumen del estado del proceso. |
-| `story` | Narrativa completa del origen de un personaje. |
+| `story` | Narrativa completa del origen de un elemento. |
 | `lineage` | Cadena de regeneración para un intento. |
 | `winner` | Ganador canónico por dirección. |
 | `drift` | Análisis de patrones de fallos y tasas de éxito. |
-| `metrics` | Métricas de rendimiento (por ejecución o a nivel de Sprite Foundry). |
-| `produce` | Un solo comando: mapas + capturas de finish para una ejecución aceptada. |
-| `export` | Exporta una ejecución aceptada como un paquete de recursos determinista. |
+| `metrics` | Métricas de rendimiento (por ejecución o a nivel de toda la plataforma). |
+| `produce` | Un comando: mapas y capturas de resultados finales para una ejecución aceptada. |
+| `export` | Exportar una ejecución con resultados finales aceptados como un paquete de recursos determinista. |
 
 ## Modelo de amenazas
 
-Sprite Foundry es una **herramienta para desarrolladores que opera localmente**. No:
+Sprite Foundry es una **herramienta de desarrollo local**. No:
 
 - Accede a la red (ComfyUI se ejecuta en localhost).
 - Maneja secretos, tokens o credenciales.
 - Recopila o envía datos de telemetría.
 - Escribe fuera de su propio directorio de trabajo.
 
-Las operaciones de archivos están restringidas a `exports/`, `bakeoff/`, `boards/`, `derived/` y el registro SQLite. Las llamadas a subprocesos están limitadas a la API local de ComfyUI y al renderizado headless de Godot.
+Las operaciones con archivos están restringidas a `exports/`, `bakeoff/`, `boards/`, `derived/` y el registro SQLite. Las llamadas a subprocesos están limitadas a la API local de ComfyUI y la renderización sin interfaz de Godot.
 
 ## Licencia
 
@@ -137,5 +164,5 @@ Las operaciones de archivos están restringidas a `exports/`, `bakeoff/`, `board
 ---
 
 <p align="center">
-  Built by <a href="https://github.com/mcp-tool-shop-org">MCP Tool Shop</a>
+  Built by <a href="https://mcp-tool-shop.github.io/">MCP Tool Shop</a>
 </p>

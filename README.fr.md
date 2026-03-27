@@ -18,7 +18,7 @@
 
 ---
 
-Sprite Foundry est un système de gestion de ressources local qui génère, examine et exporte des sprites pixelisés 8 directions avec des cartes de normales et de profondeur. Il utilise ComfyUI pour la génération, SQLite pour le suivi du cycle de vie et Godot 4.6 pour la vérification de l'éclairage via finish-lab, le tout contrôlé à partir d'une seule interface en ligne de commande.
+Sprite Foundry est un système de gestion d'actifs local qui génère, examine et exporte des sprites pixelisés 8 directions avec des cartes de normalisation et de profondeur. Il utilise ComfyUI pour la génération, avec le contrôle morphologique ControlNet (8 classes de corps), SQLite pour le suivi du cycle de vie, et Godot 4.6 pour la vérification de l'éclairage (finish-lab), le tout contrôlé à partir d'une seule interface en ligne de commande.
 
 ## Architecture
 
@@ -44,15 +44,42 @@ Subject Sheet ──► ComfyUI Generation ──► Mechanical Gates
 
 ## Liste des personnages
 
-20 ensembles d'exportation de production, zéro violation de contrat :
+92 ensembles d'exportation de production répartis en 12 catégories :
 
 | Personnage | Nombre | Sujets |
 |------|-------|----------|
-| Équipage | 7 | Sera Vale, Ilen Marr, Thal, Thal (Combinaison de protection), Varek, Kael Morrow, Plongeur |
+| Bêtes | 16 | Bell Warden, Bone Weaver, Clock Golem, Grinning Idol, Hive Keeper, Hollow Knight, Ink Shade, Lantern Angler, Mirror Stalker, Mud Revenant, Rat King, Root Puppet, Spore Mother, Teeth Collector, Throat Singer, Wyvern |
+| Habitants de la ville | 16 | Barmaid, Beggar, Blacksmith, Child, Elder, Farmer, Fisherman, Guard, Herbalist, Innkeeper, Lamplighter, Merchant, Minstrel, Noble, Scribe, Stable Hand |
+| Gobelins | 8 | Archer, Bomber, Brute, Grunt, Scout, Shaman, Warchief, Wolf Rider |
+| Héros | 8 | Barbarian, Cleric, Fighter, Mage, Monk, Paladin, Ranger, Rogue |
+| Pirates | 8 | Captain, Cutthroat, Drowned, Governor, Navy Sailor, Pistoleer, Quartermaster, Sea Priest |
+| Vilains | 8 | Assassin, Blackguard, Cult Priest, Dark Monk, Dread Ranger, Necromancer, Reaver, Warlord |
+| Zombies | 8 | Bloater, Elite, Hazmat, Riot, Runner, Shambler, Skeletal, Worker |
 | Créature | 6 | Bête de chargement, Gueule de dérive, Drone d'exploration, Prédateur de dérive, Raptor du vide, Drone guérisseur Keth |
+| Équipage | 7 | Sera Vale, Ilen Marr, Thal, Thal (Combinaison de protection), Varek, Kael Morrow, Plongeur |
 | Hostile | 3 | Pilleur, Pirate, Agent d'interdiction compact |
 | Autorité | 2 | Agent de patrouille compact, Envoy de la Maison Veshan |
 | Civil | 2 | Nera Quill, Courtier Orryn |
+
+## Catégorie de monstres
+
+Les créatures non humanoïdes utilisent des guides de profondeur spécifiques à la classe de corps au lieu du squelette humanoïde standard. Chaque classe de corps possède sa propre silhouette de référence de profondeur, sa force ControlNet et ses paramètres de synchronisation.
+
+| Classe de corps | Force de profondeur | Pourcentage de fin | Créature |
+|------------|---------------|-------|-----------|
+| Amorphe | 0.35 | 65% | Rat King, Spore Mother, Mud Revenant |
+| Large/Accroupi | 0.40 | 70% | Grinning Idol |
+| Grand/Mince | 0.40 | 70% | Lantern Angler, Root Puppet |
+
+Les guides de profondeur sont des primitives sans articulation (amas, piliers, colonnes) qui fixent la masse et l'orientation sans imposer la position du squelette ou des membres. Le champ `body_class` dans les configurations des personnages sélectionne automatiquement le préréglage correct :
+
+```bash
+# Body class auto-resolved from config
+python -m pipeline.foundry_gen_morph --config pipeline/chars/beast_rat_king.json
+
+# CLI override
+python -m pipeline.foundry_gen_morph --config pipeline/chars/beast_rat_king.json --body-class tall_thin
+```
 
 ## Contrat d'exportation v1.0.0 (figé)
 
@@ -137,5 +164,5 @@ Les opérations de fichiers sont limitées à `exports/`, `bakeoff/`, `boards/`,
 ---
 
 <p align="center">
-  Built by <a href="https://github.com/mcp-tool-shop-org">MCP Tool Shop</a>
+  Built by <a href="https://mcp-tool-shop.github.io/">MCP Tool Shop</a>
 </p>

@@ -18,7 +18,7 @@
 
 ---
 
-Sprite Foundry é um sistema de gerenciamento de recursos que opera localmente e que gera, revisa e exporta sprites de pixels em 8 direções, com mapas de normal e profundidade. Ele utiliza o ComfyUI para geração, o SQLite para rastreamento do ciclo de vida e o Godot 4.6 para verificação de iluminação (finish-lab), tudo controlado a partir de uma única interface de linha de comando (CLI).
+Sprite Foundry é um sistema de gerenciamento de recursos local que gera, revisa e exporta sprites de pixels em 8 direções, com mapas de normal e profundidade. Ele utiliza o ComfyUI para geração, com controle de morfologia via ControlNet (8 classes de corpos), SQLite para rastreamento do ciclo de vida e Godot 4.6 para verificação de iluminação (finish-lab) — tudo controlado a partir de uma única interface de linha de comando (CLI).
 
 ## Arquitetura
 
@@ -44,15 +44,42 @@ Subject Sheet ──► ComfyUI Generation ──► Mechanical Gates
 
 ## Lista de Personagens
 
-20 pacotes de exportação de produção, sem violações de contrato:
+92 pacotes de exportação para produção, divididos em 12 categorias:
 
 | Personagem | Número | Tipos |
 |------|-------|----------|
-| Equipe | 7 | Sera Vale, Ilen Marr, Thal, Thal (Traje de Proteção), Varek, Kael Morrow, Hull Diver |
+| Bestiário | 16 | Bell Warden, Bone Weaver, Clock Golem, Grinning Idol, Hive Keeper, Hollow Knight, Ink Shade, Lantern Angler, Mirror Stalker, Mud Revenant, Rat King, Root Puppet, Spore Mother, Teeth Collector, Throat Singer, Wyvern |
+| Habitantes da Cidade | 16 | Barmaid, Beggar, Blacksmith, Child, Elder, Farmer, Fisherman, Guard, Herbalist, Innkeeper, Lamplighter, Merchant, Minstrel, Noble, Scribe, Stable Hand |
+| Goblin | 8 | Archer, Bomber, Brute, Grunt, Scout, Shaman, Warchief, Wolf Rider |
+| Herói | 8 | Barbarian, Cleric, Fighter, Mage, Monk, Paladin, Ranger, Rogue |
+| Pirata | 8 | Captain, Cutthroat, Drowned, Governor, Navy Sailor, Pistoleer, Quartermaster, Sea Priest |
+| Vilão | 8 | Assassin, Blackguard, Cult Priest, Dark Monk, Dread Ranger, Necromancer, Reaver, Warlord |
+| Zumbi | 8 | Bloater, Elite, Hazmat, Riot, Runner, Shambler, Skeletal, Worker |
 | Criaturas | 6 | Cargo Beast, Drift Maw, Skitter Drone, Drift Lurker, Void Raptor, Keth Healer-Drone |
+| Equipe | 7 | Sera Vale, Ilen Marr, Thal, Thal (Traje de Proteção), Varek, Kael Morrow, Hull Diver |
 | Hostis | 3 | Scav Raider, Reach Pirate, Compact Interdiction Agent |
 | Autoridade | 2 | Compact Patrol Officer, Veshan House Envoy |
 | Civis | 2 | Nera Quill, Orryn Broker |
+
+## Monstros
+
+Criaturas não humanoides utilizam guias de profundidade específicos para cada classe de corpo, em vez do esqueleto humanoide padrão. Cada classe de corpo possui seu próprio perfil de referência de profundidade, intensidade do ControlNet e parâmetros de tempo.
+
+| Classe de Corpo | Intensidade da Profundidade | Porcentagem Final | Criaturas |
+|------------|---------------|-------|-----------|
+| Amórfico | 0.35 | 65% | Rat King, Spore Mother, Mud Revenant |
+| Largo/Abaixado | 0.40 | 70% | Grinning Idol |
+| Alto/Fino | 0.40 | 70% | Lantern Angler, Root Puppet |
+
+Os guias de profundidade são primitivos sem articulações (massas, pilares, colunas) que definem a massa e a orientação, sem determinar o posicionamento do esqueleto ou dos membros. O campo `body_class` nas configurações dos personagens seleciona automaticamente a configuração correta:
+
+```bash
+# Body class auto-resolved from config
+python -m pipeline.foundry_gen_morph --config pipeline/chars/beast_rat_king.json
+
+# CLI override
+python -m pipeline.foundry_gen_morph --config pipeline/chars/beast_rat_king.json --body-class tall_thin
+```
 
 ## Contrato de Exportação v1.0.0 (fixo)
 
@@ -137,5 +164,5 @@ As operações de arquivo são restritas aos diretórios `exports/`, `bakeoff/`,
 ---
 
 <p align="center">
-  Built by <a href="https://github.com/mcp-tool-shop-org">MCP Tool Shop</a>
+  Built by <a href="https://mcp-tool-shop.github.io/">MCP Tool Shop</a>
 </p>
