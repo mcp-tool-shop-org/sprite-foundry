@@ -142,10 +142,12 @@ These should gate sprite promotion in sprite-foundry.
 ### Model Licensing
 Zero123++ weights are CC-BY-NC (non-commercial). Stable Zero123 has a more permissive community license. If this becomes a shipped tool, use Stable Zero123 or train from scratch.
 
-### Hardware
+### Hardware / VRAM Strategy
 - RTX 5080 Laptop, 16GB VRAM
 - Zero123 checkpoint: 8GB (fp32) — fits but tight with other models
 - For multi-reference (3 CLIP encodes + UNet): estimate ~10-12GB VRAM needed
+- **Critical**: Run CLIP encodes in fp16 or encode sequentially (encode → cache embedding → free → next). Plan this before Phase 2 starts.
+- UNet inference should be fp16 minimum. The 8GB fp32 checkpoint should be converted to fp16 at load time to halve VRAM usage.
 
 ## What Exists Today
 
