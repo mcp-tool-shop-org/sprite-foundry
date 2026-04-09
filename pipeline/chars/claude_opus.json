@@ -1,0 +1,16 @@
+{
+  "subject_id": "claude_opus",
+  "display_name": "Claude Opus",
+  "seed": 460460,
+  "subject_prompt": "solo, 1character, a mystical AI oracle figure, a tall elegant humanoid scholar-mage with a glowing amber-gold visor where eyes would be, wearing a long flowing dark indigo-purple hooded robe with subtle geometric circuit-trace patterns woven into the fabric, the robe has clean sharp edges and a high collar, one hand holds a hovering crystalline orb that pulses with soft orange-amber light, the other hand rests at their side with fingers slightly curled, a faint halo of warm golden light radiates behind the head, the figure stands with calm confident posture, feet visible beneath the robe hem, mystical technomancer sage aesthetic, pixel art character",
+  "negative_prompt": "multiple characters, two people, group, reflection, mirror, turnaround sheet, model sheet, reference sheet, blurry, smooth, photorealistic, 3D render, low quality, deformed, text, watermark, signature, frame, border, cute, chibi, cartoon face, anime eyes, busy background, cropped, cut off, partial body, wings, animal, robot, mechanical joints, armor plates, weapon, sword, shield, bow",
+  "iterative": {
+    "refine_denoise": 0.35,
+    "refine_steps": 20,
+    "rotate_denoise": 0.55,
+    "rotate_steps": 25,
+    "max_regen_attempts": 3,
+    "occupancy_min": 0.18,
+    "occupancy_max": 0.55
+  }
+}
