@@ -1,0 +1,7 @@
+{
+  "subject_id": "h3d_armored_knight",
+  "display_name": "Armored Knight",
+  "seed": 42,
+  "subject_prompt": "a dark armored knight with a great sword, full plate armor, menacing red visor, heavy pauldrons, dark steel with gold trim",
+  "negative_prompt": "cute, chibi, cartoon, thin, simple"
+}

@@ -29,8 +29,9 @@ SPRITE_TARGET = 48
 # Sheet layout: 3 views left-to-right (front, side, back)
 SHEET_VIEWS = ["front", "right", "back"]
 
-# Generation at wide aspect for 3-view sheet
-GEN_WIDTH = 1536
+# Generation canvas — SDXL works best near 1M total pixels
+# 2048x1024 = 2M pixels is the practical wide limit before quality degrades
+GEN_WIDTH = 2048
 GEN_HEIGHT = 1024
 
 STYLE_SUFFIX = (
@@ -39,19 +40,24 @@ STYLE_SUFFIX = (
     "full body, standing pose, "
     "pixel art sprite, game character, 2D RPG, clean pixel art, "
     "bright green background, #00FF00 green screen background, "
-    "crisp pixel edges, isolated figures"
+    "crisp pixel edges, isolated figures, "
+    "evenly spaced, wide gaps between figures, figures far apart, "
+    "each figure clearly separated"
 )
 
 NEGATIVE_PROMPT = (
     "blurry, smooth, photorealistic, 3D render, low quality, deformed, "
     "text, watermark, signature, frame, border, "
     "white background, gray background, gradient background, "
-    "cropped, cut off, partial body, multiple characters, crowd"
+    "cropped, cut off, partial body, multiple characters, crowd, "
+    "overlapping figures, figures touching, cramped, bunched together"
 )
 
 
-def make_turnaround_workflow(subject_prompt, negative_prompt, seed, filename_prefix):
+def make_turnaround_workflow(subject_prompt, negative_prompt, seed, filename_prefix, width=None, height=None):
     """Single txt2img with CharTurn LoRA -- produces a multi-view turnaround sheet."""
+    w = width or GEN_WIDTH
+    h = height or GEN_HEIGHT
     full_negative = f"{negative_prompt}, {NEGATIVE_PROMPT}"
     return {
         "1": {
@@ -59,12 +65,13 @@ def make_turnaround_workflow(subject_prompt, negative_prompt, seed, filename_pre
             "inputs": {"ckpt_name": "juggernautXL_ragnarokBy.safetensors"},
         },
         # LoRA 1: CharTurn XL (the turnaround LoRA -- primary)
+        # Strength 0.55: still gets multi-view layout, looser figure spacing
         "2": {
             "class_type": "LoraLoader",
             "inputs": {
                 "model": ["1", 0], "clip": ["1", 1],
                 "lora_name": "charturn-xl.safetensors",
-                "strength_model": 0.7, "strength_clip": 0.7,
+                "strength_model": 0.55, "strength_clip": 0.55,
             },
         },
         # LoRA 2: pixel-art-xl (style)
@@ -89,7 +96,7 @@ def make_turnaround_workflow(subject_prompt, negative_prompt, seed, filename_pre
         },
         "5": {
             "class_type": "EmptyLatentImage",
-            "inputs": {"width": GEN_WIDTH, "height": GEN_HEIGHT, "batch_size": 1},
+            "inputs": {"width": w, "height": h, "batch_size": 1},
         },
         "6": {
             "class_type": "KSampler",
@@ -303,6 +310,10 @@ def generate_turnaround(config: dict):
     subject_prompt = config["subject_prompt"]
     negative_prompt = config.get("negative_prompt", "")
 
+    # Per-character canvas override (wide creatures need more room)
+    gen_w = config.get("gen_width", GEN_WIDTH)
+    gen_h = config.get("gen_height", GEN_HEIGHT)
+
     ts = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
     run_id = f"{subject_id}_turn_{ts}"
     out_dir = FOUNDRY_ROOT / "bakeoff" / run_id
@@ -315,8 +326,8 @@ def generate_turnaround(config: dict):
     print(f"{'=' * 60}")
 
     # Generate the turnaround sheet
-    print(f"\n  Generating turnaround sheet ({GEN_WIDTH}x{GEN_HEIGHT})...", end=" ", flush=True)
-    workflow = make_turnaround_workflow(subject_prompt, negative_prompt, seed, f"{subject_id}_turn")
+    print(f"\n  Generating turnaround sheet ({gen_w}x{gen_h})...", end=" ", flush=True)
+    workflow = make_turnaround_workflow(subject_prompt, negative_prompt, seed, f"{subject_id}_turn", gen_w, gen_h)
 
     resp = queue_prompt(workflow)
     pid = resp["prompt_id"]

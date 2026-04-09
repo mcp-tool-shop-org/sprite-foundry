@@ -1,0 +1,7 @@
+{
+  "subject_id": "h3d_knight_greatsword",
+  "display_name": "Knight - Greatsword",
+  "seed": 42,
+  "subject_prompt": "a dark armored knight holding a massive two-handed greatsword, full plate armor, menacing red visor, heavy pauldrons, dark steel with gold trim, weapon held diagonally across body",
+  "negative_prompt": "cute, chibi, cartoon, thin, simple, unarmed"
+}

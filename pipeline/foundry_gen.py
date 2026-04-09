@@ -38,18 +38,25 @@ DIRECTIONS = [
 
 STYLE_SUFFIX = (
     "pixel art sprite, game character sprite, 2D RPG, clean pixel art, "
-    "solid color background, centered composition, full body shot, "
+    "bright green background, #00FF00 green screen background, centered composition, full body shot, "
     "character centered in frame, HD-2D inspired, crisp pixel edges, "
     "single character portrait, character design, isolated figure"
 )
+
+# Chroma key color for background removal (bright green = green screen)
+CHROMA_KEY = (0, 255, 0)
 
 GEN_WIDTH = 576
 GEN_HEIGHT = 768
 
 
+NEGATIVE_BG = "white background, gray background, grey background, beige background, gradient background"
+
 def make_workflow(subject_prompt: str, negative_prompt: str, direction_prompt: str,
                   seed: int, filename_prefix: str) -> dict:
     """Stack A v2: JuggernautXL + pixel-art-xl @ 0.85, portrait aspect."""
+    # Enforce green screen in negative prompt
+    full_negative = f"{negative_prompt}, {NEGATIVE_BG}" if negative_prompt else NEGATIVE_BG
     return {
         "1": {
             "class_type": "CheckpointLoaderSimple",
@@ -72,7 +79,7 @@ def make_workflow(subject_prompt: str, negative_prompt: str, direction_prompt: s
         },
         "4": {
             "class_type": "CLIPTextEncode",
-            "inputs": {"clip": ["2", 1], "text": negative_prompt},
+            "inputs": {"clip": ["2", 1], "text": full_negative},
         },
         "5": {
             "class_type": "EmptyLatentImage",
@@ -126,13 +133,35 @@ def get_image(filename, subfolder=""):
 
 
 def remove_bg(img, tolerance=35):
+    """Remove background using chroma key (green screen) or corner-color fallback.
+
+    Primary: match bright green (#00FF00) chroma key — clean, deterministic.
+    Fallback: if corners aren't green, use corner-color matching (legacy behavior).
+    """
     arr = np.array(img.convert("RGBA")).copy()
     h, w = arr.shape[:2]
+
+    # Check if corners are green (chroma key generation worked)
     corners = [arr[0, 0, :3], arr[0, w-1, :3], arr[h-1, 0, :3], arr[h-1, w-1, :3]]
-    bg_color = np.mean(corners, axis=0).astype(np.float32)
-    rgb = arr[:, :, :3].astype(np.float32)
-    diff = np.sqrt(np.sum((rgb - bg_color) ** 2, axis=2))
-    arr[diff < tolerance, 3] = 0
+    avg_corner = np.mean(corners, axis=0)
+    is_green_screen = avg_corner[1] > 200 and avg_corner[0] < 100 and avg_corner[2] < 100
+
+    if is_green_screen:
+        # Chroma key removal — remove pixels where green channel dominates
+        rgb = arr[:, :, :3].astype(np.float32)
+        green_dominant = (rgb[:, :, 1] > 150) & (rgb[:, :, 1] > rgb[:, :, 0] + 50) & (rgb[:, :, 1] > rgb[:, :, 2] + 50)
+        arr[green_dominant, 3] = 0
+        # Also handle green fringe on edges — reduce alpha for semi-green pixels
+        green_ratio = rgb[:, :, 1] / (rgb[:, :, 0] + rgb[:, :, 2] + 1)
+        fringe = (green_ratio > 0.8) & (~green_dominant)
+        arr[fringe, 3] = (arr[fringe, 3] * 0.5).astype(np.uint8)
+    else:
+        # Fallback: corner-color removal (for sprites not generated with green screen)
+        bg_color = avg_corner.astype(np.float32)
+        rgb = arr[:, :, :3].astype(np.float32)
+        diff = np.sqrt(np.sum((rgb - bg_color) ** 2, axis=2))
+        arr[diff < tolerance, 3] = 0
+
     return Image.fromarray(arr)
 
 

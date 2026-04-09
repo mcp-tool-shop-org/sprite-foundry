@@ -1,0 +1,7 @@
+{
+  "subject_id": "h3d_spear_lancer",
+  "display_name": "Spear Lancer",
+  "seed": 42,
+  "subject_prompt": "an armored lancer holding a long spear upright, round shield with lion emblem, chainmail over leather armor, blue and silver color scheme",
+  "negative_prompt": "cute, chibi, cartoon, unarmed, bare-handed"
+}

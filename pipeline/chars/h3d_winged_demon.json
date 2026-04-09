@@ -1,0 +1,9 @@
+{
+  "subject_id": "h3d_winged_demon",
+  "display_name": "Winged Demon",
+  "seed": 42,
+  "subject_prompt": "a demonic humanoid with large bat wings spread wide, curved horns, whip-like tail, muscular red and black skin, clawed hands",
+  "negative_prompt": "cute, chibi, cartoon, angel, feathered wings",
+  "gen_width": 2048,
+  "gen_height": 1024
+}

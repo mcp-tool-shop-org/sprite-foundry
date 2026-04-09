@@ -1,0 +1,7 @@
+{
+  "subject_id": "h3d_knight_battleaxe",
+  "display_name": "Knight - Battleaxe",
+  "seed": 42,
+  "subject_prompt": "a dark armored knight wielding a large double-headed battleaxe, full plate armor, menacing red visor, heavy pauldrons, dark steel with gold trim, axe resting on shoulder",
+  "negative_prompt": "cute, chibi, cartoon, thin, simple, unarmed, sword"
+}

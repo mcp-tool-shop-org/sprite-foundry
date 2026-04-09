@@ -1,0 +1,9 @@
+{
+  "subject_id": "h3d_dire_wolf",
+  "display_name": "Dire Wolf",
+  "seed": 42,
+  "subject_prompt": "a large dire wolf, thick fur, scarred muzzle, glowing amber eyes, muscular build, dark grey coat with lighter underbelly, full body side view",
+  "negative_prompt": "cute, chibi, cartoon, small, puppy, domestic, human, humanoid",
+  "gen_width": 2048,
+  "gen_height": 1024
+}

@@ -1,0 +1,7 @@
+{
+  "subject_id": "h3d_moth_shaman",
+  "display_name": "Moth Shaman",
+  "seed": 42,
+  "subject_prompt": "a moth-person shaman, large feathery antennae, patterned moth wings with eyespot markings, robed lower body, gnarled staff with hanging charms, soft brown and cream palette",
+  "negative_prompt": "cute, chibi, cartoon, butterfly, colorful, neon"
+}

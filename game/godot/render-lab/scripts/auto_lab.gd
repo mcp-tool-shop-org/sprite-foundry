@@ -1,6 +1,6 @@
 extends Node2D
 
-## Phase 3 Finish Capture — zombie_elite
+## Phase 3 Finish Capture — pirate_navigator
 ## 2 directions x 4 states
 
 const DIRECTIONS := ["right", "front_right"]
@@ -30,8 +30,8 @@ func _ready() -> void:
 	_build_scene()
 
 	for dir_name in DIRECTIONS:
-		albedo_textures[dir_name] = load("res://assets/zombie_elite_sprites/%s.png" % dir_name)
-		normal_textures[dir_name] = load("res://assets/zombie_elite_normals/%s_normal.png" % dir_name)
+		albedo_textures[dir_name] = load("res://assets/pirate_navigator_sprites/%s.png" % dir_name)
+		normal_textures[dir_name] = load("res://assets/pirate_navigator_normals/%s_normal.png" % dir_name)
 
 		var ct := CanvasTexture.new()
 		ct.diffuse_texture = albedo_textures[dir_name]
@@ -211,7 +211,7 @@ func _process(_delta: float) -> void:
 	var state_name: String = STATES[current_state_idx]
 
 	var img := get_viewport().get_texture().get_image()
-	var path := "res://screenshots/zombie_elite_%s_%s.png" % [dir_name, state_name]
+	var path := "res://screenshots/pirate_navigator_%s_%s.png" % [dir_name, state_name]
 	img.save_png(path)
 	captures_done += 1
 	print("[%d/%d] Captured: %s" % [captures_done, total_captures, path])

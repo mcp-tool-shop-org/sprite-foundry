@@ -1,0 +1,7 @@
+{
+  "subject_id": "h3d_knight_bow",
+  "display_name": "Knight - Longbow",
+  "seed": 42,
+  "subject_prompt": "a dark armored knight holding a large longbow, quiver of arrows on back, lighter plate armor, menacing red visor, dark steel with gold trim, bow held at side",
+  "negative_prompt": "cute, chibi, cartoon, thin, simple, unarmed, sword, melee"
+}

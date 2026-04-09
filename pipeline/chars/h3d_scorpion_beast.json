@@ -1,0 +1,9 @@
+{
+  "subject_id": "h3d_scorpion_beast",
+  "display_name": "Scorpion Beast",
+  "seed": 42,
+  "subject_prompt": "a giant scorpion, chitinous dark brown armor plates, raised segmented tail with glowing green stinger, large pincers, eight legs, desert coloring",
+  "negative_prompt": "cute, chibi, cartoon, small, realistic photo",
+  "gen_width": 2048,
+  "gen_height": 1024
+}

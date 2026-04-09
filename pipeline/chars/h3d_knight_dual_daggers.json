@@ -1,0 +1,7 @@
+{
+  "subject_id": "h3d_knight_dual_daggers",
+  "display_name": "Knight - Dual Daggers",
+  "seed": 42,
+  "subject_prompt": "a dark armored knight holding two curved daggers, lighter plate armor with leather straps, menacing red visor, dark steel with gold trim, daggers held in reverse grip",
+  "negative_prompt": "cute, chibi, cartoon, thin, simple, unarmed, sword, shield, heavy"
+}
