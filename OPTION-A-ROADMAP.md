@@ -59,45 +59,51 @@ The ComfyUI built-in `StableZero123_Conditioning` node has a compatibility bug w
 
 **Estimated effort**: 1 session
 
-### Phase 2: Multi-Reference Attention Fusion
+### Phase 2: Attention-Level Fusion (Option A from Multi-View Extension doc)
 
-**Goal**: Modify the cross-attention to accept N reference images.
+**Goal**: Modify the UNet's cross-attention to attend to multiple reference embeddings simultaneously, following the IP-Adapter pattern.
 
-**Approach**:
-```
-For each reference image (front, side, back):
-  1. CLIP Vision encode → embedding_i
-  2. Associate with source_pose_i (azimuth, elevation)
+**Architecture**:
 
-For target pose:
-  1. Compute angular_distance(target_pose, source_pose_i) for each reference
-  2. Compute attention_weight_i = softmax(-angular_distance / temperature)
-  3. Weighted combination in cross-attention:
-     - key_combined = sum(weight_i * project_key(embedding_i))
-     - value_combined = sum(weight_i * project_value(embedding_i))
-  4. Or: concatenate all embeddings, let attention learn to weight them
-```
+Encode each seed image separately via CLIP Vision, then modify the UNet so its cross-attention layers attend to ALL reference embeddings at once. Each view contributes features through dedicated cross-attention branches — "decoupled" attention that lets each view inform the generation without retraining the backbone.
 
-**Two sub-approaches**:
+This is the IP-Adapter pattern applied to Zero123:
+- IP-Adapter adds parallel cross-attention branches for image conditioning
+- Each branch has its own key/value projections (decoupled from text cross-attn)
+- We add one branch per reference image, each associated with its source camera pose
+- The UNet attends to all references simultaneously during denoising
 
-**2A: Weighted embedding blend (simpler)**
-- Before cross-attention, blend the N CLIP embeddings using angular weights
-- Feed the blended embedding to the unmodified Zero123 cross-attention
-- Pros: No model modification needed
-- Cons: Loses per-reference detail, just averages
+**Implementation**:
+1. Project each reference image through CLIP-ViT encoder → N embeddings
+2. Associate each embedding with its source pose (azimuth, elevation)
+3. Add extra cross-attention branches to UNet (one per reference, or a joint key-value bank)
+4. At each attention block, the UNet queries against all reference key/values
+5. Angular proximity to target pose can weight each reference's contribution
 
-**2B: Parallel cross-attention branches (IP-Adapter style)**
-- Add N cross-attention branches, one per reference
-- Each branch has its own key/value projection
-- Output is weighted sum of all branches
-- Pros: Preserves per-reference detail
-- Cons: More complex, higher VRAM
+**Two sub-approaches** (try in order):
 
-**Start with 2A** (can be done in one session), **graduate to 2B** if quality insufficient.
+**2A: Concatenated embedding (simpler)**
+- Concatenate all N CLIP embeddings into one long token sequence
+- Feed to unmodified cross-attention (treats multi-view as one long "prompt")
+- Pros: Minimal code change, no new attention layers
+- Cons: No explicit pose-awareness, model must figure out which tokens matter
 
-**Files**: `pipeline/zero123_multiview.py`, `pipeline/attention_fusion.py`
+**2B: Parallel cross-attention branches (full IP-Adapter style)**
+- Add N dedicated cross-attention branches to the UNet
+- Each branch projects its reference embedding with its own key/value weights
+- Output is combined (sum/weighted average) based on angular distance to target
+- Pros: Preserves per-reference detail, pose-aware weighting
+- Cons: More complex, higher VRAM, requires modifying model definition
+
+**Start with 2A** to prove multi-reference conditioning helps at all. **Graduate to 2B** if 2A produces mush from averaging.
+
+**Key reference**: IP-Adapter uses separate cross-attn layers so the model learns image-specific cues without interfering with text conditioning. Apply the same principle here — separate branches let each view contribute independently.
+
+**Files**: `pipeline/attention_fusion.py`, `pipeline/zero123_multiview.py`
 
 **Estimated effort**: 2A = 1 session, 2B = 2-3 sessions
+
+**Tradeoffs**: Architecturally complex but avoids retraining. Quality gain uncertain — if seeds are harmonious (different angles of same character), this should enrich detail. The model's prior may override conflicting cues, but for our use case (front/side/back of same character), the seeds should be highly compatible.
 
 ### Phase 3: Integration with Sprite Foundry
 
