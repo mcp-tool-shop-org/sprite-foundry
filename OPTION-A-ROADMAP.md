@@ -1,6 +1,58 @@
-# Option A: Multi-View Zero123 via Attention Fusion
+# Sprite Multi-View Pipeline Roadmap
 
-## Goal
+> **Status (2026-04-09):** Hunyuan3D-2mv evaluation PASSED. Shape + texture generation works on RTX 5080 16GB VRAM (10.3GB peak). Option A (Zero123 attention fusion) deprioritized in favor of the Hunyuan3D path. See "Evaluation Results" section below.
+
+## Active Path: Hunyuan3D-2mv → 3D Mesh → 8-Angle Render
+
+### Proven Pipeline (2026-04-09)
+
+```
+CharTurn LoRA (txt2img) → turnaround sheet (2048x1024)
+    ↓
+Crop front/side/back → 512x512 white BG
+    ↓
+Hunyuan3D-2mv-turbo shape gen → GLB mesh (4.9 GB VRAM, 44s)
+    ↓
+Hunyuan3D Paint-v2-0-turbo → textured GLB (10.3 GB VRAM, 65s)
+    ↓
+Pyrender orthographic render × 8 angles → 512x512 RGBA
+    ↓
+BG removal + downsample to 48px → mechanical gates → foundry DB
+```
+
+### Evaluation Results
+
+| Metric | Shape Only | With Texture |
+|---|---|---|
+| Generation time | 44s | 65s |
+| VRAM peak | 4.9 GB | 10.3 GB |
+| File size | 3.0 MB GLB | 7.8 MB GLB |
+| Mesh | 86K vertices, 173K faces | 126K vertices, 173K faces |
+| Quality | Correct silhouette all angles | Color identity preserved (blue robe, gold trim, pendant) |
+
+### Remaining Work
+
+1. **Camera zoom** — occupancy 8-12%, needs 40-60% for game sprites
+2. **Ground plane cleanup** — artifact at mesh base
+3. **Texture rendering** — vertex-color bake loses sharpness; need proper texture rendering (PyOpenGL bug blocks glGenTextures)
+4. **48px downsample** — final sprite quality untested
+5. **Foundry integration** — wire into `foundry_gen_multiview.py`, register in DB, run mechanical gates
+6. **Batch generation** — automate for multiple characters
+
+### Installation Notes (F: drive)
+
+- WinPortable: `F:/AI-Models/Hunyuan3D-2/Hunyuan3D2_WinPortable/`
+- CUDA 12.9 toolkit: `F:/CUDA/v12.9/` (extracted, patched host_config.h for VS 2024)
+- Compile extensions: `CUDA_HOME=F:/CUDA/v12.9 pip install diso` + custom_rasterizer + differentiable_renderer
+- Run with: `F:/AI-Models/Hunyuan3D-2/Hunyuan3D2_WinPortable/python_standalone/python.exe`
+
+---
+
+## Deprioritized: Option A (Zero123 Attention Fusion)
+
+> Kept as reference. The Hunyuan3D path is more practical, but Option A remains viable if 3D mesh quality proves insufficient for certain character types (thin features, complex silhouettes).
+
+### Original Goal
 
 Extend Zero123 (Stable Diffusion fine-tuned for 3D view synthesis) to accept multiple reference images (front, side, back) instead of one. The model generates novel views that consistently integrate details from all seed images.
 
