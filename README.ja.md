@@ -7,18 +7,20 @@
 </p>
 
 <p align="center">
-  <strong>Headless sprite generation pipeline for Star Freight</strong>
+  <strong>Headless, canon-bound sprite pipeline — 8-direction pixel-art packs for 2.5D RPGs</strong>
 </p>
 
 <p align="center">
   <a href="https://github.com/mcp-tool-shop-org/sprite-foundry/actions/workflows/ci.yml"><img src="https://github.com/mcp-tool-shop-org/sprite-foundry/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a>
-  <a href="https://mcp-tool-shop.github.io/sprite-foundry/"><img src="https://img.shields.io/badge/docs-handbook-blue" alt="Handbook"></a>
+  <a href="https://mcp-tool-shop-org.github.io/sprite-foundry/"><img src="https://img.shields.io/badge/docs-handbook-blue" alt="Handbook"></a>
 </p>
 
 ---
 
-Sprite Foundryは、ローカル環境でのみ動作するアセット生成パイプラインで、8方向のピクセルスプライトを生成し、ノーマルマップと深度マップを作成し、エクスポートします。このシステムは、ControlNetによる形態制御（8種類のボディクラス）、SQLiteによるライフサイクル管理、およびGodot 4.6によるfinish-labのライティング検証をComfyUIで実行し、すべてが単一のコマンドラインインターフェースから制御されます。
+Sprite Foundryは、ローカル環境でのみ動作するアセットパイプラインであり、ノーマルマップと深度マップを持つ8方向のピクセルスプライトを生成、レビュー、エクスポートします。ControlNetによる形態制御（8種類のボディクラス）、ライフサイクル追跡のためのSQLite、最終的なレンダリング検証のためのGodot 4.6を利用し、これらはすべて単一のCLIから制御されます。
+
+このファクトリーで生成されるスプライトパックは、[sprite-foundry-packs](https://github.com/mcp-tool-shop-org/sprite-foundry-packs)というモノリポジトリを通じて、`@sprite-foundry`のスコープの下でnpmに公開されます。このリポジトリがファクトリーであり、別のリポジトリがストアフロントです。
 
 ## アーキテクチャ
 
@@ -42,36 +44,36 @@ Subject Sheet ──► ComfyUI Generation ──► Mechanical Gates
                                       (manifest + checksums)
 ```
 
-## 登場人物リスト
+## ロースター
 
-12のカテゴリに分かれた、合計92種類のプロダクション向けエクスポートパック。
+12のレーンにまたがる92個のエクスポートパック：
 
-| キャラクター | 数 | 対象 |
+| レーン | 数 | 対象 |
 |------|-------|----------|
-| ビースト | 16 | Bell Warden, Bone Weaver, Clock Golem, Grinning Idol, Hive Keeper, Hollow Knight, Ink Shade, Lantern Angler, Mirror Stalker, Mud Revenant, Rat King, Root Puppet, Spore Mother, Teeth Collector, Throat Singer, Wyvern |
-| タウンズフォーク（町の人々） | 16 | Barmaid, Beggar, Blacksmith, Child, Elder, Farmer, Fisherman, Guard, Herbalist, Innkeeper, Lamplighter, Merchant, Minstrel, Noble, Scribe, Stable Hand |
-| ゴブリン | 8 | Archer, Bomber, Brute, Grunt, Scout, Shaman, Warchief, Wolf Rider |
-| ヒーロー | 8 | Barbarian, Cleric, Fighter, Mage, Monk, Paladin, Ranger, Rogue |
-| 海賊 | 8 | Captain, Cutthroat, Drowned, Governor, Navy Sailor, Pistoleer, Quartermaster, Sea Priest |
-| ヴィラン（悪役） | 8 | Assassin, Blackguard, Cult Priest, Dark Monk, Dread Ranger, Necromancer, Reaver, Warlord |
-| ゾンビ | 8 | Bloater, Elite, Hazmat, Riot, Runner, Shambler, Skeletal, Worker |
-| クリーチャー | 6 | カーゴビースト、ドリフトマウ、スキッタードローン、ドリフトラーカー、ボイドラプター、ケス・ヒーラー・ドローン |
-| クルー | 7 | セラ・ヴェール、イレン・マール、タル、タル（ハザードスーツ）、ヴァレク、カエル・モロウ、ハルダイバー |
-| 敵 | 3 | スカベンジャー・レイダー、リーチ・パイレート、コンパクト・インターディクション・エージェント |
-| 権力者 | 2 | コンパクト・パトロール・オフィサー、ヴェシャン・ハウス・エ Envoy |
-| 一般市民 | 2 | ネラ・クイル、オリーン・ブローカー |
+| 獣 | 16 | ベルワーデン、ボーンウィーバー、クロックゴーレム、グリニングアイドル、ハイブキーパー、ホローナイト、インクシェード、ランタンアングラー、ミラーストーカー、マッドレヴェナント、ラットキング、ルートパペット、スポア・マザー、ティースコレクター、スロートシンガー、ワイバーン |
+| 町人 | 16 | バーメイド、物乞い、鍛冶屋、子供、長老、農民、漁師、警備兵、薬草医、宿屋の主人、灯台守、商人、吟遊詩人、貴族、書記、馬丁 |
+| ゴブリン | 8 | アーチャー、ボンバー、ブルート、グルント、スカウト、シャーマン、ウォーチーフ、ウルフライダー |
+| ヒーロー | 8 | バーバリアン、クレリック、ファイター、メイジ、モンク、パラディン、レンジャー、ローグ |
+| 海賊 | 8 | キャプテン、カットスロート、ドラウンド、ガバナー、ネイビーセーラー、ピストラー、クォーターマスター、シー・プリースト |
+| 悪役 | 8 | アサシン、ブラックガード、カルトプリースト、ダークモンク、ドレッドレンジャー、ネクロマンサー、リーバー、ウォーロード |
+| ゾンビ | 8 | ブロウター、エリート、ハズマット、ライオット、ランナー、シャンブラー、スケレタル、ワーカー |
+| クリーチャー | 6 | カーゴビースト、ドリフトモウ、スキッター・ドローン、ドリフト・ラーカー、ボイドラプター、ケス・ヒーラー・ドローン |
+| クルー | 7 | セーラ・ヴェール、イレン・マー、サール、サール（ハザードスーツ）、ヴァレク、ケイル・モロー、ハルダイバー |
+| 敵対者 | 3 | スカブレイダー、リーチパイレート、コンパクトインターディクションエージェント |
+| 権威 | 2 | コンパクトパトロールオフィサー、ヴェシャンハウスエンヴォイ |
+| 民間人 | 2 | ネラ・クイル、オーリン・ブローカー |
 
-## モンスターカテゴリ
+## モンスターレーン
 
-非ヒト型生物は、標準的なヒト型スケルトンではなく、ボディクラス固有のControlNet深度ガイドを使用します。各ボディクラスには、独自の深度参照シルエット、ControlNetの強度、およびタイミングパラメータが設定されています。
+非人間型のクリーチャーは、標準の人間型スケルトンの代わりに、ボディクラス固有のControlNet深度ガイドを使用します。各ボディクラスには、独自の深度参照シルエット、ControlNetの強度、およびタイミングパラメータがあります。
 
-| ボディクラス | 深度強度 | 終了割合 | クリーチャー |
+| ボディクラス | 深度強度 | 終了% | クリーチャー |
 |------------|---------------|-------|-----------|
-| 不定形 | 0.35 | 65% | Rat King, Spore Mother, Mud Revenant |
-| ワイド/スクワット | 0.40 | 70% | Grinning Idol |
-| タール/スリム | 0.40 | 70% | Lantern Angler, Root Puppet |
+| 不定形 | 0.35 | 65% | ラットキング、スポア・マザー、マッドレヴェナント |
+| 幅広/低い | 0.40 | 70% | グリニングアイドル |
+| 背が高い/細い | 0.40 | 70% | ランタンアングラー、ルートパペット |
 
-深度ガイドは、関節がなく、質量と向きが固定された単純な形状（ブロブ、柱、円柱など）であり、スケルトンや四肢の位置を決定しません。キャラクター設定における`body_class`フィールドは、適切なプリセットを自動的に選択します。
+深度ガイドは、関節を持たないプリミティブ（塊、柱）であり、スケルトンや四肢の配置を決定することなく、質量と方向を固定します。キャラクター設定内の`body_class`フィールドは、適切なプリセットを自動的に選択します。
 
 ```bash
 # Body class auto-resolved from config
@@ -81,7 +83,7 @@ python -m pipeline.foundry_gen_morph --config pipeline/chars/beast_rat_king.json
 python -m pipeline.foundry_gen_morph --config pipeline/chars/beast_rat_king.json --body-class tall_thin
 ```
 
-## エクスポート契約 v1.0.0 (固定)
+## エクスポート契約 v1.0.0（固定）
 
 ```
 exports/{subject_slug}/{run_id}/
@@ -92,16 +94,16 @@ exports/{subject_slug}/{run_id}/
 └── manifest.json  (schema v1.0.0, SHA-256 checksums, provenance)
 ```
 
-- 8方向：正面、左正面、左、左背面、背面、右背面、右、右正面
-- 48x48ピクセルの透過PNG、中心下を原点
-- 読み込み前に、クライアントは`schema_version: "1.0.0"`を検証します。
+- 8方向：正面、前方左、左、後方左、後方、後方右、右、前方右
+- 48×48の透明PNG、中心下をピボットとする
+- コンシューマーは、読み込み前に`schema_version: "1.0.0"`を検証する
 
 ## 前提条件
 
-- Python 3.11以上
-- ローカルで動作している[ComfyUI](https://github.com/comfyanonymous/ComfyUI) (生成用)
-- Godot 4.6 (finish labレンダリング用)
-- NVIDIA GPU推奨 (RTX 5080 / 16 GB VRAMで検証済み)
+- Python 3.11+
+- ローカルで実行されている[ComfyUI](https://github.com/comfyanonymous/ComfyUI)（生成用）
+- Godot 4.6（最終レンダリング用）
+- NVIDIA GPUを推奨（RTX 5090 / 32 GB でテスト済み。最低16 GB）
 
 ## クイックスタート
 
@@ -114,7 +116,7 @@ cd sprite-foundry
 python -m foundry init
 
 # Register a subject
-python -m foundry subject-add sera_vale "Sera Vale" --role crew --consumer star-freight
+python -m foundry subject-add sera_vale "Sera Vale" --role crew --consumer my-game
 
 # Check the full pipeline status
 python -m foundry status
@@ -124,38 +126,38 @@ python -m foundry status
 
 | コマンド | 説明 |
 |---------|-------------|
-| `init` | SQLiteレジストリを初期化します。 |
-| `subject-add` | 新しいキャラクターを登録します。 |
-| `register-run` | ComfyUIによる生成ジョブを記録します。 |
-| `register-attempt` | ジョブ内の一連の試行を記録します。 |
-| `check` | 機械的な検証を実行します。 |
-| `review-show` | ジョブのレビューキューを表示します。 |
-| `review-accept` | 現在のレビュー段階での試行を承認します。 |
-| `review-reject` | 拒否コードを使用して試行を拒否します。 |
-| `batch-accept` | ジョブ内の保留中のすべての試行を承認します。 |
-| `batch-reject` | ジョブ内の保留中のすべての試行を、1つのコードで拒否します。 |
-| `regen` | 拒否された試行の再生成をキューに入れます。 |
-| `attempt-detail` | 特定の試行のライフサイクル全体を表示します。 |
-| `finish-board` | finish-labの比較ボードを生成します。 |
-| `status` | パイプラインの状態の概要を表示します。 |
-| `story` | 特定の対象に関する完全なトレーサビリティ情報を表示します。 |
-| `lineage` | 試行の再生成チェーンを表示します。 |
-| `winner` | 各方向の最適な結果を表示します。 |
-| `drift` | 失敗パターン分析と合格率を表示します。 |
-| `metrics` | スループットの指標 (ジョブごとまたは全体) を表示します。 |
-| `produce` | 1つのコマンドで、承認されたジョブのマップとfinishキャプチャを取得します。 |
-| `export` | 承認されたジョブを、決定論的なアセットパックとしてエクスポートします。 |
+| `init` | ファクトリーのSQLiteレジストリを初期化する |
+| `subject-add` | 新しいキャラクターの対象を登録する |
+| `register-run` | ComfyUIの生成実行を記録する |
+| `register-attempt` | 実行内の個々の試行を記録する |
+| `check` | 機械的な検証ゲートを実行する |
+| `review-show` | 実行のレビューキューを表示する |
+| `review-accept` | 現在のレビュー段階での試行を受け入れる |
+| `review-reject` | 拒否コードを使用して試行を拒否する |
+| `batch-accept` | 実行内の保留中のすべての試行を受け入れる |
+| `batch-reject` | 1つのコードで実行内の保留中のすべてを拒否する |
+| `regen` | 拒否された試行の再生成をキューに入れる |
+| `attempt-detail` | 1つの試行の完全なライフサイクルを表示する |
+| `finish-board` | 最終レンダリング比較ボードを生成する |
+| `status` | パイプラインステータスの概要 |
+| `story` | 対象の完全な来歴 |
+| `lineage` | 試行の再生成チェーン |
+| `winner` | 方向ごとの正準的な勝者 |
+| `drift` | 失敗パターン分析と合格率 |
+| `metrics` | スループットメトリック（実行ごとまたはファクトリー全体） |
+| `produce` | 1つのコマンド：受け入れられた実行のマップと最終レンダリングキャプチャ |
+| `export` | 最終的に受け入れられた実行を、決定的なアセットパックとしてエクスポートする |
 
 ## 脅威モデル
 
-Sprite Foundryは、**ローカル開発ツール**です。以下の機能はありません。
+Sprite Foundryは**ローカル開発ツール**です。以下の機能はありません。
 
-- ネットワークへのアクセス (ComfyUIはlocalhostで動作)
-- シークレット、トークン、または認証情報の処理
-- テレメトリーの収集または送信
-- 自身の作業ディレクトリ以外の場所に書き込み
+- ネットワークにアクセスする（ComfyUIはlocalhostで実行される）
+- シークレット、トークン、または認証情報を処理する
+- テレメトリーを収集または送信する
+- 独自の作業ディレクトリ外に書き込む
 
-ファイル操作は、`exports/`、`bakeoff/`、`boards/`、`derived/`、およびSQLiteレジストリに限定されます。サブプロセス呼び出しは、ComfyUIのローカルAPIとGodotのヘッドレスレンダリングに限定されます。
+ファイル操作は、`exports/`、`bakeoff/`、`boards/`、`derived/`、およびSQLiteレジストリに限定されます。サブプロセス呼び出しは、ComfyUIのローカルAPIとGodotヘッドレスレンダリングに制限されます。
 
 ## ライセンス
 

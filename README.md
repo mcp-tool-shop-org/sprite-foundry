@@ -7,18 +7,20 @@
 </p>
 
 <p align="center">
-  <strong>Headless sprite generation pipeline for Star Freight</strong>
+  <strong>Headless, canon-bound sprite pipeline — 8-direction pixel-art packs for 2.5D RPGs</strong>
 </p>
 
 <p align="center">
   <a href="https://github.com/mcp-tool-shop-org/sprite-foundry/actions/workflows/ci.yml"><img src="https://github.com/mcp-tool-shop-org/sprite-foundry/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a>
-  <a href="https://mcp-tool-shop.github.io/sprite-foundry/"><img src="https://img.shields.io/badge/docs-handbook-blue" alt="Handbook"></a>
+  <a href="https://mcp-tool-shop-org.github.io/sprite-foundry/"><img src="https://img.shields.io/badge/docs-handbook-blue" alt="Handbook"></a>
 </p>
 
 ---
 
 Sprite Foundry is a local-only asset pipeline that generates, reviews, and exports 8-direction pixel sprites with normal and depth maps. It drives ComfyUI for generation with ControlNet morphology control (8 body classes), SQLite for lifecycle tracking, and Godot 4.6 for finish-lab lighting verification — all controlled from a single CLI.
+
+> **The sprite packs this factory produces are published to npm** under the `@sprite-foundry` scope, from the [sprite-foundry-packs](https://github.com/mcp-tool-shop-org/sprite-foundry-packs) monorepo. This repo is the factory; that repo is the storefront.
 
 ## Architecture
 
@@ -101,7 +103,7 @@ exports/{subject_slug}/{run_id}/
 - Python 3.11+
 - [ComfyUI](https://github.com/comfyanonymous/ComfyUI) running locally (for generation)
 - Godot 4.6 (for finish lab rendering)
-- NVIDIA GPU recommended (RTX 5080 / 16 GB VRAM tested)
+- NVIDIA GPU recommended (RTX 5090 / 32 GB tested; 16 GB minimum)
 
 ## Quick Start
 
@@ -114,7 +116,7 @@ cd sprite-foundry
 python -m foundry init
 
 # Register a subject
-python -m foundry subject-add sera_vale "Sera Vale" --role crew --consumer star-freight
+python -m foundry subject-add sera_vale "Sera Vale" --role crew --consumer my-game
 
 # Check the full pipeline status
 python -m foundry status

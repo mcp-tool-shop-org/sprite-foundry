@@ -11,11 +11,13 @@ Usage:
 
 import argparse
 import json
+import os
 import subprocess
 import sys
 import time
 from datetime import datetime, timezone
 from pathlib import Path
+from urllib.error import URLError, HTTPError
 from urllib.request import urlopen, Request
 
 from PIL import Image, ImageDraw, ImageFont
@@ -25,6 +27,9 @@ COMFY_URL = "http://127.0.0.1:8188"
 FOUNDRY_ROOT = Path(__file__).parent.parent
 SPRITE_TARGET = 48
 MORPH_REFS_DIR = FOUNDRY_ROOT / "pipeline" / "morph_refs"
+
+# HTTP timeouts for all ComfyUI calls (seconds) — a dead server fails fast (F-007).
+HTTP_TIMEOUT = 30
 
 # Body class presets — auto-select depth refs + ControlNet params
 BODY_CLASS_PRESETS = {
@@ -93,15 +98,25 @@ DIRECTIONS = [
     ("front_right", "facing front-right, 3/4 view from the right, looking slightly right"),
 ]
 
+# Green-screen suffix (matches foundry_gen.py) so the deterministic chroma-key
+# path in remove_bg() is used instead of the fragile corner-color match (F-009).
 STYLE_SUFFIX = (
     "pixel art sprite, game character sprite, 2D RPG, clean pixel art, "
-    "solid color background, centered composition, full body shot, "
+    "bright green background, #00FF00 green screen background, centered composition, full body shot, "
     "character centered in frame, HD-2D inspired, crisp pixel edges, "
     "single character portrait, character design, isolated figure"
 )
 
-GEN_WIDTH = 576
-GEN_HEIGHT = 768
+# Appended to every negative prompt so the model avoids non-green backgrounds (F-009).
+NEGATIVE_BG = "white background, gray background, grey background, beige background, gradient background"
+
+# Generation canvas + batch size. Defaults preserve current output (576x768,
+# batch_size=1) and were tuned for the old RTX 5080 (16 GB). The rig is now an
+# RTX 5090 (32 GB) with headroom to raise SPRITE_FOUNDRY_BATCH_SIZE. Override via
+# env without changing the committed defaults (F-005).
+GEN_WIDTH = int(os.environ.get("SPRITE_FOUNDRY_GEN_WIDTH", "576"))
+GEN_HEIGHT = int(os.environ.get("SPRITE_FOUNDRY_GEN_HEIGHT", "768"))
+BATCH_SIZE = int(os.environ.get("SPRITE_FOUNDRY_BATCH_SIZE", "1"))
 
 CONTROLNET_MODEL = "controlnet-depth-sdxl-1.0.safetensors"
 CONTROLNET_STRENGTH = 0.55  # enough to constrain shape, not enough to kill detail
@@ -115,6 +130,8 @@ def make_workflow_morph(subject_prompt: str, negative_prompt: str, direction_pro
                         edge_strength: float = 0.45,
                         edge_end_percent: float = 0.85) -> dict:
     """Stack A v2 + ControlNet Depth (+ optional Canny edge): morphology-constrained generation."""
+    # Append anti-background terms so the green-screen suffix is reinforced (F-009).
+    full_negative = f"{negative_prompt}, {NEGATIVE_BG}" if negative_prompt else NEGATIVE_BG
     workflow = {
         "1": {
             "class_type": "CheckpointLoaderSimple",
@@ -137,11 +154,11 @@ def make_workflow_morph(subject_prompt: str, negative_prompt: str, direction_pro
         },
         "4": {
             "class_type": "CLIPTextEncode",
-            "inputs": {"clip": ["2", 1], "text": negative_prompt},
+            "inputs": {"clip": ["2", 1], "text": full_negative},
         },
         "5": {
             "class_type": "EmptyLatentImage",
-            "inputs": {"width": GEN_WIDTH, "height": GEN_HEIGHT, "batch_size": 1},
+            "inputs": {"width": GEN_WIDTH, "height": GEN_HEIGHT, "batch_size": BATCH_SIZE},
         },
         # ControlNet Depth branch
         "10": {
@@ -218,21 +235,55 @@ def make_workflow_morph(subject_prompt: str, negative_prompt: str, direction_pro
     return workflow
 
 
+def check_comfy_reachable():
+    """Fail fast if ComfyUI is not reachable, before queueing 8 directions (F-007)."""
+    try:
+        with urlopen(f"{COMFY_URL}/system_stats", timeout=HTTP_TIMEOUT) as resp:
+            resp.read()
+    except (URLError, HTTPError, OSError) as e:
+        raise RuntimeError(
+            f"ComfyUI not reachable at {COMFY_URL} ({e}). "
+            f"Start ComfyUI (default 127.0.0.1:8188) and retry."
+        ) from e
+
+
 def queue_prompt(workflow):
     data = json.dumps({"prompt": workflow}).encode()
     req = Request(f"{COMFY_URL}/prompt", data=data, headers={"Content-Type": "application/json"})
-    with urlopen(req) as resp:
+    with urlopen(req, timeout=HTTP_TIMEOUT) as resp:
         return json.loads(resp.read())
+
+
+def _check_history_status(prompt_id, entry):
+    """Raise RuntimeError if ComfyUI recorded an execution error (F-006)."""
+    status = entry.get("status", {})
+    if status.get("status_str") == "error" or status.get("completed") is False:
+        messages = status.get("messages", [])
+        detail = "; ".join(str(m) for m in messages) if messages else "no detail provided"
+        raise RuntimeError(f"ComfyUI execution error for prompt {prompt_id[:8]}: {detail}")
 
 
 def wait_for_completion(prompt_id, timeout=180):
     start = time.time()
+    connect_failures = 0
     while time.time() - start < timeout:
         try:
-            with urlopen(f"{COMFY_URL}/history/{prompt_id}") as resp:
+            with urlopen(f"{COMFY_URL}/history/{prompt_id}", timeout=HTTP_TIMEOUT) as resp:
                 history = json.loads(resp.read())
+            connect_failures = 0
             if prompt_id in history:
-                return history[prompt_id]
+                entry = history[prompt_id]
+                _check_history_status(prompt_id, entry)
+                return entry
+        except RuntimeError:
+            raise
+        except (URLError, HTTPError, OSError) as e:
+            connect_failures += 1
+            if connect_failures >= 3:
+                raise RuntimeError(
+                    f"ComfyUI became unreachable at {COMFY_URL} while waiting "
+                    f"for prompt {prompt_id[:8]} ({e})."
+                ) from e
         except Exception:
             pass
         time.sleep(3)
@@ -241,7 +292,7 @@ def wait_for_completion(prompt_id, timeout=180):
 
 def get_image(filename, subfolder=""):
     params = f"filename={filename}&subfolder={subfolder}&type=output"
-    with urlopen(f"{COMFY_URL}/view?{params}") as resp:
+    with urlopen(f"{COMFY_URL}/view?{params}", timeout=HTTP_TIMEOUT) as resp:
         return resp.read()
 
 
@@ -266,35 +317,75 @@ def upload_image(filepath: Path) -> str:
         headers={"Content-Type": f"multipart/form-data; boundary={boundary}"},
         method="POST",
     )
-    with urlopen(req) as resp:
+    with urlopen(req, timeout=HTTP_TIMEOUT) as resp:
         result = json.loads(resp.read())
     return result["name"]
 
 
 def remove_bg(img, tolerance=45):
+    """Remove background via chroma key (green screen) or corner-color fallback.
+
+    With the green-screen STYLE_SUFFIX (F-009) morph outputs now have a #00FF00
+    background, so the deterministic chroma-key path fires — far more reliable
+    than the legacy corner-color match, which could punch holes in dark
+    carapaces. The corner-color path is kept as a fallback for non-green inputs.
+    """
     arr = np.array(img.convert("RGBA")).copy()
     h, w = arr.shape[:2]
-    # Sample top corners + bottom corners separately to handle ground planes.
-    # Use top corners as primary bg estimate (sky/empty space).
-    # If top and bottom corners differ significantly, also remove bottom bg.
-    top_corners = np.array([arr[0, 0, :3], arr[0, w-1, :3]], dtype=np.float32)
-    bot_corners = np.array([arr[h-1, 0, :3], arr[h-1, w-1, :3]], dtype=np.float32)
-    top_bg = np.mean(top_corners, axis=0)
-    bot_bg = np.mean(bot_corners, axis=0)
 
-    rgb = arr[:, :, :3].astype(np.float32)
+    corners = [arr[0, 0, :3], arr[0, w-1, :3], arr[h-1, 0, :3], arr[h-1, w-1, :3]]
+    avg_corner = np.mean(corners, axis=0)
+    is_green_screen = avg_corner[1] > 200 and avg_corner[0] < 100 and avg_corner[2] < 100
 
-    # Remove pixels close to top bg estimate
-    diff_top = np.sqrt(np.sum((rgb - top_bg) ** 2, axis=2))
-    arr[diff_top < tolerance, 3] = 0
-
-    # If bottom corners differ from top, also remove bottom bg
-    corner_diff = np.sqrt(np.sum((top_bg - bot_bg) ** 2))
-    if corner_diff > 30:
-        diff_bot = np.sqrt(np.sum((rgb - bot_bg) ** 2, axis=2))
-        arr[diff_bot < tolerance, 3] = 0
+    if is_green_screen:
+        rgb = arr[:, :, :3].astype(np.float32)
+        green_dominant = (rgb[:, :, 1] > 150) & (rgb[:, :, 1] > rgb[:, :, 0] + 50) & (rgb[:, :, 1] > rgb[:, :, 2] + 50)
+        arr[green_dominant, 3] = 0
+        green_ratio = rgb[:, :, 1] / (rgb[:, :, 0] + rgb[:, :, 2] + 1)
+        fringe = (green_ratio > 0.8) & (~green_dominant)
+        arr[fringe, 3] = (arr[fringe, 3] * 0.5).astype(np.uint8)
+    else:
+        # Fallback: corner-color removal (top + bottom estimate for ground planes).
+        top_corners = np.array([arr[0, 0, :3], arr[0, w-1, :3]], dtype=np.float32)
+        bot_corners = np.array([arr[h-1, 0, :3], arr[h-1, w-1, :3]], dtype=np.float32)
+        top_bg = np.mean(top_corners, axis=0)
+        bot_bg = np.mean(bot_corners, axis=0)
+        rgb = arr[:, :, :3].astype(np.float32)
+        diff_top = np.sqrt(np.sum((rgb - top_bg) ** 2, axis=2))
+        arr[diff_top < tolerance, 3] = 0
+        corner_diff = np.sqrt(np.sum((top_bg - bot_bg) ** 2))
+        if corner_diff > 30:
+            diff_bot = np.sqrt(np.sum((rgb - bot_bg) ** 2, axis=2))
+            arr[diff_bot < tolerance, 3] = 0
 
     return Image.fromarray(arr)
+
+
+def occupancy_pct(img) -> float:
+    """Fraction of non-transparent pixels in an RGBA sprite (0.0-1.0)."""
+    arr = np.array(img.convert("RGBA"))
+    if arr.size == 0:
+        return 0.0
+    visible = np.sum(arr[:, :, 3] > 0)
+    return visible / (arr.shape[0] * arr.shape[1])
+
+
+def crop_to_square(cleaned):
+    """Content-bounding-box crop + square pad (replaces fixed top=(h-w)//4) (F-018)."""
+    arr = np.array(cleaned.convert("RGBA"))
+    visible = arr[:, :, 3] > 0
+    if not np.any(visible):
+        return cleaned
+    rows = np.any(visible, axis=1)
+    cols = np.any(visible, axis=0)
+    top, bottom = np.where(rows)[0][[0, -1]]
+    left, right = np.where(cols)[0][[0, -1]]
+    cropped = cleaned.crop((left, top, right + 1, bottom + 1))
+    w, h = cropped.size
+    side = max(w, h)
+    square = Image.new("RGBA", (side, side), (0, 0, 0, 0))
+    square.paste(cropped, ((side - w) // 2, (side - h) // 2))
+    return square
 
 
 def foundry_cmd(*args):
@@ -339,6 +430,9 @@ def generate_morph(config: dict, depth_refs_dir: Path,
     print(f"Depth refs: {depth_refs_dir}")
     print(f"Output: {out_dir}")
     print(f"{'=' * 60}\n")
+
+    # Fail fast if ComfyUI is down before uploading refs / queueing directions (F-007).
+    check_comfy_reachable()
 
     # Upload all depth references first
     print("  Uploading depth references...")
@@ -409,20 +503,26 @@ def generate_morph(config: dict, depth_refs_dir: Path,
             raw_img = Image.open(raw_path)
             raw_images[dir_name] = raw_img
 
-            # Remove background + pixelate
+            # Remove background + bounding-box crop (F-018) + pixelate
             cleaned = remove_bg(raw_img.convert("RGBA"))
-            w, h = cleaned.size
-            if h > w:
-                top = (h - w) // 4
-                cleaned = cleaned.crop((0, top, w, top + w))
+            cleaned = crop_to_square(cleaned)
 
             pixel_img = cleaned.resize((SPRITE_TARGET, SPRITE_TARGET), Image.NEAREST)
             pixel_path = out_dir / f"{dir_name}.png"
             pixel_img.save(str(pixel_path))
             pixel_images[dir_name] = pixel_img
 
+            # Occupancy sanity gate: flag a blown background removal that punched
+            # the subject out (near-empty) or left the background in (near-full) (F-009).
+            occ = occupancy_pct(pixel_img)
+            if occ < 0.05:
+                print(f"OK (WARNING: occupancy {occ:.0%} — BG removal may have erased the subject)")
+            elif occ > 0.85:
+                print(f"OK (WARNING: occupancy {occ:.0%} — BG may not have been removed)")
+            else:
+                print("OK")
+
             generated_dirs.append(dir_name)
-            print("OK")
         except Exception as e:
             print(f"EXTRACT FAIL: {e}")
             continue
@@ -467,13 +567,20 @@ def generate_morph(config: dict, depth_refs_dir: Path,
     )
 
     for dir_name in generated_dirs:
-        raw_path = str(out_dir / f"{dir_name}_raw.png")
-        pixel_path = str(out_dir / f"{dir_name}.png")
+        raw_path = out_dir / f"{dir_name}_raw.png"
+        pixel_path = out_dir / f"{dir_name}.png"
+
+        # Don't register a dangling artifact path (F-008).
+        missing = [str(p) for p in (raw_path, pixel_path) if not p.exists()]
+        if missing:
+            print(f"  [{dir_name}] SKIP register-attempt -- missing artifact(s): {', '.join(missing)}")
+            continue
+
         foundry_cmd(
             "register-attempt", run_id, dir_name,
             "--seed", str(seed),
-            "--artifacts", "raw", raw_path,
-            "--artifacts", "pixel", pixel_path,
+            "--artifacts", "raw", str(raw_path),
+            "--artifacts", "pixel", str(pixel_path),
         )
 
     print(f"\n--- Running mechanical gates ---")

@@ -18,7 +18,7 @@ Every character starts as a subject in the SQLite registry. Subjects have:
 - **ID** — slug identifier (e.g., `sera_vale`)
 - **Display name** — human-readable (e.g., "Sera Vale")
 - **Role** — lane classification (crew, creature, hostile, authority, civilian)
-- **Consumer** — which game consumes the output (e.g., `star-freight`)
+- **Consumer** — which game consumes the output (e.g., `my-game`)
 - **Subject sheet** — design spec with pose, palette, and morphology notes
 
 ## 2. ComfyUI generation

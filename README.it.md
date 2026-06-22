@@ -7,18 +7,20 @@
 </p>
 
 <p align="center">
-  <strong>Headless sprite generation pipeline for Star Freight</strong>
+  <strong>Headless, canon-bound sprite pipeline — 8-direction pixel-art packs for 2.5D RPGs</strong>
 </p>
 
 <p align="center">
   <a href="https://github.com/mcp-tool-shop-org/sprite-foundry/actions/workflows/ci.yml"><img src="https://github.com/mcp-tool-shop-org/sprite-foundry/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a>
-  <a href="https://mcp-tool-shop.github.io/sprite-foundry/"><img src="https://img.shields.io/badge/docs-handbook-blue" alt="Handbook"></a>
+  <a href="https://mcp-tool-shop-org.github.io/sprite-foundry/"><img src="https://img.shields.io/badge/docs-handbook-blue" alt="Handbook"></a>
 </p>
 
 ---
 
-Sprite Foundry è un sistema di gestione delle risorse locale che genera, revisiona ed esporta sprite pixelati a 8 direzioni, con normal map e depth map. Utilizza ComfyUI per la generazione, con il controllo morfologico di ControlNet (8 classi di corpi), SQLite per il tracciamento del ciclo di vita e Godot 4.6 per la verifica dell'illuminazione di finish-lab, il tutto controllato da un'unica interfaccia a riga di comando (CLI).
+Sprite Foundry è una pipeline di asset locale che genera, esamina ed esporta sprite pixelati a 8 direzioni con mappe di normali e profondità. Gestisce ComfyUI per la generazione con controllo della morfologia tramite ControlNet (8 classi di corpi), SQLite per il tracciamento del ciclo di vita e Godot 4.6 per la verifica dell'illuminazione nella fase finale, tutto controllato da un'unica interfaccia a riga di comando (CLI).
+
+> **I pacchetti di sprite prodotti da questa fabbrica vengono pubblicati su npm** all'interno dello spazio `@sprite-foundry`, dal monorepository [sprite-foundry-packs](https://github.com/mcp-tool-shop-org/sprite-foundry-packs). Questo repository è la fabbrica; quell'altro repository è il negozio.
 
 ## Architettura
 
@@ -46,14 +48,14 @@ Subject Sheet ──► ComfyUI Generation ──► Mechanical Gates
 
 92 pacchetti di esportazione per la produzione, suddivisi in 12 categorie:
 
-| Categoria | Numero | Soggetti |
+| Categoria | Conteggio | Soggetti |
 |------|-------|----------|
-| Bestie | 16 | Bell Warden, Bone Weaver, Clock Golem, Grinning Idol, Hive Keeper, Hollow Knight, Ink Shade, Lantern Angler, Mirror Stalker, Mud Revenant, Rat King, Root Puppet, Spore Mother, Teeth Collector, Throat Singer, Wyvern |
-| Abitanti | 16 | Barmaid, Beggar, Blacksmith, Child, Elder, Farmer, Fisherman, Guard, Herbalist, Innkeeper, Lamplighter, Merchant, Minstrel, Noble, Scribe, Stable Hand |
+| Bestia | 16 | Bell Warden, Bone Weaver, Clock Golem, Grinning Idol, Hive Keeper, Hollow Knight, Ink Shade, Lantern Angler, Mirror Stalker, Mud Revenant, Rat King, Root Puppet, Spore Mother, Teeth Collector, Throat Singer, Wyvern |
+| Abitanti della città | 16 | Barmaid, Beggar, Blacksmith, Child, Elder, Farmer, Fisherman, Guard, Herbalist, Innkeeper, Lamplighter, Merchant, Minstrel, Noble, Scribe, Stable Hand |
 | Goblin | 8 | Archer, Bomber, Brute, Grunt, Scout, Shaman, Warchief, Wolf Rider |
 | Eroe | 8 | Barbarian, Cleric, Fighter, Mage, Monk, Paladin, Ranger, Rogue |
 | Pirata | 8 | Captain, Cutthroat, Drowned, Governor, Navy Sailor, Pistoleer, Quartermaster, Sea Priest |
-| Antagonista | 8 | Assassin, Blackguard, Cult Priest, Dark Monk, Dread Ranger, Necromancer, Reaver, Warlord |
+| Cattivo | 8 | Assassin, Blackguard, Cult Priest, Dark Monk, Dread Ranger, Necromancer, Reaver, Warlord |
 | Zombie | 8 | Bloater, Elite, Hazmat, Riot, Runner, Shambler, Skeletal, Worker |
 | Creatura | 6 | Cargo Beast, Drift Maw, Skitter Drone, Drift Lurker, Void Raptor, Keth Healer-Drone |
 | Equipaggio | 7 | Sera Vale, Ilen Marr, Thal, Thal (Hazard Suit), Varek, Kael Morrow, Hull Diver |
@@ -61,17 +63,17 @@ Subject Sheet ──► ComfyUI Generation ──► Mechanical Gates
 | Autorità | 2 | Compact Patrol Officer, Veshan House Envoy |
 | Civile | 2 | Nera Quill, Orryn Broker |
 
-## Creature Lane (Categoria Creature)
+## Categoria Mostro
 
-Le creature non umanoidi utilizzano guide di profondità specifiche per la classe di corpo invece dello scheletro umanoide standard. Ogni classe di corpo ha il proprio riferimento di profondità, la forza di ControlNet e i parametri di temporizzazione.
+Le creature non umanoidi utilizzano guide di profondità specifiche per la classe del corpo tramite ControlNet invece dello scheletro umanoide standard. Ogni classe di corpo ha il proprio riferimento di silhouette, l'intensità di ControlNet e i parametri temporali.
 
-| Classe di Corpo | Forza di Profondità | Percentuale Finale | Creature |
+| Classe del Corpo | Intensità della Profondità | Percentuale Finale | Creature |
 |------------|---------------|-------|-----------|
-| Amorphous (Senza forma definita) | 0.35 | 65% | Rat King, Spore Mother, Mud Revenant |
-| Wide/Squat (Ampio/Accovacciato) | 0.40 | 70% | Grinning Idol |
-| Tall/Thin (Alto/Sottile) | 0.40 | 70% | Lantern Angler, Root Puppet |
+| Amorfa | 0.35 | 65% | Rat King, Spore Mother, Mud Revenant |
+| Larga/Tozza | 0.40 | 70% | Grinning Idol |
+| Alta/Sottile | 0.40 | 70% | Lantern Angler, Root Puppet |
 
-Le guide di profondità sono primitive prive di giunture (blob, pilastri, colonne) che fissano la massa e l'orientamento senza definire la posizione dello scheletro o degli arti. Il campo `body_class` nelle configurazioni dei personaggi seleziona automaticamente la configurazione corretta:
+Le guide di profondità sono primitive senza giunti (blob, pilastri, colonne) che fissano la massa e l'orientamento senza dettare il posizionamento dello scheletro o degli arti. Il campo `body_class` nelle configurazioni dei personaggi seleziona automaticamente il preset corretto:
 
 ```bash
 # Body class auto-resolved from config
@@ -92,18 +94,18 @@ exports/{subject_slug}/{run_id}/
 └── manifest.json  (schema v1.0.0, SHA-256 checksums, provenance)
 ```
 
-- 8 direzioni: fronte, fronte_sinistra, sinistra, retro_sinistra, retro, retro_destra, destra, fronte_destra
-- Immagine PNG trasparente 48x48, pivot al centro-inferiore
-- I programmi di consumo validano `schema_version: "1.0.0"` prima del caricamento
+- 8 direzioni: frontale, frontale sinistra, sinistra, posteriore sinistra, posteriore, posteriore destra, destra, frontale destra
+- PNG trasparente 48×48, pivot in basso al centro
+- I consumatori convalidano `schema_version: "1.0.0"` prima del caricamento
 
 ## Prerequisiti
 
 - Python 3.11+
 - [ComfyUI](https://github.com/comfyanonymous/ComfyUI) in esecuzione localmente (per la generazione)
-- Godot 4.6 (per il rendering di finish lab)
-- GPU NVIDIA consigliata (RTX 5080 / 16 GB di VRAM testati)
+- Godot 4.6 (per il rendering nella fase finale)
+- NVIDIA GPU consigliata (testato RTX 5090 / 32 GB; minimo 16 GB)
 
-## Guida Rapida
+## Avvio Rapido
 
 ```bash
 # Clone
@@ -114,7 +116,7 @@ cd sprite-foundry
 python -m foundry init
 
 # Register a subject
-python -m foundry subject-add sera_vale "Sera Vale" --role crew --consumer star-freight
+python -m foundry subject-add sera_vale "Sera Vale" --role crew --consumer my-game
 
 # Check the full pipeline status
 python -m foundry status
@@ -124,38 +126,38 @@ python -m foundry status
 
 | Comando | Descrizione |
 |---------|-------------|
-| `init` | Inizializza il registro SQLite di Sprite Foundry |
+| `init` | Inizializza il registro SQLite della fabbrica |
 | `subject-add` | Registra un nuovo soggetto personaggio |
-| `register-run` | Registra un'esecuzione di generazione ComfyUI |
-| `register-attempt` | Registra un tentativo individuale all'interno di un'esecuzione |
-| `check` | Esegue controlli di validazione meccanici |
-| `review-show` | Visualizza la coda di revisione per un'esecuzione |
+| `register-run` | Registra una sessione di generazione ComfyUI |
+| `register-attempt` | Registra un tentativo individuale all'interno di una sessione |
+| `check` | Esegue i controlli di validazione meccanica |
+| `review-show` | Visualizza la coda di revisione per una sessione |
 | `review-accept` | Accetta un tentativo nella fase di revisione corrente |
-| `review-reject` | Rifiuta un tentativo con un codice di rifiuto. |
-| `batch-accept` | Accetta tutti i tentativi in sospeso in una singola esecuzione. |
-| `batch-reject` | Rifiuta tutti i tentativi in sospeso in una singola esecuzione, utilizzando un unico codice. |
-| `regen` | Rigenera la coda per i tentativi rifiutati. |
-| `attempt-detail` | Mostra l'intero ciclo di vita di un singolo tentativo. |
-| `finish-board` | Genera una tabella di confronto tra le fasi di completamento. |
-| `status` | Riepilogo dello stato della pipeline. |
-| `story` | Descrizione completa della provenienza per un determinato elemento. |
-| `lineage` | Catena di rigenerazione per un tentativo. |
-| `winner` | Vincitore canonico per ogni direzione. |
-| `drift` | Analisi dei modelli di errore e tassi di successo. |
-| `metrics` | Metriche di produttività (per esecuzione o a livello di tutta la fonderia). |
-| `produce` | Un singolo comando: mappa e acquisizioni di immagini di completamento per un'esecuzione accettata. |
-| `export` | Esporta un'esecuzione con completamento accettato come pacchetto di risorse deterministico. |
+| `review-reject` | Rifiuta un tentativo con un codice di rifiuto |
+| `batch-accept` | Accetta tutti i tentativi in sospeso in una sessione |
+| `batch-reject` | Rifiuta tutti i tentativi in sospeso in una sessione con un unico codice |
+| `regen` | Metti in coda la rigenerazione per i tentativi rifiutati |
+| `attempt-detail` | Mostra il ciclo di vita completo per un tentativo |
+| `finish-board` | Genera una scheda di confronto per la fase finale |
+| `status` | Riepilogo dello stato della pipeline |
+| `story` | Racconto completo della provenienza per un soggetto |
+| `lineage` | Rigenera la catena per un tentativo |
+| `winner` | Vincitore canonico per direzione |
+| `drift` | Analisi dei modelli di errore e tassi di successo |
+| `metrics` | Metriche di produttività (per sessione o a livello di fabbrica) |
+| `produce` | Comando singolo: mappe + acquisizioni della fase finale per una sessione accettata |
+| `export` | Esporta una sessione accettata nella fase finale come pacchetto di asset deterministico |
 
-## Modello delle minacce
+## Modello di Minaccia
 
-Sprite Foundry è uno **strumento per sviluppatori locale**. Non:
+Sprite Foundry è uno **strumento di sviluppo locale**. Non:
 
-- Accede alla rete (ComfyUI funziona in locale).
-- Gestisce segreti, token o credenziali.
-- Raccoglie o invia dati di telemetria.
-- Scrive al di fuori della propria directory di lavoro.
+- Accede alla rete (ComfyUI viene eseguito su localhost)
+- Gestisce segreti, token o credenziali
+- Raccoglie o invia dati di telemetria
+- Scrive al di fuori della propria directory di lavoro
 
-Le operazioni sui file sono limitate alle directory `exports/`, `bakeoff/`, `boards/`, `derived/` e al registro SQLite. Le chiamate a processi secondari sono limitate all'API locale di ComfyUI e al rendering headless di Godot.
+Le operazioni sui file sono limitate a `exports/`, `bakeoff/`, `boards/`, `derived/` e al registro SQLite. Le chiamate ai sottoprocessi sono limitate all'API locale di ComfyUI e al rendering headless di Godot.
 
 ## Licenza
 

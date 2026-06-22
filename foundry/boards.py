@@ -32,6 +32,18 @@ def _fonts():
         return d, d, d
 
 
+def _open_decoupled(p: Path) -> Image.Image:
+    """Open an image and return a copy with the file handle already closed.
+
+    PIL's Image.open is lazy and holds the file open until the image is closed
+    or GC'd, which leaks Windows file locks on the exact PNGs the rest of the
+    pipeline (export copy, map derivation) may need to read or replace. Loading
+    a decoupled copy here releases the handle immediately.
+    """
+    with Image.open(p) as img:
+        return img.copy()
+
+
 def _load_artifact_image(conn, attempt_id: int, kind: str) -> Image.Image | None:
     """Load an image from a registered artifact. Returns None if missing."""
     row = conn.execute(
@@ -43,7 +55,7 @@ def _load_artifact_image(conn, attempt_id: int, kind: str) -> Image.Image | None
     p = FOUNDRY_ROOT / row["path"]
     if not p.exists():
         return None
-    return Image.open(p)
+    return _open_decoupled(p)
 
 
 def _load_finish_capture(conn, attempt_id: int, lighting_state: str) -> Image.Image | None:
@@ -57,7 +69,7 @@ def _load_finish_capture(conn, attempt_id: int, lighting_state: str) -> Image.Im
     p = FOUNDRY_ROOT / row["path"]
     if not p.exists():
         return None
-    return Image.open(p)
+    return _open_decoupled(p)
 
 
 def _latest_review(conn, attempt_id: int, review_type: str) -> dict | None:
@@ -424,7 +436,8 @@ def generate_attempt_detail(conn, attempt_id: int, output_path: Path) -> Path:
 
             cap_path = FOUNDRY_ROOT / cap["path"]
             if cap_path.exists():
-                cap_img = Image.open(cap_path).convert("RGB")
+                with Image.open(cap_path) as _cap:
+                    cap_img = _cap.convert("RGB")  # decoupled; handle closes here
                 # Center-crop to sprite area
                 w, h = cap_img.size
                 crop_margin = int(w * 0.2)

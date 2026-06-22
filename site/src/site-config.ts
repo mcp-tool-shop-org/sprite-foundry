@@ -11,7 +11,7 @@ export const config: SiteConfig = {
   hero: {
     badge: 'Python CLI',
     headline: 'Sprite Foundry',
-    headlineAccent: 'for Star Freight.',
+    headlineAccent: 'for 2.5D RPGs.',
     description: 'Generate, review, and export 8-direction pixel sprites with normal and depth maps — all from a single CLI.',
     primaryCta: { href: '#usage', label: 'Get started' },
     secondaryCta: { href: '#features', label: 'See the pipeline' },
@@ -33,7 +33,7 @@ export const config: SiteConfig = {
         { title: 'SQLite Registry', desc: 'Append-only lifecycle tracking with 13 states, reject codes, regen lineage, and full provenance — every decision is auditable.' },
         { title: 'Godot Finish Lab', desc: '4 lighting states × 8 directions = 32 captures per subject. Normal maps verified under moonlight, torchlight, and particle effects.' },
         { title: 'Deterministic Export', desc: 'SHA-256 checksums, frozen contract v1.0.0, manifest.json with provenance. Consumers validate schema before loading.' },
-        { title: '20 Production Packs', desc: '7 crew, 6 creature, 3 hostile, 2 authority, 2 civilian — all finish-accepted with zero contract violations.' },
+        { title: '92 Production Packs', desc: 'Across 12 lanes — beast, townsfolk, goblin, hero, pirate, villain, zombie, creature, crew, and more — finish-accepted with zero contract violations. Published to npm under @sprite-foundry.' },
         { title: 'Morphology System', desc: 'Arthropod, quadruped, and winged body families via depth/edge reference images for non-standard character shapes.' },
       ],
     },
@@ -44,7 +44,7 @@ export const config: SiteConfig = {
       cards: [
         {
           title: 'Register a subject',
-          code: 'python -m foundry subject-add sera_vale "Sera Vale" \\\n  --role crew --consumer star-freight',
+          code: 'python -m foundry subject-add sera_vale "Sera Vale" \\\n  --role crew --consumer my-game',
         },
         {
           title: 'Review and export',

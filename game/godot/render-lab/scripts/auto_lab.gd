@@ -25,13 +25,45 @@ var canvas_textures := {}
 var depth_shader: ShaderMaterial
 
 
+## Directory the headless capture loop writes PNGs into. Created in _ready()
+## if it does not exist, so standalone runs do not silently no-op on save.
+const SCREENSHOTS_DIR := "res://screenshots"
+
+
+func _fail(msg: String) -> void:
+	# Single failure path: print an actionable error and exit non-zero so the
+	# Python driver can detect failure by exit code, not stdout scraping.
+	printerr("FINISH LAB FAILURE: %s" % msg)
+	get_tree().quit(1)
+
+
 func _ready() -> void:
 	total_captures = DIRECTIONS.size() * STATES.size()
 	_build_scene()
 
+	# Ensure the screenshots output directory exists from inside Godot rather
+	# than relying on an external caller to pre-create it (F-004).
+	var shots_abs := ProjectSettings.globalize_path(SCREENSHOTS_DIR)
+	if not DirAccess.dir_exists_absolute(shots_abs):
+		var mk := DirAccess.make_dir_recursive_absolute(shots_abs)
+		if mk != OK:
+			_fail("could not create screenshots dir %s (err %d)" % [shots_abs, mk])
+			return
+
 	for dir_name in DIRECTIONS:
-		albedo_textures[dir_name] = load("res://assets/pirate_navigator_sprites/%s.png" % dir_name)
-		normal_textures[dir_name] = load("res://assets/pirate_navigator_normals/%s_normal.png" % dir_name)
+		var albedo_path := "res://assets/pirate_navigator_sprites/%s.png" % dir_name
+		var normal_path := "res://assets/pirate_navigator_normals/%s_normal.png" % dir_name
+		albedo_textures[dir_name] = load(albedo_path)
+		normal_textures[dir_name] = load(normal_path)
+
+		# Abort on a missing/failed texture load — never render blank captures
+		# that would let a finish-verification pass "succeed" on nothing (F-003).
+		if albedo_textures[dir_name] == null:
+			_fail("albedo texture failed to load: %s" % albedo_path)
+			return
+		if normal_textures[dir_name] == null:
+			_fail("normal texture failed to load: %s" % normal_path)
+			return
 
 		var ct := CanvasTexture.new()
 		ct.diffuse_texture = albedo_textures[dir_name]
@@ -211,8 +243,11 @@ func _process(_delta: float) -> void:
 	var state_name: String = STATES[current_state_idx]
 
 	var img := get_viewport().get_texture().get_image()
-	var path := "res://screenshots/pirate_navigator_%s_%s.png" % [dir_name, state_name]
-	img.save_png(path)
+	var path := "%s/pirate_navigator_%s_%s.png" % [SCREENSHOTS_DIR, dir_name, state_name]
+	var save_err := img.save_png(path)
+	if save_err != OK:
+		_fail("save_png failed for %s (err %d)" % [path, save_err])
+		return
 	captures_done += 1
 	print("[%d/%d] Captured: %s" % [captures_done, total_captures, path])
 
@@ -226,6 +261,11 @@ func _process(_delta: float) -> void:
 	if current_dir_idx >= DIRECTIONS.size():
 		print("\n=== ALL CAPTURES COMPLETE ===")
 		await get_tree().create_timer(0.5).timeout
-		get_tree().quit()
+		# Only report success (exit 0) if every expected capture was written;
+		# otherwise exit non-zero so the driver detects the shortfall (F-005).
+		if captures_done == total_captures:
+			get_tree().quit(0)
+		else:
+			_fail("incomplete: %d of %d captures written" % [captures_done, total_captures])
 	else:
 		_apply_state(STATES[current_state_idx])

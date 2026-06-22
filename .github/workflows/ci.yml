@@ -35,33 +35,34 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Verify foundry module
+      # Fast pre-check: fail early on import/parser breakage before the full script.
+      - name: Verify foundry module (fast pre-check)
         run: |
           python -c "from foundry import db; from foundry import cli; print('OK: imports')"
-
-      - name: Verify CLI parser
-        run: |
           python -c "from foundry.cli import build_parser; p = build_parser(); print('OK: parser')"
 
+      # Run the repo's real safety net. verify.sh is the source of truth: it checks
+      # db constants (8 directions, schema_version >= 2), the CLI parser, export-pack
+      # structure (albedo/normal/depth dirs + 8-PNG counts), the roster index, and
+      # required files. It tolerates zero export packs gracefully.
+      - name: Run verify.sh
+        run: bash verify.sh
+
+      # Lightweight manifest schema_version check, complementary to verify.sh's
+      # structural pack validation. Walks exports/ once and tolerates an empty tree.
       - name: Validate export manifests
         run: |
           python -c "
           import json, pathlib, sys
+          manifests = sorted(pathlib.Path('exports').rglob('manifest.json'))
           errors = 0
-          for m in sorted(pathlib.Path('exports').rglob('manifest.json')):
+          for m in manifests:
               try:
                   data = json.loads(m.read_text())
                   assert 'schema_version' in data, f'missing schema_version in {m}'
               except Exception as e:
                   print(f'FAIL: {m} — {e}')
                   errors += 1
-          print(f'Checked {len(list(pathlib.Path(\"exports\").rglob(\"manifest.json\")))} manifests')
+          print(f'Checked {len(manifests)} manifests')
           sys.exit(1 if errors else 0)
           "
-
-      - name: Check required files
-        run: |
-          for f in README.md LICENSE CHANGELOG.md SECURITY.md; do
-            test -f "$f" || { echo "MISSING: $f"; exit 1; }
-          done
-          echo "All required files present"
