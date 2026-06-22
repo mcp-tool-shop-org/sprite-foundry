@@ -2,100 +2,112 @@
 Test Hunyuan3D-2mv shape generation (no texture).
 Run with WinPortable's Python — not system Python.
 
+NOTE: This is NOT a pytest test. It is a standalone GPU script that imports
+torch and runs a real diffusion pipeline. It is excluded from pytest collection
+(root conftest.py `collect_ignore_glob`) and all executable work lives under the
+`if __name__ == "__main__":` guard below so importing this module can never
+trigger a GPU run.
+
 Usage (from sprite-foundry root):
     F:/AI-Models/Hunyuan3D-2/Hunyuan3D2_WinPortable/python_standalone/python.exe \
         -s pipeline/test_hunyuan3d_shape.py
 """
 
-import os
-import sys
-import time
 
-# Point HuggingFace cache to WinPortable's location
-WINPORTABLE = "F:/AI-Models/Hunyuan3D-2/Hunyuan3D2_WinPortable"
-os.environ["HF_HUB_CACHE"] = os.path.join(WINPORTABLE, "HuggingFaceHub")
-os.environ["HY3DGEN_MODELS"] = os.path.join(WINPORTABLE, "HuggingFaceHub")
+def main():
+    import os
+    import sys
+    import time
 
-# Add the Hunyuan3D-2 source to path
-sys.path.insert(0, os.path.join(WINPORTABLE, "Hunyuan3D-2"))
+    # Point HuggingFace cache to WinPortable's location
+    WINPORTABLE = "F:/AI-Models/Hunyuan3D-2/Hunyuan3D2_WinPortable"
+    os.environ["HF_HUB_CACHE"] = os.path.join(WINPORTABLE, "HuggingFaceHub")
+    os.environ["HY3DGEN_MODELS"] = os.path.join(WINPORTABLE, "HuggingFaceHub")
 
-import torch
-print(f"PyTorch: {torch.__version__}")
-print(f"CUDA available: {torch.cuda.is_available()}")
-if torch.cuda.is_available():
-    print(f"CUDA device: {torch.cuda.get_device_name(0)}")
-    print(f"VRAM: {torch.cuda.get_device_properties(0).total_memory / 1024**3:.1f} GB")
+    # Add the Hunyuan3D-2 source to path
+    sys.path.insert(0, os.path.join(WINPORTABLE, "Hunyuan3D-2"))
 
-# Input images
-INPUT_DIR = "F:/AI/sprite-foundry/bakeoff/hunyuan3d_input"
-OUTPUT_DIR = "F:/AI/sprite-foundry/bakeoff/hunyuan3d_output"
-os.makedirs(OUTPUT_DIR, exist_ok=True)
+    import torch
+    print(f"PyTorch: {torch.__version__}")
+    print(f"CUDA available: {torch.cuda.is_available()}")
+    if torch.cuda.is_available():
+        print(f"CUDA device: {torch.cuda.get_device_name(0)}")
+        print(f"VRAM: {torch.cuda.get_device_properties(0).total_memory / 1024**3:.1f} GB")
 
-print(f"\nInput dir: {INPUT_DIR}")
-print(f"Output dir: {OUTPUT_DIR}")
+    # Input images
+    INPUT_DIR = "F:/AI/sprite-foundry/bakeoff/hunyuan3d_input"
+    OUTPUT_DIR = "F:/AI/sprite-foundry/bakeoff/hunyuan3d_output"
+    os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-# Check inputs exist
-for view in ["front", "left", "back"]:
-    path = os.path.join(INPUT_DIR, f"{view}.png")
-    if os.path.exists(path):
-        print(f"  {view}.png: OK")
-    else:
-        print(f"  {view}.png: MISSING")
+    print(f"\nInput dir: {INPUT_DIR}")
+    print(f"Output dir: {OUTPUT_DIR}")
 
-print("\nLoading Hunyuan3D-2mv pipeline...")
-t0 = time.time()
+    # Check inputs exist
+    for view in ["front", "left", "back"]:
+        path = os.path.join(INPUT_DIR, f"{view}.png")
+        if os.path.exists(path):
+            print(f"  {view}.png: OK")
+        else:
+            print(f"  {view}.png: MISSING")
 
-from hy3dgen.shapegen import Hunyuan3DDiTFlowMatchingPipeline
+    print("\nLoading Hunyuan3D-2mv pipeline...")
+    t0 = time.time()
 
-pipeline = Hunyuan3DDiTFlowMatchingPipeline.from_pretrained(
-    "tencent/Hunyuan3D-2mv",
-    subfolder="hunyuan3d-dit-v2-mv-turbo",
-    use_safetensors=True,
-    device="cuda",
-)
+    from hy3dgen.shapegen import Hunyuan3DDiTFlowMatchingPipeline
 
-print(f"Pipeline loaded in {time.time() - t0:.1f}s")
+    pipeline = Hunyuan3DDiTFlowMatchingPipeline.from_pretrained(
+        "tencent/Hunyuan3D-2mv",
+        subfolder="hunyuan3d-dit-v2-mv-turbo",
+        use_safetensors=True,
+        device="cuda",
+    )
 
-# Check VRAM after loading
-if torch.cuda.is_available():
-    allocated = torch.cuda.memory_allocated() / 1024**3
-    reserved = torch.cuda.memory_reserved() / 1024**3
-    print(f"VRAM: {allocated:.1f} GB allocated, {reserved:.1f} GB reserved")
+    print(f"Pipeline loaded in {time.time() - t0:.1f}s")
 
-# Build multi-view input dict
-image_input = {
-    "front": os.path.join(INPUT_DIR, "front.png"),
-    "left": os.path.join(INPUT_DIR, "left.png"),
-    "back": os.path.join(INPUT_DIR, "back.png"),
-}
+    # Check VRAM after loading
+    if torch.cuda.is_available():
+        allocated = torch.cuda.memory_allocated() / 1024**3
+        reserved = torch.cuda.memory_reserved() / 1024**3
+        print(f"VRAM: {allocated:.1f} GB allocated, {reserved:.1f} GB reserved")
 
-print(f"\nGenerating mesh (mc_algo=mc, turbo mode)...")
-t1 = time.time()
+    # Build multi-view input dict
+    image_input = {
+        "front": os.path.join(INPUT_DIR, "front.png"),
+        "left": os.path.join(INPUT_DIR, "left.png"),
+        "back": os.path.join(INPUT_DIR, "back.png"),
+    }
 
-mesh = pipeline(
-    image=image_input,
-    num_inference_steps=30,
-    mc_algo="mc",
-    octree_resolution=256,
-    generator=torch.manual_seed(42),
-    output_type="trimesh",
-)[0]
+    print(f"\nGenerating mesh (mc_algo=mc, turbo mode)...")
+    t1 = time.time()
 
-gen_time = time.time() - t1
-print(f"Mesh generated in {gen_time:.1f}s")
-print(f"  Vertices: {len(mesh.vertices)}")
-print(f"  Faces: {len(mesh.faces)}")
+    mesh = pipeline(
+        image=image_input,
+        num_inference_steps=30,
+        mc_algo="mc",
+        octree_resolution=256,
+        generator=torch.manual_seed(42),
+        output_type="trimesh",
+    )[0]
 
-# Export
-output_path = os.path.join(OUTPUT_DIR, "mage_shape.glb")
-mesh.export(output_path)
-print(f"\nExported to: {output_path}")
-print(f"File size: {os.path.getsize(output_path) / 1024:.0f} KB")
+    gen_time = time.time() - t1
+    print(f"Mesh generated in {gen_time:.1f}s")
+    print(f"  Vertices: {len(mesh.vertices)}")
+    print(f"  Faces: {len(mesh.faces)}")
 
-# Final VRAM
-if torch.cuda.is_available():
-    allocated = torch.cuda.memory_allocated() / 1024**3
-    peak = torch.cuda.max_memory_allocated() / 1024**3
-    print(f"\nVRAM: {allocated:.1f} GB allocated, {peak:.1f} GB peak")
+    # Export
+    output_path = os.path.join(OUTPUT_DIR, "mage_shape.glb")
+    mesh.export(output_path)
+    print(f"\nExported to: {output_path}")
+    print(f"File size: {os.path.getsize(output_path) / 1024:.0f} KB")
 
-print("\nDone!")
+    # Final VRAM
+    if torch.cuda.is_available():
+        allocated = torch.cuda.memory_allocated() / 1024**3
+        peak = torch.cuda.max_memory_allocated() / 1024**3
+        print(f"\nVRAM: {allocated:.1f} GB allocated, {peak:.1f} GB peak")
+
+    print("\nDone!")
+
+
+if __name__ == "__main__":
+    main()

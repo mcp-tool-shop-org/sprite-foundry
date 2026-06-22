@@ -57,8 +57,8 @@ def gate_dimension(conn, attempt_id: int, target: int) -> dict:
             artifact_kind="pixel",
             artifact_path=rel_path,
         )
-    img = Image.open(abs_path)
-    w, h = img.size
+    with Image.open(abs_path) as img:
+        w, h = img.size
     passed = (w == target and h == target)
     return dict(
         gate_name="dimension",
@@ -91,11 +91,12 @@ def gate_alpha(conn, attempt_id: int) -> dict:
             artifact_kind="pixel",
             artifact_path=rel_path,
         )
-    img = Image.open(abs_path)
+    with Image.open(abs_path) as img:
+        mode = img.mode
     return dict(
         gate_name="alpha",
-        result="pass" if img.mode == "RGBA" else "fail",
-        measured=img.mode,
+        result="pass" if mode == "RGBA" else "fail",
+        measured=mode,
         expected="RGBA",
         artifact_kind="pixel",
         artifact_path=rel_path,
@@ -123,24 +124,24 @@ def gate_corner_transparency(conn, attempt_id: int, target: int) -> dict:
             artifact_kind="pixel",
             artifact_path=rel_path,
         )
-    img = Image.open(abs_path)
-    if img.mode != "RGBA":
-        return dict(
-            gate_name="corner_transparency",
-            result="fail",
-            measured=f"mode={img.mode}, no alpha to check",
-            expected=">=3/4 corners transparent",
-            artifact_kind="pixel",
-            artifact_path=rel_path,
-        )
+    with Image.open(abs_path) as img:
+        if img.mode != "RGBA":
+            return dict(
+                gate_name="corner_transparency",
+                result="fail",
+                measured=f"mode={img.mode}, no alpha to check",
+                expected=">=3/4 corners transparent",
+                artifact_kind="pixel",
+                artifact_path=rel_path,
+            )
 
-    w, h = img.size
-    corners = [
-        img.getpixel((0, 0)),
-        img.getpixel((w - 1, 0)),
-        img.getpixel((0, h - 1)),
-        img.getpixel((w - 1, h - 1)),
-    ]
+        w, h = img.size
+        corners = [
+            img.getpixel((0, 0)),
+            img.getpixel((w - 1, 0)),
+            img.getpixel((0, h - 1)),
+            img.getpixel((w - 1, h - 1)),
+        ]
     opaque = sum(1 for c in corners if c[3] > 128)
     transparent = 4 - opaque
     passed = opaque < 3  # fail if 3+ corners are opaque
@@ -178,7 +179,8 @@ def gate_foreground_content(conn, attempt_id: int) -> dict:
             artifact_path=rel_path,
         )
 
-    raw_img = Image.open(abs_path).convert("RGBA")
+    with Image.open(abs_path) as _src:
+        raw_img = _src.convert("RGBA")  # decoupled copy; source handle closes here
     arr = np.array(raw_img)
     h, w = arr.shape[:2]
 
@@ -230,7 +232,8 @@ def gate_single_subject(conn, attempt_id: int, body_class: str = None) -> dict:
             artifact_path=rel_path,
         )
 
-    raw_img = Image.open(abs_path).convert("RGBA")
+    with Image.open(abs_path) as _src:
+        raw_img = _src.convert("RGBA")  # decoupled copy; source handle closes here
     arr = np.array(raw_img)
     h, w = arr.shape[:2]
 

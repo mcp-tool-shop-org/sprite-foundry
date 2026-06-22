@@ -126,6 +126,7 @@ def cmd_register_attempt(args):
     attempt_id = cursor.lastrowid
 
     # Register artifacts if paths provided
+    from PIL import Image, UnidentifiedImageError
     artifact_count = 0
     for kind, path_str in (args.artifacts or []):
         p = Path(path_str).resolve()
@@ -133,14 +134,16 @@ def cmd_register_attempt(args):
             print(f"  Warning: artifact not found: {p}")
             continue
 
-        # Get dimensions for images
-        width, height = None, None
+        # Read dimensions AND hash inside one guarded block so a single bad
+        # artifact is reported and skipped consistently — never silently nulled
+        # nor allowed to crash mid-loop after partial inserts (F-010).
         try:
-            from PIL import Image
             with Image.open(p) as img:
                 width, height = img.size
-        except Exception:
-            pass
+            file_hash = hash_file(p)
+        except (UnidentifiedImageError, OSError, ValueError) as e:
+            print(f"  Warning: could not read artifact {kind} ({p}): {e}; skipping")
+            continue
 
         # Store as relative path if inside foundry root, otherwise absolute
         try:
@@ -151,7 +154,7 @@ def cmd_register_attempt(args):
         conn.execute(
             """INSERT INTO artifacts (attempt_id, kind, path, width, height, hash, created_at)
                VALUES (?, ?, ?, ?, ?, ?, ?)""",
-            (attempt_id, kind, rel_path, width, height, hash_file(p), now_iso()),
+            (attempt_id, kind, rel_path, width, height, file_hash, now_iso()),
         )
         artifact_count += 1
 
@@ -209,67 +212,76 @@ def cmd_check(args):
 
     pass_count = 0
     fail_count = 0
-
-    for attempt in attempts:
-        attempt_id = attempt["id"]
-        direction = attempt["direction"]
-
-        # Skip attempts not in 'generated' state (already checked or advanced)
-        if attempt["state"] != "generated":
-            print(f"  [{direction}] SKIP -- state is '{attempt['state']}', not 'generated'")
-            continue
-
-        # Run all gates — body_class relaxes thresholds for monster sprites
-        gate_results = mechanical.run_all_gates(conn, attempt_id, target, body_class=body_class)
-
-        # Store every gate result durably
-        for gr in gate_results:
-            db.add_gate_result(
-                conn,
-                attempt_id=attempt_id,
-                gate_name=gr["gate_name"],
-                result=gr["result"],
-                measured=gr["measured"],
-                expected=gr["expected"],
-                artifact_kind=gr.get("artifact_kind"),
-                artifact_path=gr.get("artifact_path"),
-            )
-
-        # Collect failures
-        failures = [gr for gr in gate_results if gr["result"] == "fail"]
-        fail_codes = [
-            mechanical.GATE_FAIL_CODES.get(gr["gate_name"], gr["gate_name"])
-            for gr in failures
-        ]
-
-        # Record mechanical review (append-only)
-        if failures:
-            for code in fail_codes:
-                db.add_review(conn, attempt_id, "mechanical", "fail", "auto", code=code)
-            db.transition_attempt(conn, attempt_id, "mechanical_fail")
-            fail_count += 1
-            print(f"  [{direction}] FAIL: {', '.join(fail_codes)}")
-            for gr in failures:
-                print(f"    {gr['gate_name']}: measured={gr['measured']}, expected={gr['expected']}")
-        else:
-            db.add_review(conn, attempt_id, "mechanical", "pass", "auto")
-            db.transition_attempt(conn, attempt_id, "mechanical_pass")
-            pass_count += 1
-            print(f"  [{direction}] PASS (5 gates)")
-
-    conn.commit()
-
-    # Auto-advance passing attempts to raw_review_pending
     advanced = 0
-    for attempt in attempts:
-        row = conn.execute(
-            "SELECT id, state FROM attempts WHERE id = ?", (attempt["id"],)
-        ).fetchone()
-        if row and row["state"] == "mechanical_pass":
-            db.transition_attempt(conn, row["id"], "raw_review_pending")
-            advanced += 1
-    if advanced:
+
+    # Single transaction over all mutations: gate results + reviews + transitions
+    # + the auto-advance, committed once. If any step raises mid-loop (e.g. a
+    # concurrent advance invalidates a transition precondition), roll the whole
+    # batch back so the run is never left half-checked (F-006).
+    try:
+        for attempt in attempts:
+            attempt_id = attempt["id"]
+            direction = attempt["direction"]
+
+            # Skip attempts not in 'generated' state (already checked or advanced)
+            if attempt["state"] != "generated":
+                print(f"  [{direction}] SKIP -- state is '{attempt['state']}', not 'generated'")
+                continue
+
+            # Run all gates — body_class relaxes thresholds for monster sprites
+            gate_results = mechanical.run_all_gates(conn, attempt_id, target, body_class=body_class)
+
+            # Store every gate result durably
+            for gr in gate_results:
+                db.add_gate_result(
+                    conn,
+                    attempt_id=attempt_id,
+                    gate_name=gr["gate_name"],
+                    result=gr["result"],
+                    measured=gr["measured"],
+                    expected=gr["expected"],
+                    artifact_kind=gr.get("artifact_kind"),
+                    artifact_path=gr.get("artifact_path"),
+                )
+
+            # Collect failures
+            failures = [gr for gr in gate_results if gr["result"] == "fail"]
+            fail_codes = [
+                mechanical.GATE_FAIL_CODES.get(gr["gate_name"], gr["gate_name"])
+                for gr in failures
+            ]
+
+            # Record mechanical review (append-only)
+            if failures:
+                for code in fail_codes:
+                    db.add_review(conn, attempt_id, "mechanical", "fail", "auto", code=code)
+                db.transition_attempt(conn, attempt_id, "mechanical_fail")
+                fail_count += 1
+                print(f"  [{direction}] FAIL: {', '.join(fail_codes)}")
+                for gr in failures:
+                    print(f"    {gr['gate_name']}: measured={gr['measured']}, expected={gr['expected']}")
+            else:
+                db.add_review(conn, attempt_id, "mechanical", "pass", "auto")
+                db.transition_attempt(conn, attempt_id, "mechanical_pass")
+                pass_count += 1
+                print(f"  [{direction}] PASS (5 gates)")
+
+        # Auto-advance passing attempts to raw_review_pending (same transaction)
+        for attempt in attempts:
+            row = conn.execute(
+                "SELECT id, state FROM attempts WHERE id = ?", (attempt["id"],)
+            ).fetchone()
+            if row and row["state"] == "mechanical_pass":
+                db.transition_attempt(conn, row["id"], "raw_review_pending")
+                advanced += 1
+
         conn.commit()
+    except Exception:
+        conn.rollback()
+        conn.close()
+        raise
+
+    if advanced:
         print(f"\n  {advanced} attempts advanced to raw_review_pending")
 
     print(f"\nMechanical check: {pass_count} pass, {fail_count} fail, {len(attempts)} total")
@@ -1167,56 +1179,64 @@ def cmd_batch_accept(args):
     note = args.note
 
     total_accepted = 0
-    for stage_name, (pending_state, new_state, review_type) in stages.items():
-        attempts = conn.execute(
-            """SELECT id, direction, state, parent_attempt_id FROM attempts
-               WHERE run_id = ? AND state = ?
-               ORDER BY direction""",
-            (args.run_id, pending_state),
-        ).fetchall()
-
-        if not attempts:
-            continue
-
-        print(f"\n  {stage_name} review: {len(attempts)} attempts")
-
-        for a in attempts:
-            db.add_review(conn, a["id"], review_type, "accept", reviewer, note=note)
-            db.transition_attempt(conn, a["id"], new_state)
-
-            # Supersession logic for finish_accepted
-            if new_state == "finish_accepted" and a["parent_attempt_id"]:
-                parent = conn.execute(
-                    "SELECT id, state FROM attempts WHERE id = ?",
-                    (a["parent_attempt_id"],),
-                ).fetchone()
-                if parent and parent["state"] == "finish_accepted":
-                    db.transition_attempt(conn, parent["id"], "superseded")
-                    print(f"    #{a['id']} ({a['direction']}): {pending_state} -> {new_state}  (parent #{parent['id']} -> superseded)")
-                    continue
-
-            print(f"    #{a['id']} ({a['direction']}): {pending_state} -> {new_state}")
-            total_accepted += 1
-
-    conn.commit()
-
-    # Auto-advance through intermediate states
-    # raw_accepted -> pixel_review_pending
-    # accepted -> finish_review_pending (only if produce hasn't run yet — skip this one)
-    auto_advances = {
-        "raw_accepted": "pixel_review_pending",
-    }
     auto_count = 0
-    for a_state, next_state in auto_advances.items():
-        to_advance = conn.execute(
-            "SELECT id, direction FROM attempts WHERE run_id = ? AND state = ?",
-            (args.run_id, a_state),
-        ).fetchall()
-        for a in to_advance:
-            db.transition_attempt(conn, a["id"], next_state)
-            auto_count += 1
-    if auto_count:
+
+    # Single transaction over reviews + transitions + supersession + auto-advance,
+    # rolled back as a unit if any transition raises (F-006).
+    try:
+        for stage_name, (pending_state, new_state, review_type) in stages.items():
+            attempts = conn.execute(
+                """SELECT id, direction, state, parent_attempt_id FROM attempts
+                   WHERE run_id = ? AND state = ?
+                   ORDER BY direction""",
+                (args.run_id, pending_state),
+            ).fetchall()
+
+            if not attempts:
+                continue
+
+            print(f"\n  {stage_name} review: {len(attempts)} attempts")
+
+            for a in attempts:
+                db.add_review(conn, a["id"], review_type, "accept", reviewer, note=note)
+                db.transition_attempt(conn, a["id"], new_state)
+
+                # Supersession logic for finish_accepted
+                if new_state == "finish_accepted" and a["parent_attempt_id"]:
+                    parent = conn.execute(
+                        "SELECT id, state FROM attempts WHERE id = ?",
+                        (a["parent_attempt_id"],),
+                    ).fetchone()
+                    if parent and parent["state"] == "finish_accepted":
+                        db.transition_attempt(conn, parent["id"], "superseded")
+                        print(f"    #{a['id']} ({a['direction']}): {pending_state} -> {new_state}  (parent #{parent['id']} -> superseded)")
+                        continue
+
+                print(f"    #{a['id']} ({a['direction']}): {pending_state} -> {new_state}")
+                total_accepted += 1
+
+        # Auto-advance through intermediate states
+        # raw_accepted -> pixel_review_pending
+        # accepted -> finish_review_pending (only if produce hasn't run yet — skip this one)
+        auto_advances = {
+            "raw_accepted": "pixel_review_pending",
+        }
+        for a_state, next_state in auto_advances.items():
+            to_advance = conn.execute(
+                "SELECT id, direction FROM attempts WHERE run_id = ? AND state = ?",
+                (args.run_id, a_state),
+            ).fetchall()
+            for a in to_advance:
+                db.transition_attempt(conn, a["id"], next_state)
+                auto_count += 1
+
         conn.commit()
+    except Exception:
+        conn.rollback()
+        conn.close()
+        raise
+
+    if auto_count:
         print(f"  Auto-advanced {auto_count} to next review stage")
 
     print(f"\n  Batch accepted: {total_accepted} attempts")
@@ -1265,27 +1285,35 @@ def cmd_batch_reject(args):
     reviewer = args.reviewer or "batch_review"
     total_rejected = 0
 
-    for stage_name, (pending_state, new_state, review_type) in stages.items():
-        attempts = conn.execute(
-            """SELECT id, direction FROM attempts
-               WHERE run_id = ? AND state = ?
-               ORDER BY direction""",
-            (args.run_id, pending_state),
-        ).fetchall()
+    # Single transaction over all reviews + transitions; rolled back as a unit
+    # if any transition raises mid-loop (F-006).
+    try:
+        for stage_name, (pending_state, new_state, review_type) in stages.items():
+            attempts = conn.execute(
+                """SELECT id, direction FROM attempts
+                   WHERE run_id = ? AND state = ?
+                   ORDER BY direction""",
+                (args.run_id, pending_state),
+            ).fetchall()
 
-        if not attempts:
-            continue
+            if not attempts:
+                continue
 
-        print(f"\n  {stage_name} reject: {len(attempts)} attempts (code={args.code})")
+            print(f"\n  {stage_name} reject: {len(attempts)} attempts (code={args.code})")
 
-        for a in attempts:
-            db.add_review(conn, a["id"], review_type, "reject", reviewer,
-                          code=args.code, note=args.note)
-            db.transition_attempt(conn, a["id"], new_state)
-            print(f"    #{a['id']} ({a['direction']}): {pending_state} -> {new_state}")
-            total_rejected += 1
+            for a in attempts:
+                db.add_review(conn, a["id"], review_type, "reject", reviewer,
+                              code=args.code, note=args.note)
+                db.transition_attempt(conn, a["id"], new_state)
+                print(f"    #{a['id']} ({a['direction']}): {pending_state} -> {new_state}")
+                total_rejected += 1
 
-    conn.commit()
+        conn.commit()
+    except Exception:
+        conn.rollback()
+        conn.close()
+        raise
+
     print(f"\n  Batch rejected: {total_rejected} attempts ({args.code})")
     conn.close()
 
@@ -1434,12 +1462,15 @@ def cmd_export(args):
 
     # Check all 8 directions are finish_accepted
     accepted = conn.execute(
-        """SELECT direction FROM attempts
+        """SELECT id, direction FROM attempts
            WHERE run_id = ? AND state = 'finish_accepted'
            ORDER BY direction""",
         (run_id,),
     ).fetchall()
     accepted_dirs = {r["direction"] for r in accepted}
+    # Map direction -> the finish_accepted attempt id (the gated winner). The
+    # partial UNIQUE index guarantees at most one finish_accepted per direction.
+    accepted_attempt_by_dir = {r["direction"]: r["id"] for r in accepted}
     missing = set(CANONICAL_DIRECTION_ORDER) - accepted_dirs
     if missing:
         print(f"Error: run '{run_id}' is not fully finish_accepted.")
@@ -1469,10 +1500,28 @@ def cmd_export(args):
         conn.close()
         sys.exit(1)
 
+    # -- Resolve the dimension-gate target (authoritative render-contract value) --
+    target_dim = run["sprite_target"]
+
     # -- Verify all source files exist before copying --
+    # The albedo source is resolved from the REGISTRY (the mechanically-gated
+    # `pixel` artifact of the finish_accepted attempt), NOT from whatever file
+    # happens to sit in bakeoff/. The bakeoff path is still required and must be
+    # byte-identical to the gated artifact, or we fail loudly (F-001).
     source_map = {}  # (layer, direction) -> source_path
     for d in CANONICAL_DIRECTION_ORDER:
-        albedo_src = bakeoff_dir / f"{d}.png"
+        attempt_id = accepted_attempt_by_dir[d]
+        pixel_row = conn.execute(
+            "SELECT path FROM artifacts WHERE attempt_id = ? AND kind = 'pixel'",
+            (attempt_id,),
+        ).fetchone()
+        if not pixel_row:
+            print(f"Error: no gated 'pixel' artifact registered for finish_accepted "
+                  f"attempt #{attempt_id} ({d}). Cannot certify export source.")
+            conn.close()
+            sys.exit(1)
+        albedo_src = db.FOUNDRY_ROOT / pixel_row["path"]
+        bakeoff_albedo = bakeoff_dir / f"{d}.png"
         normal_src = maps_dir / f"{d}_normal.png"
         depth_src = maps_dir / f"{d}_depth.png"
 
@@ -1482,6 +1531,17 @@ def cmd_export(args):
                 conn.close()
                 sys.exit(1)
             source_map[(layer, d)] = src
+
+        # If the legacy bakeoff albedo also exists, it MUST be byte-identical to
+        # the gated artifact — a divergence means a stale/swapped sprite and we
+        # refuse to ship rather than certify the wrong bytes (F-001).
+        if bakeoff_albedo.exists():
+            if hash_file(bakeoff_albedo) != hash_file(albedo_src):
+                print(f"Error: albedo divergence for {d}: bakeoff file "
+                      f"{bakeoff_albedo} does not match the gated registry artifact "
+                      f"{albedo_src}. Export aborted to avoid shipping an ungated sprite.")
+                conn.close()
+                sys.exit(1)
 
     contact_src = bakeoff_dir / "contact_sheet.png"
 
@@ -1549,21 +1609,43 @@ def cmd_export(args):
         result = subprocess.run(
             ["git", "rev-parse", "--short", "HEAD"],
             capture_output=True, text=True, cwd=str(db.FOUNDRY_ROOT),
+            timeout=30,
         )
         if result.returncode == 0:
             git_hash = result.stdout.strip()
+    except subprocess.TimeoutExpired:
+        git_hash = "unknown"
     except Exception:
         pass
 
-    # Sprite dimensions from first albedo
-    first_albedo = export_root / "albedo" / "front.png"
-    width, height = 0, 0
-    try:
-        from PIL import Image
-        with Image.open(first_albedo) as img:
-            width, height = img.size
-    except Exception:
-        pass
+    # Sprite dimensions: read EVERY exported albedo, assert they are all equal,
+    # and fail on any mismatch or read error — never default to 0,0 (F-002). The
+    # dimension gate proved target x target per attempt, so that target is the
+    # authoritative contract value and every albedo must match it.
+    from PIL import Image
+    dims_seen = {}
+    for d in CANONICAL_DIRECTION_ORDER:
+        albedo_path = export_root / "albedo" / f"{d}.png"
+        try:
+            with Image.open(albedo_path) as img:
+                dims_seen[d] = img.size
+        except Exception as e:
+            print(f"Error: could not read exported albedo dimensions for {d} "
+                  f"({albedo_path}): {e}")
+            conn.close()
+            sys.exit(1)
+    distinct = set(dims_seen.values())
+    if len(distinct) != 1:
+        print("Error: exported albedos have inconsistent dimensions: "
+              + ", ".join(f"{d}={w}x{h}" for d, (w, h) in dims_seen.items()))
+        conn.close()
+        sys.exit(1)
+    width, height = distinct.pop()
+    if (width, height) != (target_dim, target_dim):
+        print(f"Error: exported albedo dimensions {width}x{height} do not match "
+              f"the gated render-contract target {target_dim}x{target_dim}.")
+        conn.close()
+        sys.exit(1)
 
     # -- Build manifest --
     manifest = {
@@ -1665,73 +1747,21 @@ def cmd_ship_check(args):
         conn.close()
         return
 
-    for attempt in checkable:
-        attempt_id = attempt["id"]
-        direction = attempt["direction"]
-
-        gate_results = mechanical_ships.run_per_attempt_gates(conn, attempt_id, target)
-
-        for gr in gate_results:
-            db.add_gate_result(
-                conn,
-                attempt_id=attempt_id,
-                gate_name=gr["gate_name"],
-                result=gr["result"],
-                measured=gr["measured"],
-                expected=gr["expected"],
-                artifact_kind=gr.get("artifact_kind"),
-                artifact_path=gr.get("artifact_path"),
-            )
-
-        failures = [gr for gr in gate_results if gr["result"] == "fail"]
-        fail_codes = [
-            mechanical_ships.GATE_FAIL_CODES.get(gr["gate_name"], gr["gate_name"])
-            for gr in failures
-        ]
-
-        if failures:
-            for code in fail_codes:
-                db.add_review(conn, attempt_id, "mechanical", "fail", "auto", code=code)
-            db.transition_attempt(conn, attempt_id, "mechanical_fail")
-            fail_count += 1
-            print(f"  [{direction}] FAIL: {', '.join(fail_codes)}")
-            for gr in failures:
-                print(f"    {gr['gate_name']}: measured={gr['measured']}, expected={gr['expected']}")
-        else:
-            db.add_review(conn, attempt_id, "mechanical", "pass", "auto")
-            db.transition_attempt(conn, attempt_id, "mechanical_pass")
-            pass_count += 1
-            print(f"  [{direction}] PASS (5 ship gates)")
-
-    conn.commit()
-
-    # Auto-advance passing attempts to raw_review_pending
     advanced = 0
-    for attempt in checkable:
-        row = conn.execute(
-            "SELECT id, state FROM attempts WHERE id = ?", (attempt["id"],)
-        ).fetchone()
-        if row and row["state"] == "mechanical_pass":
-            db.transition_attempt(conn, row["id"], "raw_review_pending")
-            advanced += 1
-    conn.commit()
 
-    print(f"\n  Ship check: {pass_count} pass, {fail_count} fail")
-    if advanced:
-        print(f"  Auto-advanced {advanced} to raw_review_pending")
+    # Single transaction over per-attempt gate results + reviews + transitions +
+    # the auto-advance, rolled back as a unit on any mid-loop failure (F-006).
+    try:
+        for attempt in checkable:
+            attempt_id = attempt["id"]
+            direction = attempt["direction"]
 
-    # Run-level footprint consistency gate (informational, does not block)
-    run_results = mechanical_ships.gate_ship_footprint_consistency(conn, args.run_id)
-    if run_results:
-        print(f"\n  --- Run-level footprint consistency ---")
-        for gr in run_results:
-            status = "PASS" if gr["result"] == "pass" else "WARN"
-            print(f"  [{status}] {gr['gate_name']}: {gr['measured']}")
-            # Store run-level results against first attempt for traceability
-            if checkable:
+            gate_results = mechanical_ships.run_per_attempt_gates(conn, attempt_id, target)
+
+            for gr in gate_results:
                 db.add_gate_result(
                     conn,
-                    attempt_id=checkable[0]["id"],
+                    attempt_id=attempt_id,
                     gate_name=gr["gate_name"],
                     result=gr["result"],
                     measured=gr["measured"],
@@ -1739,7 +1769,73 @@ def cmd_ship_check(args):
                     artifact_kind=gr.get("artifact_kind"),
                     artifact_path=gr.get("artifact_path"),
                 )
+
+            failures = [gr for gr in gate_results if gr["result"] == "fail"]
+            fail_codes = [
+                mechanical_ships.GATE_FAIL_CODES.get(gr["gate_name"], gr["gate_name"])
+                for gr in failures
+            ]
+
+            if failures:
+                for code in fail_codes:
+                    db.add_review(conn, attempt_id, "mechanical", "fail", "auto", code=code)
+                db.transition_attempt(conn, attempt_id, "mechanical_fail")
+                fail_count += 1
+                print(f"  [{direction}] FAIL: {', '.join(fail_codes)}")
+                for gr in failures:
+                    print(f"    {gr['gate_name']}: measured={gr['measured']}, expected={gr['expected']}")
+            else:
+                db.add_review(conn, attempt_id, "mechanical", "pass", "auto")
+                db.transition_attempt(conn, attempt_id, "mechanical_pass")
+                pass_count += 1
+                print(f"  [{direction}] PASS (5 ship gates)")
+
+        # Auto-advance passing attempts to raw_review_pending (same transaction)
+        for attempt in checkable:
+            row = conn.execute(
+                "SELECT id, state FROM attempts WHERE id = ?", (attempt["id"],)
+            ).fetchone()
+            if row and row["state"] == "mechanical_pass":
+                db.transition_attempt(conn, row["id"], "raw_review_pending")
+                advanced += 1
+
         conn.commit()
+    except Exception:
+        conn.rollback()
+        conn.close()
+        raise
+
+    print(f"\n  Ship check: {pass_count} pass, {fail_count} fail")
+    if advanced:
+        print(f"  Auto-advanced {advanced} to raw_review_pending")
+
+    # Run-level footprint consistency gate (informational, does not block).
+    # Separate transaction: it only records traceability rows and must not roll
+    # back the per-attempt results already committed above.
+    try:
+        run_results = mechanical_ships.gate_ship_footprint_consistency(conn, args.run_id)
+        if run_results:
+            print(f"\n  --- Run-level footprint consistency ---")
+            for gr in run_results:
+                status = "PASS" if gr["result"] == "pass" else "WARN"
+                print(f"  [{status}] {gr['gate_name']}: {gr['measured']}")
+                # Store run-level results against first attempt for traceability
+                if checkable:
+                    db.add_gate_result(
+                        conn,
+                        attempt_id=checkable[0]["id"],
+                        gate_name=gr["gate_name"],
+                        result=gr["result"],
+                        measured=gr["measured"],
+                        expected=gr["expected"],
+                        artifact_kind=gr.get("artifact_kind"),
+                        artifact_path=gr.get("artifact_path"),
+                    )
+            conn.commit()
+    except Exception:
+        conn.rollback()
+        conn.close()
+        raise
 
     conn.close()
 
@@ -1795,21 +1891,23 @@ def cmd_ship_export(args):
 
     # Ship export accepts from 'accepted' state (pixel-reviewed) — no finish required
     accepted = conn.execute(
-        """SELECT direction FROM attempts
+        """SELECT id, direction FROM attempts
            WHERE run_id = ? AND state = 'accepted'
            ORDER BY direction""",
         (run_id,),
     ).fetchall()
     accepted_dirs = [r["direction"] for r in accepted]
+    accepted_attempt_by_dir = {r["direction"]: r["id"] for r in accepted}
 
     if not accepted_dirs:
         accepted = conn.execute(
-            """SELECT direction FROM attempts
+            """SELECT id, direction FROM attempts
                WHERE run_id = ? AND state = 'finish_accepted'
                ORDER BY direction""",
             (run_id,),
         ).fetchall()
         accepted_dirs = [r["direction"] for r in accepted]
+        accepted_attempt_by_dir = {r["direction"]: r["id"] for r in accepted}
 
     if not accepted_dirs:
         print(f"Error: run '{run_id}' has no accepted or finish_accepted attempts.")
@@ -1835,14 +1933,34 @@ def cmd_ship_export(args):
         conn.close()
         sys.exit(1)
 
-    # Verify source files
+    # Verify source files. Albedo is resolved from the REGISTRY's gated 'pixel'
+    # artifact for each accepted attempt, not from whatever sits in bakeoff/.
+    # The bakeoff file, if present, must be byte-identical or we fail loudly (F-001).
     source_map = {}
     for d in accepted_dirs:
-        albedo_src = bakeoff_dir / f"{d}.png"
+        attempt_id = accepted_attempt_by_dir[d]
+        pixel_row = conn.execute(
+            "SELECT path FROM artifacts WHERE attempt_id = ? AND kind = 'pixel'",
+            (attempt_id,),
+        ).fetchone()
+        if not pixel_row:
+            print(f"Error: no gated 'pixel' artifact registered for accepted "
+                  f"attempt #{attempt_id} ({d}). Cannot certify export source.")
+            conn.close()
+            sys.exit(1)
+        albedo_src = db.FOUNDRY_ROOT / pixel_row["path"]
         if not albedo_src.exists():
             print(f"Error: missing source file: {albedo_src}")
             conn.close()
             sys.exit(1)
+        bakeoff_albedo = bakeoff_dir / f"{d}.png"
+        if bakeoff_albedo.exists():
+            if hash_file(bakeoff_albedo) != hash_file(albedo_src):
+                print(f"Error: albedo divergence for {d}: bakeoff file "
+                      f"{bakeoff_albedo} does not match the gated registry artifact "
+                      f"{albedo_src}. Export aborted to avoid shipping an ungated sprite.")
+                conn.close()
+                sys.exit(1)
         source_map[d] = albedo_src
 
     contact_src = bakeoff_dir / "contact_sheet.png"
@@ -1907,21 +2025,44 @@ def cmd_ship_export(args):
         result = subprocess.run(
             ["git", "rev-parse", "--short", "HEAD"],
             capture_output=True, text=True, cwd=str(db.FOUNDRY_ROOT),
+            timeout=30,
         )
         if result.returncode == 0:
             git_hash = result.stdout.strip()
+    except subprocess.TimeoutExpired:
+        git_hash = "unknown"
     except Exception:
         pass
 
-    # Sprite dimensions
-    first_albedo = state_dir / f"{accepted_dirs[0]}.png"
-    width, height = 0, 0
-    try:
-        from PIL import Image
-        with Image.open(first_albedo) as img:
-            width, height = img.size
-    except Exception:
-        pass
+    # Sprite dimensions: read EVERY exported albedo for this state, assert they
+    # are all equal, and fail on any mismatch or read error — never default to
+    # 0,0 (F-002). The pixel-review gate proves target x target per attempt, so
+    # the run's sprite_target is the authoritative contract value.
+    target_dim = run["sprite_target"]
+    from PIL import Image
+    dims_seen = {}
+    for d in accepted_dirs:
+        albedo_path = state_dir / f"{d}.png"
+        try:
+            with Image.open(albedo_path) as img:
+                dims_seen[d] = img.size
+        except Exception as e:
+            print(f"Error: could not read exported albedo dimensions for {d} "
+                  f"({albedo_path}): {e}")
+            conn.close()
+            sys.exit(1)
+    distinct = set(dims_seen.values())
+    if len(distinct) != 1:
+        print("Error: exported albedos have inconsistent dimensions: "
+              + ", ".join(f"{d}={w}x{h}" for d, (w, h) in dims_seen.items()))
+        conn.close()
+        sys.exit(1)
+    width, height = distinct.pop()
+    if (width, height) != (target_dim, target_dim):
+        print(f"Error: exported albedo dimensions {width}x{height} do not match "
+              f"the gated render-contract target {target_dim}x{target_dim}.")
+        conn.close()
+        sys.exit(1)
 
     # Load existing manifest if present (accumulate states)
     manifest_path = export_root / "manifest.json"
@@ -2172,6 +2313,9 @@ def main():
         commands[args.command](args)
     else:
         parser.print_help()
+        # No subcommand is a usage error, not success — exit 2 (argparse's
+        # conventional usage-error code) so CI/scripts can detect it (F-014).
+        sys.exit(2)
 
 
 if __name__ == "__main__":

@@ -189,6 +189,28 @@ def run_lineage_summary(conn: sqlite3.Connection, run_id: str) -> dict:
 
 # ── 2D.3: Canonical Winner Query ───────────────────────────
 
+# Explicit lifecycle PROGRESS rank for "best so far" selection. Unlike the
+# declaration order of db.LIFECYCLE_STATES, this is monotonic *only* along the
+# success path; fail/terminal/superseded states get low/negative ranks so a
+# rejected or superseded attempt never outranks one still progressing.
+PROGRESS_RANK = {
+    "generated": 0,
+    "mechanical_pass": 1,
+    "raw_review_pending": 2,
+    "raw_accepted": 3,
+    "pixel_review_pending": 4,
+    "accepted": 5,
+    "finish_review_pending": 6,
+    "finish_accepted": 7,
+    # Terminal-fail and superseded: never "best" while anything is in progress.
+    "mechanical_fail": -1,
+    "raw_rejected": -1,
+    "rejected": -1,
+    "finish_rejected": -1,
+    "superseded": -2,
+}
+
+
 def canonical_winners(conn: sqlite3.Connection, run_id: str) -> list[dict]:
     """
     For each direction, return the canonical winner with explanation.
@@ -255,9 +277,13 @@ def canonical_winners(conn: sqlite3.Connection, run_id: str) -> list[dict]:
                 beaten = [f"#{d['id']} ({'; '.join(d['fail_reasons'])})" for d in defeated]
                 explanation += f" | defeated: {', '.join(beaten)}"
         else:
-            # No winner yet — find the furthest-advanced attempt
-            best = max(attempts, key=lambda a: db.LIFECYCLE_STATES.index(a["state"])
-                       if a["state"] in db.LIFECYCLE_STATES else -1)
+            # No winner yet — find the furthest-advanced attempt by PROGRESS
+            # rank (not list position), breaking ties by most-recent creation so
+            # the latest in-progress attempt wins among equal-rank states.
+            best = max(
+                attempts,
+                key=lambda a: (PROGRESS_RANK.get(a["state"], -3), a["created_at"]),
+            )
             explanation = f"no winner yet — best is #{best['id']} at {best['state']}"
 
         winners.append(dict(

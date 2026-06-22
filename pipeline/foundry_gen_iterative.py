@@ -16,12 +16,14 @@ Usage:
 import argparse
 import base64
 import json
+import os
 import subprocess
 import sys
 import time
 from datetime import datetime, timezone
 from io import BytesIO
 from pathlib import Path
+from urllib.error import URLError, HTTPError
 from urllib.request import urlopen, Request
 
 from PIL import Image, ImageDraw, ImageFont
@@ -30,6 +32,9 @@ import numpy as np
 COMFY_URL = "http://127.0.0.1:8188"
 FOUNDRY_ROOT = Path(__file__).parent.parent
 SPRITE_TARGET = 48
+
+# HTTP timeouts for all ComfyUI calls (seconds) — a dead server fails fast (F-007).
+HTTP_TIMEOUT = 30
 
 # Directions: front is generated first via txt2img, rest via img2img from front
 FRONT = ("front", "facing the viewer, front view, looking at camera")
@@ -54,8 +59,13 @@ STYLE_SUFFIX = (
 
 NEGATIVE_BG = "white background, gray background, grey background, beige background, gradient background"
 
-GEN_WIDTH = 576
-GEN_HEIGHT = 768
+# Generation canvas + batch size. Defaults preserve current output (576x768,
+# batch_size=1) and were tuned for the old RTX 5080 (16 GB). The rig is now an
+# RTX 5090 (32 GB) with headroom to raise SPRITE_FOUNDRY_BATCH_SIZE. Override via
+# env without changing the committed defaults (F-005).
+GEN_WIDTH = int(os.environ.get("SPRITE_FOUNDRY_GEN_WIDTH", "576"))
+GEN_HEIGHT = int(os.environ.get("SPRITE_FOUNDRY_GEN_HEIGHT", "768"))
+BATCH_SIZE = int(os.environ.get("SPRITE_FOUNDRY_BATCH_SIZE", "1"))
 
 
 # -- ComfyUI Workflow Builders ----------------------------─
@@ -110,7 +120,7 @@ def make_txt2img_workflow(subject_prompt, negative_prompt, direction_prompt,
     nodes.update({
         "5": {
             "class_type": "EmptyLatentImage",
-            "inputs": {"width": GEN_WIDTH, "height": GEN_HEIGHT, "batch_size": 1},
+            "inputs": {"width": GEN_WIDTH, "height": GEN_HEIGHT, "batch_size": BATCH_SIZE},
         },
         "6": {
             "class_type": "KSampler",
@@ -243,7 +253,7 @@ def make_ipadapter_rotate_workflow(subject_prompt, negative_prompt, direction_pr
         # Empty latent -- txt2img, model generates freely
         "5": {
             "class_type": "EmptyLatentImage",
-            "inputs": {"width": GEN_WIDTH, "height": GEN_HEIGHT, "batch_size": 1},
+            "inputs": {"width": GEN_WIDTH, "height": GEN_HEIGHT, "batch_size": BATCH_SIZE},
         },
         # KSampler -- full denoise, IPAdapter-enhanced model
         "6": {
@@ -270,21 +280,60 @@ def make_ipadapter_rotate_workflow(subject_prompt, negative_prompt, direction_pr
 
 # -- ComfyUI API ------------------------------------------─
 
+def check_comfy_reachable():
+    """Fail fast if ComfyUI is not reachable, before the multi-phase run (F-007)."""
+    try:
+        with urlopen(f"{COMFY_URL}/system_stats", timeout=HTTP_TIMEOUT) as resp:
+            resp.read()
+    except (URLError, HTTPError, OSError) as e:
+        raise RuntimeError(
+            f"ComfyUI not reachable at {COMFY_URL} ({e}). "
+            f"Start ComfyUI (default 127.0.0.1:8188) and retry."
+        ) from e
+
+
 def queue_prompt(workflow):
     data = json.dumps({"prompt": workflow}).encode()
     req = Request(f"{COMFY_URL}/prompt", data=data, headers={"Content-Type": "application/json"})
-    with urlopen(req) as resp:
+    with urlopen(req, timeout=HTTP_TIMEOUT) as resp:
         return json.loads(resp.read())
+
+
+def _check_history_status(prompt_id, entry):
+    """Raise RuntimeError if ComfyUI recorded an execution error (F-006).
+
+    Failed prompts are stored in /history with status.status_str == 'error';
+    without this check the caller reads missing outputs and reports a generic
+    failure instead of the real ComfyUI error.
+    """
+    status = entry.get("status", {})
+    if status.get("status_str") == "error" or status.get("completed") is False:
+        messages = status.get("messages", [])
+        detail = "; ".join(str(m) for m in messages) if messages else "no detail provided"
+        raise RuntimeError(f"ComfyUI execution error for prompt {prompt_id[:8]}: {detail}")
 
 
 def wait_for_completion(prompt_id, timeout=300):
     start = time.time()
+    connect_failures = 0
     while time.time() - start < timeout:
         try:
-            with urlopen(f"{COMFY_URL}/history/{prompt_id}") as resp:
+            with urlopen(f"{COMFY_URL}/history/{prompt_id}", timeout=HTTP_TIMEOUT) as resp:
                 history = json.loads(resp.read())
+            connect_failures = 0
             if prompt_id in history:
-                return history[prompt_id]
+                entry = history[prompt_id]
+                _check_history_status(prompt_id, entry)
+                return entry
+        except RuntimeError:
+            raise
+        except (URLError, HTTPError, OSError) as e:
+            connect_failures += 1
+            if connect_failures >= 3:
+                raise RuntimeError(
+                    f"ComfyUI became unreachable at {COMFY_URL} while waiting "
+                    f"for prompt {prompt_id[:8]} ({e})."
+                ) from e
         except Exception:
             pass
         time.sleep(3)
@@ -293,7 +342,7 @@ def wait_for_completion(prompt_id, timeout=300):
 
 def get_image(filename, subfolder=""):
     params = f"filename={filename}&subfolder={subfolder}&type=output"
-    with urlopen(f"{COMFY_URL}/view?{params}") as resp:
+    with urlopen(f"{COMFY_URL}/view?{params}", timeout=HTTP_TIMEOUT) as resp:
         return resp.read()
 
 
@@ -327,7 +376,7 @@ def upload_image(image_path, subfolder="", image_type="input"):
         headers={"Content-Type": f"multipart/form-data; boundary={boundary}"},
         method="POST",
     )
-    with urlopen(req) as resp:
+    with urlopen(req, timeout=HTTP_TIMEOUT) as resp:
         result = json.loads(resp.read())
     return result.get("name", filename)
 
@@ -369,13 +418,26 @@ def check_occupancy(img, occ_min=0.18, occ_max=0.55):
 
 
 def process_raw_to_pixel(raw_img, target=SPRITE_TARGET):
-    """Remove BG, crop to square, downscale to target size."""
+    """Remove BG, crop to subject bounding box + square pad, downscale.
+
+    The bounding-box crop replaces the old fixed top=(h-w)//4 heuristic, which
+    silently truncated tall, short, or off-center subjects (F-018).
+    """
     cleaned = remove_bg(raw_img.convert("RGBA"))
-    w, h = cleaned.size
-    if h > w:
-        top = (h - w) // 4
-        cleaned = cleaned.crop((0, top, w, top + w))
-    return cleaned.resize((target, target), Image.NEAREST)
+    arr = np.array(cleaned.convert("RGBA"))
+    visible = arr[:, :, 3] > 0
+    if not np.any(visible):
+        return cleaned.resize((target, target), Image.NEAREST)
+    rows = np.any(visible, axis=1)
+    cols = np.any(visible, axis=0)
+    top, bottom = np.where(rows)[0][[0, -1]]
+    left, right = np.where(cols)[0][[0, -1]]
+    cropped = cleaned.crop((left, top, right + 1, bottom + 1))
+    w, h = cropped.size
+    side = max(w, h)
+    square = Image.new("RGBA", (side, side), (0, 0, 0, 0))
+    square.paste(cropped, ((side - w) // 2, (side - h) // 2))
+    return square.resize((target, target), Image.NEAREST)
 
 
 # -- Contact Sheet ----------------------------------------─
@@ -490,6 +552,9 @@ def generate_iterative(config: dict):
     print(f"Pipeline: txt2img -> refine (d={refine_denoise}) -> IPAdapter rotate")
     print(f"Output: {out_dir}")
     print(f"{'=' * 60}")
+
+    # Fail fast if ComfyUI is down before the multi-phase run (F-007).
+    check_comfy_reachable()
 
     raw_images = {}
     pixel_images = {}
@@ -666,16 +731,24 @@ def generate_iterative(config: dict):
     )
 
     for dir_name in generated_dirs:
-        raw_path = str(out_dir / f"{dir_name}_raw.png")
-        pixel_path = str(out_dir / f"{dir_name}.png")
+        raw_path = out_dir / f"{dir_name}_raw.png"
+        pixel_path = out_dir / f"{dir_name}.png"
         # Use refined raw for front if it exists
         if dir_name == "front" and (out_dir / "front_refined_raw.png").exists():
-            raw_path = str(out_dir / "front_refined_raw.png")
+            raw_path = out_dir / "front_refined_raw.png"
+
+        # Don't register a dangling artifact path — a partial/failed write would
+        # otherwise put a path pointing at nothing into the DB (F-008).
+        missing = [str(p) for p in (raw_path, pixel_path) if not p.exists()]
+        if missing:
+            print(f"  [{dir_name}] SKIP register-attempt -- missing artifact(s): {', '.join(missing)}")
+            continue
+
         foundry_cmd(
             "register-attempt", run_id, dir_name,
             "--seed", str(seed),
-            "--artifacts", "raw", raw_path,
-            "--artifacts", "pixel", pixel_path,
+            "--artifacts", "raw", str(raw_path),
+            "--artifacts", "pixel", str(pixel_path),
         )
 
     print(f"\n--- Running mechanical gates ---")

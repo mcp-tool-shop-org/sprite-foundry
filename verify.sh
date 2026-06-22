@@ -31,20 +31,21 @@ for manifest in exports/*/manifest.json exports/*/*/manifest.json; do
     PACK_COUNT=$((PACK_COUNT + 1))
     pack_dir=$(dirname "$manifest")
 
-    # Check required directories
+    # Check required directories, and verify each has 8 PNGs when present.
+    # Guard the count on dir existence so a missing dir is reported exactly
+    # once (as MISSING), not double-counted as MISSING + WRONG COUNT 0.
     for subdir in albedo normal depth; do
         if [ ! -d "$pack_dir/$subdir" ]; then
             echo "  MISSING: $pack_dir/$subdir"
             PACK_ERRORS=$((PACK_ERRORS + 1))
+        else
+            png_count=$(find "$pack_dir/$subdir" -name "*.png" | wc -l)
+            if [ "$png_count" -ne 8 ]; then
+                echo "  WRONG COUNT: $pack_dir/$subdir has $png_count PNGs (expected 8)"
+                PACK_ERRORS=$((PACK_ERRORS + 1))
+            fi
         fi
     done
-
-    # Check albedo has 8 files
-    albedo_count=$(find "$pack_dir/albedo" -name "*.png" 2>/dev/null | wc -l)
-    if [ "$albedo_count" -ne 8 ]; then
-        echo "  WRONG COUNT: $pack_dir/albedo has $albedo_count PNGs (expected 8)"
-        PACK_ERRORS=$((PACK_ERRORS + 1))
-    fi
 
     # Validate manifest JSON
     python -c "import json; json.load(open('$manifest'))" 2>/dev/null || {
@@ -53,11 +54,16 @@ for manifest in exports/*/manifest.json exports/*/*/manifest.json; do
     }
 done
 
-echo "  Packs checked: $PACK_COUNT"
-if [ "$PACK_ERRORS" -gt 0 ]; then
+# Tolerate zero packs gracefully: exports/ is untracked, so CI checkouts
+# legitimately contain no packs and must still pass.
+if [ "$PACK_COUNT" -eq 0 ]; then
+    echo "  no export packs present (skipped)"
+elif [ "$PACK_ERRORS" -gt 0 ]; then
+    echo "  Packs checked: $PACK_COUNT"
     echo "  FAIL: $PACK_ERRORS pack errors"
     FAIL=1
 else
+    echo "  Packs checked: $PACK_COUNT"
     echo "  OK: all packs valid"
 fi
 

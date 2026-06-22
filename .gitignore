@@ -3,6 +3,13 @@ bakeoff/
 boards/
 derived/
 
+# Generated sprite export packs (regenerable pipeline outputs — albedo/normal/depth
+# PNGs + manifests; distribute via Releases/artifacts, not git history)
+exports/
+
+# Generated translation cache (TranslateGemma README translation memory)
+.polyglot-cache.json
+
 # Database (generated, not source)
 foundry.db
 foundry/foundry.db
