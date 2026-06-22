@@ -13,6 +13,7 @@ import json
 import sys
 import time
 from pathlib import Path
+from urllib.error import URLError, HTTPError
 from urllib.request import urlopen, Request
 
 from PIL import Image
@@ -21,6 +22,9 @@ import numpy as np
 COMFY_URL = "http://127.0.0.1:8188"
 FOUNDRY_ROOT = Path(__file__).parent.parent
 SPRITE_TARGET = 48
+
+# HTTP timeouts for all ComfyUI calls (seconds) — a dead server fails fast (F-007).
+HTTP_TIMEOUT = 30
 
 DIRECTIONS = [
     "front", "front_left", "left", "back_left",
@@ -65,21 +69,55 @@ def make_depth_workflow(image_filename: str, prefix: str) -> dict:
     }
 
 
+def check_comfy_reachable():
+    """Fail fast if ComfyUI is not reachable, before processing directions (F-007)."""
+    try:
+        with urlopen(f"{COMFY_URL}/system_stats", timeout=HTTP_TIMEOUT) as resp:
+            resp.read()
+    except (URLError, HTTPError, OSError) as e:
+        raise RuntimeError(
+            f"ComfyUI not reachable at {COMFY_URL} ({e}). "
+            f"Start ComfyUI (default 127.0.0.1:8188) and retry."
+        ) from e
+
+
 def queue_prompt(workflow):
     data = json.dumps({"prompt": workflow}).encode()
     req = Request(f"{COMFY_URL}/prompt", data=data, headers={"Content-Type": "application/json"})
-    with urlopen(req) as resp:
+    with urlopen(req, timeout=HTTP_TIMEOUT) as resp:
         return json.loads(resp.read())
+
+
+def _check_history_status(prompt_id, entry):
+    """Raise RuntimeError if ComfyUI recorded an execution error (F-006)."""
+    status = entry.get("status", {})
+    if status.get("status_str") == "error" or status.get("completed") is False:
+        messages = status.get("messages", [])
+        detail = "; ".join(str(m) for m in messages) if messages else "no detail provided"
+        raise RuntimeError(f"ComfyUI execution error for prompt {prompt_id[:8]}: {detail}")
 
 
 def wait_for_completion(prompt_id, timeout=180):
     start = time.time()
+    connect_failures = 0
     while time.time() - start < timeout:
         try:
-            with urlopen(f"{COMFY_URL}/history/{prompt_id}") as resp:
+            with urlopen(f"{COMFY_URL}/history/{prompt_id}", timeout=HTTP_TIMEOUT) as resp:
                 history = json.loads(resp.read())
+            connect_failures = 0
             if prompt_id in history:
-                return history[prompt_id]
+                entry = history[prompt_id]
+                _check_history_status(prompt_id, entry)
+                return entry
+        except RuntimeError:
+            raise
+        except (URLError, HTTPError, OSError) as e:
+            connect_failures += 1
+            if connect_failures >= 3:
+                raise RuntimeError(
+                    f"ComfyUI became unreachable at {COMFY_URL} while waiting "
+                    f"for prompt {prompt_id[:8]} ({e})."
+                ) from e
         except Exception:
             pass
         time.sleep(2)
@@ -88,7 +126,7 @@ def wait_for_completion(prompt_id, timeout=180):
 
 def get_image(filename, subfolder=""):
     params = f"filename={filename}&subfolder={subfolder}&type=output"
-    with urlopen(f"{COMFY_URL}/view?{params}") as resp:
+    with urlopen(f"{COMFY_URL}/view?{params}", timeout=HTTP_TIMEOUT) as resp:
         return resp.read()
 
 
@@ -113,19 +151,48 @@ def upload_image(filepath: Path) -> str:
         headers={"Content-Type": f"multipart/form-data; boundary={boundary}"},
         method="POST",
     )
-    with urlopen(req) as resp:
+    with urlopen(req, timeout=HTTP_TIMEOUT) as resp:
         result = json.loads(resp.read())
     return result["name"]
 
 
 def pixelate_map(raw_img: Image.Image, target: int) -> Image.Image:
-    """Center-crop portrait to square, then pixelate to target size."""
-    w, h = raw_img.size
-    if h > w:
-        top = (h - w) // 4
-        cropped = raw_img.crop((0, top, w, top + w))
+    """Crop a derived map to the subject bounding box + square pad, then pixelate.
+
+    Uses the same content-bounding-box crop as the sprite gen lanes (F-018) so the
+    normal/depth maps stay aligned with the pixel sprite they were derived from.
+    The old fixed top=(h-w)//4 crop would now misalign with the bbox-cropped sprite.
+
+    Maps may be RGB (normals) or grayscale (depth) without an alpha channel; in
+    that case we fall back to the legacy fixed crop since there is no transparency
+    to find a bounding box from.
+    """
+    rgba = raw_img.convert("RGBA")
+    arr = np.array(rgba)
+    has_alpha = raw_img.mode in ("RGBA", "LA", "PA") or (
+        raw_img.mode == "P" and "transparency" in raw_img.info
+    )
+    visible = arr[:, :, 3] > 0
+
+    if has_alpha and np.any(visible):
+        rows = np.any(visible, axis=1)
+        cols = np.any(visible, axis=0)
+        top, bottom = np.where(rows)[0][[0, -1]]
+        left, right = np.where(cols)[0][[0, -1]]
+        cropped = raw_img.crop((left, top, right + 1, bottom + 1))
+        w, h = cropped.size
+        side = max(w, h)
+        square = Image.new(raw_img.mode, (side, side))
+        square.paste(cropped, ((side - w) // 2, (side - h) // 2))
+        cropped = square
     else:
-        cropped = raw_img
+        # No usable alpha (opaque normal/depth map) — keep the legacy center crop.
+        w, h = raw_img.size
+        if h > w:
+            top = (h - w) // 4
+            cropped = raw_img.crop((0, top, w, top + w))
+        else:
+            cropped = raw_img
     return cropped.resize((target, target), Image.NEAREST)
 
 
@@ -159,6 +226,14 @@ def derive_maps(run_id: str):
 
     if not attempts:
         print(f"No accepted attempts found for run '{run_id}'.")
+        conn.close()
+        return
+
+    # Fail fast if ComfyUI is down before processing directions (F-007).
+    try:
+        check_comfy_reachable()
+    except RuntimeError as e:
+        print(f"ERROR: {e}")
         conn.close()
         return
 

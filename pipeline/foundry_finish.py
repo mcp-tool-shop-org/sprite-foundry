@@ -14,6 +14,7 @@ Usage:
 """
 
 import argparse
+import os
 import shutil
 import subprocess
 import sys
@@ -23,7 +24,54 @@ from pathlib import Path
 
 FOUNDRY_ROOT = Path(__file__).parent.parent
 GODOT_PROJECT = FOUNDRY_ROOT / "game" / "godot" / "render-lab"
-GODOT_EXE = Path("F:/AI/Godot/Godot_v4.6.1-stable_win64.exe")
+
+
+def resolve_godot_exe() -> Path:
+    """Resolve the Godot 4 binary from the environment, falling back to discovery.
+
+    Resolution order:
+      1. $SPRITE_FOUNDRY_GODOT  (explicit project override)
+      2. $GODOT4_BIN            (common Godot env var)
+      3. `godot4` / `godot` on PATH (shutil.which)
+
+    No drive letters or Godot patch versions are hardcoded — the rig may run
+    any Godot 4.x build at any path. Validation (existence + executability) is
+    deferred to validate_godot_exe() so callers can surface a clear error.
+    """
+    for env_var in ("SPRITE_FOUNDRY_GODOT", "GODOT4_BIN"):
+        val = os.environ.get(env_var)
+        if val:
+            return Path(val)
+
+    for candidate in ("godot4", "godot"):
+        found = shutil.which(candidate)
+        if found:
+            return Path(found)
+
+    # Nothing found — return a sentinel that validate_godot_exe() will reject
+    # with an actionable message rather than failing deep in subprocess.
+    return Path("godot4")
+
+
+def validate_godot_exe(exe: Path) -> None:
+    """Fail fast with an actionable error if the Godot binary is unusable.
+
+    A bare command name (resolved via PATH by shutil.which) is accepted as-is;
+    an absolute/relative path must point at an existing file.
+    """
+    # If it's a plain command name and on PATH, trust it.
+    if exe.name == str(exe) and shutil.which(str(exe)):
+        return
+    if not exe.exists():
+        raise FileNotFoundError(
+            f"Godot executable not found: {exe}\n"
+            f"  Set SPRITE_FOUNDRY_GODOT (or GODOT4_BIN) to your Godot 4 binary, "
+            f"or put 'godot4'/'godot' on PATH.\n"
+            f"  Example (PowerShell): $env:SPRITE_FOUNDRY_GODOT = 'C:/path/to/Godot_v4.x-stable_win64.exe'"
+        )
+
+
+GODOT_EXE = resolve_godot_exe()
 
 DIRECTIONS = [
     "front", "front_left", "left", "back_left",
@@ -329,25 +377,83 @@ func _process(_delta: float) -> void:
     print(f"  Wrote auto_lab.gd for {subject_id} ({len(directions)} dirs)")
 
 
+def _stderr_tail(result, n: int = 8) -> str:
+    """Return the last n non-empty lines of stderr for diagnostics."""
+    if not getattr(result, "stderr", None):
+        return "(no stderr)"
+    lines = [ln for ln in result.stderr.strip().split("\n") if ln.strip()]
+    return "\n".join(f"      {ln}" for ln in lines[-n:]) or "(no stderr)"
+
+
 def run_godot_import():
-    """Run Godot editor pass to import new textures."""
+    """Run Godot editor pass to import new textures.
+
+    Aborts the finish run on a missing binary, a non-zero exit, or a timeout
+    rather than printing 'done' over a silent failure (F-016).
+    """
     print("  Running Godot import pass...", end=" ", flush=True)
-    result = subprocess.run(
-        [str(GODOT_EXE), "--headless", "--editor", "--quit-after", "15",
-         "--path", str(GODOT_PROJECT)],
-        capture_output=True, text=True, timeout=30,
-    )
+    try:
+        result = subprocess.run(
+            [str(GODOT_EXE), "--headless", "--editor", "--quit-after", "15",
+             "--path", str(GODOT_PROJECT)],
+            capture_output=True, text=True, timeout=30,
+        )
+    except FileNotFoundError as e:
+        print("FAILED")
+        raise RuntimeError(
+            f"Godot binary not found while running import pass: {GODOT_EXE} ({e}). "
+            f"Set SPRITE_FOUNDRY_GODOT or GODOT4_BIN."
+        ) from e
+    except subprocess.TimeoutExpired as e:
+        print("TIMEOUT")
+        raise RuntimeError(
+            f"Godot import pass timed out after 30s. Godot may have hung on import."
+        ) from e
+
+    if result.returncode != 0:
+        print("FAILED")
+        raise RuntimeError(
+            f"Godot import pass exited with code {result.returncode}. stderr tail:\n"
+            f"{_stderr_tail(result)}"
+        )
     print("done")
 
 
 def run_godot_capture(timeout_secs: int = 60):
-    """Run Godot capture sweep."""
+    """Run Godot capture sweep.
+
+    Returns the number of captures parsed from stdout. Aborts the finish run on
+    a missing binary, a non-zero exit, or a process timeout (the editor process
+    overrunning the wall-clock guard) — a launch failure must not masquerade as
+    '0 captures' and trigger a blind retry (F-016).
+    """
     print("  Running Godot capture...", end=" ", flush=True)
-    result = subprocess.run(
-        [str(GODOT_EXE), "--quit-after", str(timeout_secs),
-         "--path", str(GODOT_PROJECT)],
-        capture_output=True, text=True, timeout=timeout_secs + 15,
-    )
+    try:
+        result = subprocess.run(
+            [str(GODOT_EXE), "--quit-after", str(timeout_secs),
+             "--path", str(GODOT_PROJECT)],
+            capture_output=True, text=True, timeout=timeout_secs + 15,
+        )
+    except FileNotFoundError as e:
+        print("FAILED")
+        raise RuntimeError(
+            f"Godot binary not found while running capture: {GODOT_EXE} ({e}). "
+            f"Set SPRITE_FOUNDRY_GODOT or GODOT4_BIN."
+        ) from e
+    except subprocess.TimeoutExpired as e:
+        print("TIMEOUT")
+        raise RuntimeError(
+            f"Godot capture process did not exit within {timeout_secs + 15}s "
+            f"(--quit-after was {timeout_secs}s). The capture scene likely hung."
+        ) from e
+
+    if result.returncode != 0:
+        print("FAILED")
+        raise RuntimeError(
+            f"Godot capture exited with code {result.returncode}. stderr tail:\n"
+            f"{_stderr_tail(result)}"
+        )
+
     # Count captures from stdout
     captures = result.stdout.count("Captured:")
     print(f"{captures} captures")
@@ -424,9 +530,19 @@ def run_finish_pipeline(run_id: str):
     char_name = subject["display_name"] if subject else subject_id
     screenshot_prefix = subject_id
 
+    # Fail fast if Godot is missing — the finish pipeline cannot run without it,
+    # and a clear error here beats a confusing FileNotFoundError mid-capture (F-001).
+    try:
+        validate_godot_exe(GODOT_EXE)
+    except FileNotFoundError as e:
+        print(f"\nERROR: {e}")
+        conn.close()
+        sys.exit(1)
+
     print(f"\n{'=' * 60}")
     print(f"FINISH PIPELINE: {char_name}")
     print(f"Run: {run_id}")
+    print(f"Godot: {GODOT_EXE}")
     print(f"{'=' * 60}\n")
 
     # Step 1: Copy assets
@@ -448,6 +564,9 @@ def run_finish_pipeline(run_id: str):
         print(f"\n  Batch: {', '.join(batch_dirs)}")
 
         write_auto_lab(subject_id, batch_dirs, screenshot_prefix)
+        # run_godot_capture raises on a missing binary / non-zero exit / process
+        # timeout, so a 0 here means Godot launched and exited cleanly but the
+        # scene produced no captures — a slow-render retry is legitimate.
         captures = run_godot_capture(timeout_secs=90)
 
         if captures == 0:

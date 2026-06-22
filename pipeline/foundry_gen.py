@@ -11,11 +11,13 @@ Usage:
 
 import argparse
 import json
+import os
 import subprocess
 import sys
 import time
 from datetime import datetime, timezone
 from pathlib import Path
+from urllib.error import URLError, HTTPError
 from urllib.request import urlopen, Request
 
 from PIL import Image, ImageDraw, ImageFont
@@ -24,6 +26,10 @@ import numpy as np
 COMFY_URL = "http://127.0.0.1:8188"
 FOUNDRY_ROOT = Path(__file__).parent.parent
 SPRITE_TARGET = 48
+
+# HTTP timeouts for all ComfyUI calls (seconds). A dead server should fail fast,
+# not hang a urlopen() indefinitely (F-007).
+HTTP_TIMEOUT = 30
 
 DIRECTIONS = [
     ("front", "facing the viewer, front view, looking at camera"),
@@ -46,8 +52,15 @@ STYLE_SUFFIX = (
 # Chroma key color for background removal (bright green = green screen)
 CHROMA_KEY = (0, 255, 0)
 
-GEN_WIDTH = 576
-GEN_HEIGHT = 768
+# Generation canvas + batch size.
+# Defaults below preserve the current sprite output (576x768, batch_size=1) and
+# were tuned for the old RTX 5080 (16 GB VRAM). The rig is now an RTX 5090
+# (32 GB) with headroom to raise SPRITE_FOUNDRY_BATCH_SIZE (and/or batch
+# directions per KSampler call) to cut wall-clock time. Override via env without
+# changing the committed defaults so the canonical sprite output is unchanged.
+GEN_WIDTH = int(os.environ.get("SPRITE_FOUNDRY_GEN_WIDTH", "576"))
+GEN_HEIGHT = int(os.environ.get("SPRITE_FOUNDRY_GEN_HEIGHT", "768"))
+BATCH_SIZE = int(os.environ.get("SPRITE_FOUNDRY_BATCH_SIZE", "1"))
 
 
 NEGATIVE_BG = "white background, gray background, grey background, beige background, gradient background"
@@ -83,7 +96,7 @@ def make_workflow(subject_prompt: str, negative_prompt: str, direction_prompt: s
         },
         "5": {
             "class_type": "EmptyLatentImage",
-            "inputs": {"width": GEN_WIDTH, "height": GEN_HEIGHT, "batch_size": 1},
+            "inputs": {"width": GEN_WIDTH, "height": GEN_HEIGHT, "batch_size": BATCH_SIZE},
         },
         "6": {
             "class_type": "KSampler",
@@ -105,21 +118,65 @@ def make_workflow(subject_prompt: str, negative_prompt: str, direction_prompt: s
     }
 
 
+def check_comfy_reachable():
+    """Fail fast if ComfyUI is not reachable, before queueing 8 directions (F-007)."""
+    try:
+        with urlopen(f"{COMFY_URL}/system_stats", timeout=HTTP_TIMEOUT) as resp:
+            resp.read()
+    except (URLError, HTTPError, OSError) as e:
+        raise RuntimeError(
+            f"ComfyUI not reachable at {COMFY_URL} ({e}). "
+            f"Start ComfyUI (default 127.0.0.1:8188) and retry."
+        ) from e
+
+
 def queue_prompt(workflow):
     data = json.dumps({"prompt": workflow}).encode()
     req = Request(f"{COMFY_URL}/prompt", data=data, headers={"Content-Type": "application/json"})
-    with urlopen(req) as resp:
+    with urlopen(req, timeout=HTTP_TIMEOUT) as resp:
         return json.loads(resp.read())
+
+
+def _check_history_status(prompt_id, entry):
+    """Raise RuntimeError if ComfyUI recorded an execution error for this prompt.
+
+    ComfyUI stores FAILED prompts in /history too, with
+    status.status_str == 'error' and status.messages describing the failure.
+    Without this check the caller sees a 'completed' entry that has no outputs
+    and misreports it as a generic extract failure (F-006).
+    """
+    status = entry.get("status", {})
+    if status.get("status_str") == "error" or status.get("completed") is False:
+        messages = status.get("messages", [])
+        detail = "; ".join(str(m) for m in messages) if messages else "no detail provided"
+        raise RuntimeError(f"ComfyUI execution error for prompt {prompt_id[:8]}: {detail}")
 
 
 def wait_for_completion(prompt_id, timeout=180):
     start = time.time()
+    connect_failures = 0
     while time.time() - start < timeout:
         try:
-            with urlopen(f"{COMFY_URL}/history/{prompt_id}") as resp:
+            with urlopen(f"{COMFY_URL}/history/{prompt_id}", timeout=HTTP_TIMEOUT) as resp:
                 history = json.loads(resp.read())
+            connect_failures = 0
             if prompt_id in history:
-                return history[prompt_id]
+                entry = history[prompt_id]
+                _check_history_status(prompt_id, entry)
+                return entry
+        except RuntimeError:
+            # Execution error surfaced by _check_history_status — propagate.
+            raise
+        except (URLError, HTTPError, OSError) as e:
+            # Distinguish "server gone" from "not ready yet": after a few
+            # consecutive connection failures, abort instead of polling the
+            # full timeout against a dead server (F-007).
+            connect_failures += 1
+            if connect_failures >= 3:
+                raise RuntimeError(
+                    f"ComfyUI became unreachable at {COMFY_URL} while waiting "
+                    f"for prompt {prompt_id[:8]} ({e})."
+                ) from e
         except Exception:
             pass
         time.sleep(3)
@@ -128,7 +185,7 @@ def wait_for_completion(prompt_id, timeout=180):
 
 def get_image(filename, subfolder=""):
     params = f"filename={filename}&subfolder={subfolder}&type=output"
-    with urlopen(f"{COMFY_URL}/view?{params}") as resp:
+    with urlopen(f"{COMFY_URL}/view?{params}", timeout=HTTP_TIMEOUT) as resp:
         return resp.read()
 
 
@@ -163,6 +220,30 @@ def remove_bg(img, tolerance=35):
         arr[diff < tolerance, 3] = 0
 
     return Image.fromarray(arr)
+
+
+def crop_to_square(cleaned):
+    """Content-bounding-box crop + square pad (preserves the whole subject).
+
+    Replaces the fixed top=(h-w)//4 heuristic, which assumed the subject sits in
+    a fixed vertical band of the 576x768 canvas and silently truncated tall,
+    short, or off-center figures (F-018). Ported from
+    foundry_gen_zero123.process_to_pixel.
+    """
+    arr = np.array(cleaned.convert("RGBA"))
+    visible = arr[:, :, 3] > 0
+    if not np.any(visible):
+        return cleaned  # nothing to crop; let downstream resize handle it
+    rows = np.any(visible, axis=1)
+    cols = np.any(visible, axis=0)
+    top, bottom = np.where(rows)[0][[0, -1]]
+    left, right = np.where(cols)[0][[0, -1]]
+    cropped = cleaned.crop((left, top, right + 1, bottom + 1))
+    w, h = cropped.size
+    side = max(w, h)
+    square = Image.new("RGBA", (side, side), (0, 0, 0, 0))
+    square.paste(cropped, ((side - w) // 2, (side - h) // 2))
+    return square
 
 
 def make_contact_sheets(raw_images, pixel_images, config, run_id, out_dir):
@@ -282,6 +363,9 @@ def generate_and_register(config: dict):
     print(f"Output: {out_dir}")
     print(f"{'=' * 60}\n")
 
+    # Fail fast if ComfyUI is down before queueing 8 directions (F-007).
+    check_comfy_reachable()
+
     raw_images = {}
     pixel_images = {}
     generated_dirs = []
@@ -315,12 +399,9 @@ def generate_and_register(config: dict):
             raw_img = Image.open(raw_path)
             raw_images[dir_name] = raw_img
 
-            # Remove background + pixelate
+            # Remove background + crop to subject bounding box + pixelate
             cleaned = remove_bg(raw_img.convert("RGBA"))
-            w, h = cleaned.size
-            if h > w:
-                top = (h - w) // 4
-                cleaned = cleaned.crop((0, top, w, top + w))
+            cleaned = crop_to_square(cleaned)
 
             pixel_img = cleaned.resize((SPRITE_TARGET, SPRITE_TARGET), Image.NEAREST)
             pixel_path = out_dir / f"{dir_name}.png"
@@ -380,14 +461,21 @@ def generate_and_register(config: dict):
 
     # Register each attempt with artifacts
     for dir_name in generated_dirs:
-        raw_path = str(out_dir / f"{dir_name}_raw.png")
-        pixel_path = str(out_dir / f"{dir_name}.png")
+        raw_path = out_dir / f"{dir_name}_raw.png"
+        pixel_path = out_dir / f"{dir_name}.png"
+
+        # Don't register a dangling artifact path — a partial/failed write would
+        # otherwise put a path pointing at nothing into the DB (F-008).
+        missing = [str(p) for p in (raw_path, pixel_path) if not p.exists()]
+        if missing:
+            print(f"  [{dir_name}] SKIP register-attempt -- missing artifact(s): {', '.join(missing)}")
+            continue
 
         foundry_cmd(
             "register-attempt", run_id, dir_name,
             "--seed", str(seed),
-            "--artifacts", "raw", raw_path,
-            "--artifacts", "pixel", pixel_path,
+            "--artifacts", "raw", str(raw_path),
+            "--artifacts", "pixel", str(pixel_path),
         )
 
     # Contact sheets are run-level review artifacts, not direction attempts.

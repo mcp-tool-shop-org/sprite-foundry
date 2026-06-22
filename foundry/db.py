@@ -99,7 +99,8 @@ CREATE TABLE IF NOT EXISTS attempts (
     parent_attempt_id  INTEGER REFERENCES attempts(id),
     regen_reason       TEXT,
     regen_note         TEXT,
-    created_at         TEXT NOT NULL
+    created_at         TEXT NOT NULL,
+    CHECK (parent_attempt_id <> id)
 );
 
 CREATE INDEX IF NOT EXISTS idx_attempts_run_dir
@@ -165,6 +166,39 @@ def get_connection(db_path: Path = DB_PATH) -> sqlite3.Connection:
     return conn
 
 
+def _migrate_v1_to_v2(conn: sqlite3.Connection) -> None:
+    """v1 -> v2: introduce the gate_results table.
+
+    The CREATE TABLE itself is handled by SCHEMA_SQL's IF NOT EXISTS, so this
+    migration only has to guarantee the table is present for an existing v1 DB.
+    Running the idempotent DDL here keeps the migration self-contained and
+    independent of SCHEMA_SQL ordering.
+    """
+    conn.execute(
+        """CREATE TABLE IF NOT EXISTS gate_results (
+            id            INTEGER PRIMARY KEY AUTOINCREMENT,
+            attempt_id    INTEGER NOT NULL REFERENCES attempts(id),
+            gate_name     TEXT NOT NULL,
+            result        TEXT NOT NULL,
+            measured       TEXT,
+            expected       TEXT,
+            artifact_kind TEXT,
+            artifact_path TEXT,
+            created_at    TEXT NOT NULL
+        )"""
+    )
+    conn.execute(
+        "CREATE INDEX IF NOT EXISTS idx_gate_results_attempt ON gate_results(attempt_id)"
+    )
+
+
+# Ordered migration dispatch: {from_version: migration_fn}. Each fn upgrades a DB
+# at `from_version` to `from_version + 1`. New migrations append here in sequence.
+MIGRATIONS = {
+    1: _migrate_v1_to_v2,
+}
+
+
 def init_db(db_path: Path = DB_PATH) -> sqlite3.Connection:
     """Initialize the database schema. Idempotent."""
     conn = get_connection(db_path)
@@ -179,15 +213,33 @@ def init_db(db_path: Path = DB_PATH) -> sqlite3.Connection:
             "INSERT INTO meta (key, value) VALUES ('schema_version', ?)",
             (str(SCHEMA_VERSION),),
         )
-    else:
-        current_ver = int(existing["value"])
-        if current_ver < SCHEMA_VERSION:
-            # Migration: v1 -> v2: add gate_results table
-            conn.execute(
-                "UPDATE meta SET value = ? WHERE key = 'schema_version'",
-                (str(SCHEMA_VERSION),),
+        conn.commit()
+        return conn
+
+    current_ver = int(existing["value"])
+    # Apply migrations in sequence inside a single transaction. Only advance
+    # schema_version when the corresponding migration actually runs — never
+    # stamp a new version onto an old physical schema.
+    while current_ver < SCHEMA_VERSION:
+        migration_fn = MIGRATIONS.get(current_ver)
+        if migration_fn is None:
+            raise RuntimeError(
+                f"No migration registered for schema version {current_ver} -> "
+                f"{current_ver + 1}; cannot safely upgrade to v{SCHEMA_VERSION}."
             )
-    conn.commit()
+        try:
+            with conn:  # transaction: migration + version bump commit together
+                migration_fn(conn)
+                conn.execute(
+                    "UPDATE meta SET value = ? WHERE key = 'schema_version'",
+                    (str(current_ver + 1),),
+                )
+        except Exception:
+            # `with conn` already rolled back; surface so the caller sees the
+            # registry was NOT silently renamed to a version it never reached.
+            raise
+        current_ver += 1
+
     return conn
 
 
@@ -207,10 +259,20 @@ def transition_attempt(conn: sqlite3.Connection, attempt_id: int, new_state: str
             f"Allowed: {allowed or 'none (terminal state)'}"
         )
 
-    conn.execute(
-        "UPDATE attempts SET state = ? WHERE id = ?",
-        (new_state, attempt_id),
+    # Atomic compare-and-set: guard the UPDATE on the state we validated against.
+    # Under WAL concurrency another writer may have advanced the row between the
+    # SELECT above and this UPDATE; if so rowcount is 0 and we raise rather than
+    # double-apply a transition (TOCTOU race).
+    cursor = conn.execute(
+        "UPDATE attempts SET state = ? WHERE id = ? AND state = ?",
+        (new_state, attempt_id, current),
     )
+    if cursor.rowcount != 1:
+        raise ValueError(
+            f"Transition precondition changed under concurrent write: "
+            f"attempt {attempt_id} is no longer in state '{current}' "
+            f"(expected for {current} → {new_state})."
+        )
 
 
 def add_review(
@@ -315,11 +377,32 @@ def add_gate_result(
     return cursor.lastrowid
 
 
+# Defense-in-depth cap on lineage walks; far above any real regen chain depth.
+MAX_LINEAGE_DEPTH = 1000
+
+
 def get_attempt_lineage(conn: sqlite3.Connection, attempt_id: int) -> list[dict]:
-    """Walk the parent chain back to the root attempt."""
+    """Walk the parent chain back to the root attempt.
+
+    Guards against a cyclic parent_attempt_id (e.g. a corrupted/edited row)
+    that would otherwise loop forever and hang every caller (review-show,
+    story, lineage, attempt-detail).
+    """
     chain = []
+    visited: set[int] = set()
     current_id = attempt_id
     while current_id is not None:
+        if current_id in visited:
+            raise ValueError(
+                f"Cycle detected in attempt lineage at #{current_id}; "
+                f"parent_attempt_id chain is corrupt."
+            )
+        if len(visited) >= MAX_LINEAGE_DEPTH:
+            raise ValueError(
+                f"Lineage exceeded max depth {MAX_LINEAGE_DEPTH} walking from "
+                f"#{attempt_id}; likely corrupt parent_attempt_id chain."
+            )
+        visited.add(current_id)
         row = conn.execute(
             """SELECT id, direction, state, seed, parent_attempt_id,
                       regen_reason, regen_note, created_at

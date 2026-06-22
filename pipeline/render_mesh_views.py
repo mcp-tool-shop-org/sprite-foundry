@@ -21,7 +21,24 @@ import trimesh
 from PIL import Image
 
 
-# 8 sprite directions with azimuth angles
+# 8 sprite directions with azimuth angles.
+#
+# AXIS / MAPPING CONTRACT (F-010) — load-bearing, do not change without re-verifying:
+#   * Mesh forward axis convention: the mesh's FRONT faces +Z, its UP is +Y
+#     (the glTF / pyrender convention). assert_forward_axis() checks this on load.
+#   * Camera placement (render_views): x = dist*sin(az), z = dist*cos(az), so
+#       az=0   -> camera at +Z looking at origin -> sees the mesh's +Z face = "front"
+#       az=90  -> camera at +X -> sees the mesh's +X face = "right"
+#       az=180 -> camera at -Z -> "back"
+#       az=270 -> camera at -X -> "left"
+#   * If your meshes use a different forward axis (e.g. -Z front, common for some
+#     Trellis exports), set MESH_FORWARD env to flip/rotate before rendering, or
+#     the front/back and left/right labels will be silently swapped.
+#
+# A silent left/right or front/back swap here produces a full sprite set with
+# wrong direction labels — the occupancy guard below catches an empty render
+# (camera/axis bug) but cannot catch a consistent-but-wrong mapping. The fixed
+# convention + the documented mapping above are the guard against that.
 DIRECTIONS = [
     ("front",       0),
     ("front_right", 45),
@@ -32,6 +49,29 @@ DIRECTIONS = [
     ("left",        270),
     ("front_left",  315),
 ]
+
+# Minimum per-view alpha occupancy. A view rendering near-nothing means the
+# camera missed the mesh (wrong axis/handedness/scale) — a silent bad-output bug.
+MIN_VIEW_OCCUPANCY = 0.005
+
+
+def assert_forward_axis(mesh):
+    """Sanity-check the mesh fits the +Z-forward / +Y-up render contract (F-010).
+
+    We can't infer 'which way is front' from geometry alone, but we CAN catch
+    the common failure modes that produce empty or degenerate renders: a mesh
+    with zero extent on an axis, or NaN/inf vertices. A flat or collapsed mesh
+    would render empty from most azimuths and silently mislabel the set.
+    """
+    extents = mesh.bounding_box.extents
+    if not np.all(np.isfinite(mesh.vertices)):
+        raise ValueError("Mesh has non-finite vertices (NaN/inf) — cannot render reliably.")
+    if np.any(extents <= 1e-6):
+        raise ValueError(
+            f"Mesh is degenerate/flat (bounding-box extents {extents}). "
+            f"A flat mesh renders empty from most azimuths and mislabels the sprite set. "
+            f"Check the mesh export and the +Z-forward/+Y-up axis convention."
+        )
 
 
 def look_at(eye, target, up):
@@ -80,6 +120,9 @@ def render_views(mesh_path: str, output_dir: str, size: int = 512, pitch: float 
 
     print(f"  Vertices: {len(combined.vertices)}, Faces: {len(combined.faces)}")
 
+    # Validate the mesh against the render axis contract before doing any work (F-010).
+    assert_forward_axis(combined)
+
     # Center and normalize
     center = combined.bounding_box.centroid
     combined.vertices -= center
@@ -111,6 +154,7 @@ def render_views(mesh_path: str, output_dir: str, size: int = 512, pitch: float 
     dist = 2.0
 
     pixel_images = {}
+    empty_views = []
 
     for dir_name, az_deg in DIRECTIONS:
         az_rad = math.radians(az_deg)
@@ -138,7 +182,10 @@ def render_views(mesh_path: str, output_dir: str, size: int = 512, pitch: float 
         # Compute occupancy
         alpha = color[:, :, 3]
         occ = np.sum(alpha > 0) / (size * size)
-        print(f"  {dir_name}: {occ:.0%} occupancy")
+        flag = "  <-- EMPTY (axis/camera bug?)" if occ < MIN_VIEW_OCCUPANCY else ""
+        print(f"  {dir_name}: {occ:.1%} occupancy{flag}")
+        if occ < MIN_VIEW_OCCUPANCY:
+            empty_views.append(dir_name)
 
         pixel_images[dir_name] = img
 
@@ -146,6 +193,17 @@ def render_views(mesh_path: str, output_dir: str, size: int = 512, pitch: float 
 
     # Make contact sheet
     make_contact_sheet(pixel_images, out)
+
+    # Fail loudly on empty renders — an empty view almost always means the camera
+    # missed the mesh (wrong forward axis / handedness / scale), which would
+    # otherwise ship a silently-broken sprite set (F-010).
+    if empty_views:
+        raise ValueError(
+            f"{len(empty_views)} view(s) rendered empty (< {MIN_VIEW_OCCUPANCY:.1%} "
+            f"occupancy): {', '.join(empty_views)}. This indicates a camera/axis bug "
+            f"(check the +Z-forward/+Y-up convention and mesh scale). Renders saved to "
+            f"{out} for inspection."
+        )
 
     print(f"\n8 views rendered to: {out}")
     return pixel_images
