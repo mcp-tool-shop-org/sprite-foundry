@@ -2142,7 +2142,7 @@ def cmd_ship_export(args):
 # -- CLI argument parser --------------------------------------
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(prog="foundry", description="Star Freight Foundry — asset registry")
+    parser = argparse.ArgumentParser(prog="foundry", description="Sprite Foundry — sprite asset registry")
     sub = parser.add_subparsers(dest="command")
 
     # init

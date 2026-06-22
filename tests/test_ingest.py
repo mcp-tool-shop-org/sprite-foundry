@@ -235,29 +235,112 @@ def test_missing_direction_cli_exits_nonzero(isolated_foundry, tmp_path):
 
 def test_optional_maps_are_ingested(isolated_foundry, tmp_path):
     """When <dir>_normal.png / <dir>_depth.png are present, they are registered
-    as 'normal' / 'depth' artifacts on each attempt."""
+    as 'normal' / 'depth' artifacts on each attempt — sized to SPRITE_TARGET and
+    written into the run's `<run_id>_maps` directory (where `foundry export`
+    resolves them), NOT passed through at source resolution (F-014 follow-up)."""
+    from pipeline.foundry_ingest import SPRITE_TARGET
+
+    run_id = "ingest_run_maps"
     render_dir = _make_render_set(tmp_path / "render", with_maps=True)
-    run_id = foundry_ingest.ingest(
+    foundry_ingest.ingest(
         render_dir=render_dir,
         subject_id="maps_subject",
         seed=3,
-        run_id="ingest_run_maps",
+        run_id=run_id,
     )
 
     conn = db.init_db()
     try:
         attempts = conn.execute(
-            "SELECT id FROM attempts WHERE run_id = ?", (run_id,)
+            "SELECT id, direction FROM attempts WHERE run_id = ?", (run_id,)
         ).fetchall()
         assert len(attempts) == 8
         for a in attempts:
-            kinds = {
-                r["kind"]
+            rows = {
+                r["kind"]: r["path"]
                 for r in conn.execute(
-                    "SELECT kind FROM artifacts WHERE attempt_id = ?", (a["id"],)
+                    "SELECT kind, path FROM artifacts WHERE attempt_id = ?",
+                    (a["id"],),
                 ).fetchall()
             }
-            assert "normal" in kinds
-            assert "depth" in kinds
+            assert "normal" in rows
+            assert "depth" in rows
+
+            for kind in ("normal", "depth"):
+                map_path = db.FOUNDRY_ROOT / rows[kind]
+                # Lives in the `<run_id>_maps` directory the export step reads.
+                assert map_path.parent.name == f"{run_id}_maps", (
+                    f"{kind} for {a['direction']} not in maps dir: {map_path}"
+                )
+                assert map_path.exists()
+                # Sized to the sprite target, matching the 48x48 albedo.
+                with Image.open(map_path) as img:
+                    assert img.size == (SPRITE_TARGET, SPRITE_TARGET)
+    finally:
+        conn.close()
+
+
+def test_ingested_maps_are_aligned_to_albedo(isolated_foundry, tmp_path):
+    """The ingested maps use the SAME content-bbox crop as the albedo, so a map's
+    pixels stay spatially aligned with the 48x48 albedo instead of being framed
+    independently (or passed through whole). We prove this with an asymmetric
+    subject: the albedo blob fills only the top-left quadrant, and the normal map
+    is split top-left=green / elsewhere=red. A correctly *albedo-aligned* crop
+    keeps the green quadrant; a full-frame or center crop would drag in red."""
+    from pipeline.foundry_ingest import SPRITE_TARGET
+
+    size = 512
+    half = size // 2
+    render_dir = tmp_path / "render_align"
+    render_dir.mkdir(parents=True, exist_ok=True)
+
+    for name in DIRECTION_NAMES:
+        # Albedo: opaque blob in the TOP-LEFT quadrant only -> bbox = that quadrant.
+        albedo = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+        px = albedo.load()
+        for x in range(0, half):
+            for y in range(0, half):
+                px[x, y] = (180, 90, 60, 255)
+        albedo.save(str(render_dir / f"{name}.png"))
+
+        # Normal: green where the albedo content is, red everywhere else.
+        normal = Image.new("RGBA", (size, size), (200, 10, 10, 255))
+        npx = normal.load()
+        for x in range(0, half):
+            for y in range(0, half):
+                npx[x, y] = (10, 200, 10, 255)
+        normal.save(str(render_dir / f"{name}_normal.png"))
+
+    run_id = "ingest_run_align"
+    foundry_ingest.ingest(
+        render_dir=render_dir,
+        subject_id="align_subject",
+        seed=5,
+        run_id=run_id,
+    )
+
+    conn = db.init_db()
+    try:
+        attempts = conn.execute(
+            "SELECT id, direction FROM attempts WHERE run_id = ?", (run_id,)
+        ).fetchall()
+        assert len(attempts) == 8
+        for a in attempts:
+            normal_row = conn.execute(
+                "SELECT path FROM artifacts WHERE attempt_id = ? AND kind = 'normal'",
+                (a["id"],),
+            ).fetchone()
+            assert normal_row is not None
+
+            with Image.open(db.FOUNDRY_ROOT / normal_row["path"]) as img:
+                assert img.size == (SPRITE_TARGET, SPRITE_TARGET)
+                rgb = img.convert("RGB")
+                # Center pixel must be GREEN-dominant: the crop tracked the albedo's
+                # top-left bbox. A misaligned (full/center) crop would sample red.
+                r, g, b = rgb.getpixel((SPRITE_TARGET // 2, SPRITE_TARGET // 2))
+                assert g > r, (
+                    f"{a['direction']} normal map misaligned with albedo: "
+                    f"center pixel rgb=({r},{g},{b}) is not green-dominant"
+                )
     finally:
         conn.close()

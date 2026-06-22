@@ -5,11 +5,11 @@ sidebar:
   order: 0
 ---
 
-Sprite Foundry is a headless sprite generation pipeline that produces game-ready 8-direction pixel sprites with normal and depth maps for [Star Freight](https://github.com/mcp-tool-shop-org/star-freight).
+Sprite Foundry is a headless, canon-bound sprite pipeline that produces game-ready 8-direction pixel sprites with normal and depth maps for 2.5D RPGs. The packs it produces are published to npm under the [`@sprite-foundry`](https://github.com/mcp-tool-shop-org/sprite-foundry-packs) scope.
 
 ## What it does
 
-1. **Generates** sprites via ComfyUI (SDXL + pixel-art-xl LoRA + ControlNet)
+1. **Generates** sprites via ComfyUI (SDXL + pixel-art-xl LoRA + ControlNet) — or **ingests** externally-rendered 8-direction sets from the [trellis-sprite-pipeline](https://github.com/mcp-tool-shop-org/trellis-sprite-pipeline) (image → 3D mesh → Blender render)
 2. **Tracks** every generation through a 13-state lifecycle in SQLite
 3. **Derives** normal and depth maps for accepted sprites
 4. **Verifies** lighting quality in a Godot 4.6 finish lab

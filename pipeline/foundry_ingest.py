@@ -44,6 +44,8 @@ from foundry import cli, db
 from pipeline.foundry_gen import (
     DIRECTIONS,
     SPRITE_TARGET,
+    apply_crop_box,
+    content_crop_box,
     crop_to_square,
     remove_bg,
 )
@@ -76,15 +78,18 @@ def validate_render_dir(render_dir: Path) -> list[str]:
     return missing
 
 
-def process_direction(render_dir: Path, out_dir: Path, direction: str) -> dict:
+def process_direction(
+    render_dir: Path, out_dir: Path, maps_dir: Path, direction: str
+) -> dict:
     """Process one direction's render into foundry artifacts.
 
     Produces:
         - ``<dir>_raw.png``  : the source render copied into the run out_dir
                                (the foundry's 'raw' artifact convention).
         - ``<dir>.png``      : the 48x48 transparent pixel artifact.
-        - ``<dir>_normal.png`` / ``<dir>_depth.png`` : copied through if the
-          source provided them.
+        - ``<dir>_normal.png`` / ``<dir>_depth.png`` : if the source provided
+          them, cropped+downscaled to match the 48x48 albedo and written into
+          ``maps_dir`` (the run's ``<run_id>_maps`` directory).
 
     Returns a dict of {artifact_kind: Path} for everything written.
     """
@@ -102,20 +107,48 @@ def process_direction(render_dir: Path, out_dir: Path, direction: str) -> dict:
     # no green screen and falls back to corner-color matching against fully
     # transparent corners — a clean no-op that leaves the alpha untouched.
     cleaned = remove_bg(raw_img)
-    cleaned = crop_to_square(cleaned)
-    pixel_img = cleaned.resize((SPRITE_TARGET, SPRITE_TARGET), Image.NEAREST)
+    pixel_img = crop_to_square(cleaned).resize(
+        (SPRITE_TARGET, SPRITE_TARGET), Image.NEAREST
+    )
     pixel_path = out_dir / f"{direction}.png"
     pixel_img.save(str(pixel_path))
     artifacts["pixel"] = pixel_path
 
-    # --- optional maps: copy through if the source rendered them ---
+    # --- optional maps: align to the albedo, downscale, write into _maps ---
+    # If the source rendered normal/depth maps, they share the albedo's framing,
+    # so we apply the SAME content-bbox crop computed from the albedo's alpha (not
+    # each map's own bbox) and the SAME NEAREST downscale to SPRITE_TARGET. This
+    # keeps the maps pixel-aligned with the 48x48 albedo instead of passing them
+    # through at source resolution (the F-014 export-contract violation: the
+    # export contract requires "8 × matching normal/depth maps").
+    #
+    # NEAREST selects existing pixels rather than averaging neighbours, so normal
+    # vectors stay unit-length and need no renormalization — matching
+    # foundry_maps.pixelate_map, the derivation path this mirrors.
+    #
+    # Maps are written into maps_dir (``<run_id>_maps``), NOT the bakeoff dir,
+    # because `foundry export` resolves normal/depth strictly from that directory.
+    # Registering them as 'normal'/'depth' artifacts also makes `foundry produce`
+    # skip ComfyUI map derivation, correctly preserving the higher-fidelity
+    # geometry maps the renderer already produced.
+    box_result = content_crop_box(cleaned)
     for kind in MAP_KINDS:
         map_src = render_dir / f"{direction}_{kind}.png"
-        if map_src.exists():
-            map_img = Image.open(map_src)
-            map_path = out_dir / f"{direction}_{kind}.png"
-            map_img.save(str(map_path))
-            artifacts[kind] = map_path
+        if not map_src.exists():
+            continue
+        map_img = Image.open(map_src)
+        if box_result is not None:
+            box, side = box_result
+            aligned = apply_crop_box(map_img, box, side)
+        else:
+            # Fully transparent albedo (no silhouette to align to): fall back to a
+            # plain square downscale so we still emit a SPRITE_TARGET-sized map.
+            aligned = map_img.convert("RGBA")
+        map_out = aligned.resize((SPRITE_TARGET, SPRITE_TARGET), Image.NEAREST)
+        maps_dir.mkdir(parents=True, exist_ok=True)
+        map_path = maps_dir / f"{direction}_{kind}.png"
+        map_out.save(str(map_path))
+        artifacts[kind] = map_path
 
     return artifacts
 
@@ -180,6 +213,10 @@ def ingest(
         run_id = f"{subject_id}_ingest_{ts}"
     out_dir = db.FOUNDRY_ROOT / "bakeoff" / run_id
     out_dir.mkdir(parents=True, exist_ok=True)
+    # Maps land in the `<run_id>_maps` sibling dir — the same convention
+    # foundry_maps.derive_maps uses and the only place `foundry export` looks for
+    # normal/depth. Created lazily by process_direction when a map is present.
+    maps_dir = db.FOUNDRY_ROOT / "bakeoff" / f"{run_id}_maps"
 
     print(f"\n{'=' * 60}")
     print(f"FOUNDRY INGEST ({source}): {subject_id}")
@@ -192,7 +229,7 @@ def ingest(
     per_direction: dict[str, dict] = {}
     has_maps = False
     for direction in DIRECTION_NAMES:
-        artifacts = process_direction(render_dir, out_dir, direction)
+        artifacts = process_direction(render_dir, out_dir, maps_dir, direction)
         per_direction[direction] = artifacts
         map_tags = [k for k in MAP_KINDS if k in artifacts]
         if map_tags:
