@@ -18,7 +18,7 @@ Sprite Foundry is built for:
 - **Game developers** who need consistent 8-direction character sprites with lighting data
 - **Solo devs and small teams** who want AI-assisted sprite generation with human review gates
 - **Asset pipeline engineers** who care about reproducibility, checksums, and provenance tracking
-- **Star Freight contributors** — Sprite Foundry is the canonical asset pipeline for the Star Freight game
+- **2.5D RPG teams** — Sprite Foundry is a canon-bound asset pipeline; its packs ship to npm under `@sprite-foundry`
 
 You should be comfortable working in a terminal and running Python scripts. This is a developer tool, not a GUI application.
 
@@ -58,7 +58,7 @@ A subject is a character that you want to generate sprites for. Each subject has
 ```bash
 python -m foundry subject-add sera_vale "Sera Vale" \
   --role crew \
-  --consumer star-freight
+  --consumer my-game
 ```
 
 **Step 3: Check pipeline status**
@@ -136,7 +136,7 @@ The registry is append-only by design. Every decision (accept, reject, regen) is
 | **Manifest** | A JSON file (`manifest.json`) in each export pack containing schema version, SHA-256 checksums, and full provenance |
 | **Reject code** | A classification tag applied when rejecting an attempt (e.g., shape error, artifact, wrong pose) |
 | **Regen** | Re-generation of a rejected attempt. The original is preserved; the new attempt links back via lineage |
-| **Consumer** | The game or project that will use the exported sprites (e.g., `star-freight`) |
+| **Consumer** | The game or project that will use the exported sprites (e.g., `my-game`) |
 | **ControlNet** | An AI technique that guides image generation using reference images (depth maps, edge maps) for pose consistency |
 | **LoRA** | A lightweight model adapter. Sprite Foundry uses `pixel-art-xl` LoRA to produce pixel art style output from SDXL |
 | **Morphology** | Body plan classification for non-humanoid subjects: arthropod, quadruped, or winged |

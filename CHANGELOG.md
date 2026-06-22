@@ -5,6 +5,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.2.0] - 2026-06-22
+
+Dogfood-swarm health pass (Stage A) + the Trellis ingest feature, plus a
+5080 → 5090 retune. 62 findings audited; first test suite stood up (0 → 61).
+
+### Added
+
+- **Trellis ingest bridge** — `python -m pipeline.foundry_ingest --dir <render_dir> --subject <id>` registers an externally-rendered 8-direction sprite set (the `trellis-sprite-pipeline` output) into the foundry lifecycle, so `check` / review / `produce` / `export` work on it like a generated run
+- **Test suite** — 61 tests (`tests/`): mechanical gate boundaries, atomic state transitions, real schema migration, lineage cycle guard, winner ranking, checksum determinism, CLI parity, and ingest integration
+- **RTX 5090 retune** — `SPRITE_FOUNDRY_GEN_WIDTH` / `_GEN_HEIGHT` / `_BATCH_SIZE` env overrides (defaults unchanged); Godot resolved from `SPRITE_FOUNDRY_GODOT` / `GODOT4_BIN` / discovery
+
+### Fixed
+
+- Export now resolves the albedo from the gated registry artifact (not the bakeoff/ filesystem path) — an ungated/stale sprite can no longer ship under a valid checksum; manifest dimensions verified across all 8 directions (no silent 0,0)
+- Real schema-migration dispatch (version no longer advances without its migration running); lineage cycle guard; atomic compare-and-set state transitions; transaction/rollback boundaries; closed leaked PIL file handles
+- ComfyUI execution-status + reachability checks with timeouts (server errors no longer masquerade as extract failures); content-bbox crop replaces fixed truncation; morph lane uses deterministic green-screen chroma key
+- Removed hardcoded `F:/` paths (Godot binary, Godot finish-lab exports dir) that broke on non-`F:` rigs
+- CI now actually runs `verify.sh`; `exports/` + `.polyglot-cache.json` gitignored
+
+### Changed
+
+- Renamed internally from "Star Freight Foundry" to **Sprite Foundry**; docs reframed from Star-Freight-specific to a general 2.5D-RPG sprite factory; sprite packs published to npm under `@sprite-foundry`
+
 ## [1.1.0] - 2026-03-27
 
 ### Added

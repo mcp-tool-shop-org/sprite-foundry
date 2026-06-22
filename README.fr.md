@@ -7,18 +7,20 @@
 </p>
 
 <p align="center">
-  <strong>Headless sprite generation pipeline for Star Freight</strong>
+  <strong>Headless, canon-bound sprite pipeline — 8-direction pixel-art packs for 2.5D RPGs</strong>
 </p>
 
 <p align="center">
   <a href="https://github.com/mcp-tool-shop-org/sprite-foundry/actions/workflows/ci.yml"><img src="https://github.com/mcp-tool-shop-org/sprite-foundry/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a>
-  <a href="https://mcp-tool-shop.github.io/sprite-foundry/"><img src="https://img.shields.io/badge/docs-handbook-blue" alt="Handbook"></a>
+  <a href="https://mcp-tool-shop-org.github.io/sprite-foundry/"><img src="https://img.shields.io/badge/docs-handbook-blue" alt="Handbook"></a>
 </p>
 
 ---
 
-Sprite Foundry est un système de gestion d'actifs local qui génère, examine et exporte des sprites pixelisés 8 directions avec des cartes de normalisation et de profondeur. Il utilise ComfyUI pour la génération, avec le contrôle morphologique ControlNet (8 classes de corps), SQLite pour le suivi du cycle de vie, et Godot 4.6 pour la vérification de l'éclairage (finish-lab), le tout contrôlé à partir d'une seule interface en ligne de commande.
+Sprite Foundry est un système de création d’éléments graphiques (assets) qui fonctionne uniquement en local. Il génère, examine et exporte des sprites pixelisés multidirectionnels (8 directions) avec des cartes de normales et de profondeur. Il alimente ComfyUI pour la génération à l’aide du contrôle morphologique de ControlNet (8 classes de corps), SQLite pour le suivi du cycle de vie, et Godot 4.6 pour la vérification de l’éclairage en phase finale — le tout contrôlé depuis une seule interface en ligne de commande (CLI).
+
+> **Les ensembles de sprites produits par cette usine sont publiés sur npm** sous le nom de domaine `@sprite-foundry`, à partir du dépôt monolitique [sprite-foundry-packs](https://github.com/mcp-tool-shop-org/sprite-foundry-packs). Ce dépôt est l’usine ; ce dépôt est la boutique.
 
 ## Architecture
 
@@ -42,36 +44,36 @@ Subject Sheet ──► ComfyUI Generation ──► Mechanical Gates
                                       (manifest + checksums)
 ```
 
-## Liste des personnages
+## Liste des éléments
 
-92 ensembles d'exportation de production répartis en 12 catégories :
+92 ensembles d’exportation de production répartis en 12 catégories :
 
-| Personnage | Nombre | Sujets |
+| Catégorie | Nombre | Sujets |
 |------|-------|----------|
-| Bêtes | 16 | Bell Warden, Bone Weaver, Clock Golem, Grinning Idol, Hive Keeper, Hollow Knight, Ink Shade, Lantern Angler, Mirror Stalker, Mud Revenant, Rat King, Root Puppet, Spore Mother, Teeth Collector, Throat Singer, Wyvern |
-| Habitants de la ville | 16 | Barmaid, Beggar, Blacksmith, Child, Elder, Farmer, Fisherman, Guard, Herbalist, Innkeeper, Lamplighter, Merchant, Minstrel, Noble, Scribe, Stable Hand |
-| Gobelins | 8 | Archer, Bomber, Brute, Grunt, Scout, Shaman, Warchief, Wolf Rider |
-| Héros | 8 | Barbarian, Cleric, Fighter, Mage, Monk, Paladin, Ranger, Rogue |
-| Pirates | 8 | Captain, Cutthroat, Drowned, Governor, Navy Sailor, Pistoleer, Quartermaster, Sea Priest |
-| Vilains | 8 | Assassin, Blackguard, Cult Priest, Dark Monk, Dread Ranger, Necromancer, Reaver, Warlord |
-| Zombies | 8 | Bloater, Elite, Hazmat, Riot, Runner, Shambler, Skeletal, Worker |
-| Créature | 6 | Bête de chargement, Gueule de dérive, Drone d'exploration, Prédateur de dérive, Raptor du vide, Drone guérisseur Keth |
-| Équipage | 7 | Sera Vale, Ilen Marr, Thal, Thal (Combinaison de protection), Varek, Kael Morrow, Plongeur |
-| Hostile | 3 | Pilleur, Pirate, Agent d'interdiction compact |
-| Autorité | 2 | Agent de patrouille compact, Envoy de la Maison Veshan |
-| Civil | 2 | Nera Quill, Courtier Orryn |
+| Bête | 16 | Gardien de cloche, Tisseur d’os, Golem horloger, Idole grimaçante, Gardien de ruche, Chevalier creux, Ombre d’encre, Pêcheur-lanterne, Stalker miroir, Revenant boueux, Roi rat, Marionnette racinaire, Mère spore, Collecteur de dents, Chanteur de gorge, Wyverne |
+| Habitants de la ville | 16 | Servante, Mendiant, Forgeron, Enfant, Ancien, Fermier, Pêcheur, Garde, Herboriste, Aubergiste, Allumeur de lampes, Marchand, Ménestrel, Noble, Écrivain, Palefrenier |
+| Gobelin | 8 | Archer, Bombardier, Brute, Soldat, Éclaireur, Chaman, Chef de guerre, Cavalier loup |
+| Héros | 8 | Barbare, Clerc, Guerrier, Mage, Moine, Paladin, Rôdeur, Voleur |
+| Pirate | 8 | Capitaine, Coupe-gorge, Noyé, Gouverneur, Marin, Pistolero, Maître d’équipage, Prêtre de la mer |
+| Méchant | 8 | Assassin, Garde noire, Prêtre du culte, Moine sombre, Rôdeur redoutable, Nécromancien, Pilleur, Seigneur de guerre |
+| Zombie | 8 | Gonflé, Élite, Anti-hazard, Émeutier, Coureur, Vagabond, Squelettique, Ouvrier |
+| Créature | 6 | Bête de cargaison, Gueule dérive, Drone agile, Prédateur dérive, Raptor du vide, Soigneur-drone Keth |
+| Équipage | 7 | Sera Vale, Ilen Marr, Thal, Thal (combinaison anti-hazard), Varek, Kael Morrow, Plongeur de coque |
+| Hostile | 3 | Pilleur, Pirate Reach, Agent d’interdiction compact |
+| Autorité | 2 | Agent de patrouille compact, Envoyé de la maison Veshan |
+| Civil | 2 | Nera Quill, Orryn Broker |
 
-## Catégorie de monstres
+## Catégorie des monstres
 
-Les créatures non humanoïdes utilisent des guides de profondeur spécifiques à la classe de corps au lieu du squelette humanoïde standard. Chaque classe de corps possède sa propre silhouette de référence de profondeur, sa force ControlNet et ses paramètres de synchronisation.
+Les créatures non humanoïdes utilisent des guides de profondeur spécifiques à leur classe corporelle au lieu du squelette humanoïde standard. Chaque classe corporelle a sa propre silhouette de référence de profondeur, sa force ControlNet et ses paramètres de synchronisation.
 
-| Classe de corps | Force de profondeur | Pourcentage de fin | Créature |
+| Classe corporelle | Force de profondeur | Pourcentage final | Créatures |
 |------------|---------------|-------|-----------|
-| Amorphe | 0.35 | 65% | Rat King, Spore Mother, Mud Revenant |
-| Large/Accroupi | 0.40 | 70% | Grinning Idol |
-| Grand/Mince | 0.40 | 70% | Lantern Angler, Root Puppet |
+| Amorphe | 0.35 | 65% | Roi rat, Mère spore, Revenant boueux |
+| Large/Trapu | 0.40 | 70% | Idole grimaçante |
+| Grand/Mince | 0.40 | 70% | Pêcheur-lanterne, Marionnette racinaire |
 
-Les guides de profondeur sont des primitives sans articulation (amas, piliers, colonnes) qui fixent la masse et l'orientation sans imposer la position du squelette ou des membres. Le champ `body_class` dans les configurations des personnages sélectionne automatiquement le préréglage correct :
+Les guides de profondeur sont des primitives sans articulations (amas, piliers, colonnes) qui fixent la masse et l’orientation sans dicter le placement du squelette ou des membres. Le champ `body_class` dans les configurations des personnages sélectionne automatiquement le préréglage correct :
 
 ```bash
 # Body class auto-resolved from config
@@ -81,7 +83,7 @@ python -m pipeline.foundry_gen_morph --config pipeline/chars/beast_rat_king.json
 python -m pipeline.foundry_gen_morph --config pipeline/chars/beast_rat_king.json --body-class tall_thin
 ```
 
-## Contrat d'exportation v1.0.0 (figé)
+## Contrat d’exportation v1.0.0 (figé)
 
 ```
 exports/{subject_slug}/{run_id}/
@@ -92,16 +94,16 @@ exports/{subject_slug}/{run_id}/
 └── manifest.json  (schema v1.0.0, SHA-256 checksums, provenance)
 ```
 
-- 8 directions : avant, avant_gauche, gauche, arrière_gauche, arrière, arrière_droite, droite, avant_droite
-- PNG transparent 48x48, point de pivot au centre-bas
-- Les consommateurs valident `schema_version: "1.0.0"` avant de charger
+- 8 directions : avant, avant gauche, gauche, arrière gauche, arrière, arrière droite, droite, avant droite
+- PNG transparent de 48 x 48 pixels, pivot en bas au centre
+- Les consommateurs valident `schema_version: "1.0.0"` avant le chargement
 
 ## Prérequis
 
 - Python 3.11+
-- [ComfyUI](https://github.com/comfyanonymous/ComfyUI) en cours d'exécution localement (pour la génération)
-- Godot 4.6 (pour le rendu finish lab)
-- GPU NVIDIA recommandé (RTX 5080 / 16 Go de VRAM testés)
+- [ComfyUI](https://github.com/comfyanonymous/ComfyUI) en cours d’exécution localement (pour la génération)
+- Godot 4.6 (pour le rendu en phase finale)
+- GPU NVIDIA recommandé (RTX 5090 / 32 Go testé ; minimum 16 Go)
 
 ## Démarrage rapide
 
@@ -114,48 +116,48 @@ cd sprite-foundry
 python -m foundry init
 
 # Register a subject
-python -m foundry subject-add sera_vale "Sera Vale" --role crew --consumer star-freight
+python -m foundry subject-add sera_vale "Sera Vale" --role crew --consumer my-game
 
 # Check the full pipeline status
 python -m foundry status
 ```
 
-## Commandes de l'interface en ligne de commande
+## Commandes CLI
 
 | Commande | Description |
 |---------|-------------|
-| `init` | Initialise le registre SQLite de la forge. |
-| `subject-add` | Enregistre un nouveau sujet de personnage. |
-| `register-run` | Enregistre une exécution de génération ComfyUI. |
-| `register-attempt` | Enregistre une tentative individuelle au sein d'une exécution. |
-| `check` | Exécute les contrôles de validation mécaniques. |
-| `review-show` | Affiche la file d'attente de révision pour une exécution. |
-| `review-accept` | Accepte une tentative à l'étape de révision actuelle. |
-| `review-reject` | Rejette une tentative avec un code de rejet. |
-| `batch-accept` | Accepte toutes les tentatives en attente dans une exécution. |
-| `batch-reject` | Rejette toutes les tentatives en attente dans une exécution avec un seul code. |
-| `regen` | Planifie la régénération des tentatives rejetées. |
-| `attempt-detail` | Affiche le cycle de vie complet d'une tentative. |
-| `finish-board` | Génère un tableau de comparaison finish-lab. |
-| `status` | Résumé de l'état du pipeline. |
-| `story` | Description complète de l'origine d'un sujet. |
-| `lineage` | Chaîne de régénération pour une tentative. |
-| `winner` | Gagnant canonique par direction. |
-| `drift` | Analyse des schémas d'échec et taux de réussite. |
-| `metrics` | Métriques de débit (par exécution ou à l'échelle de la forge). |
-| `produce` | Commande unique : cartes + captures finish pour une exécution acceptée. |
-| `export` | Exporte une exécution acceptée par finish en tant que paquet de ressources déterministe. |
+| `init` | Initialiser le registre SQLite de l’usine |
+| `subject-add` | Enregistrer un nouveau sujet de personnage |
+| `register-run` | Enregistrer une exécution de génération ComfyUI |
+| `register-attempt` | Enregistrer une tentative individuelle au sein d’une exécution |
+| `check` | Exécuter les contrôles de validation mécaniques |
+| `review-show` | Afficher la file d’attente des révisions pour une exécution |
+| `review-accept` | Accepter une tentative à l’étape actuelle de la révision |
+| `review-reject` | Rejeter une tentative avec un code de rejet |
+| `batch-accept` | Accepter toutes les tentatives en attente dans une exécution |
+| `batch-reject` | Rejeter toutes les tentatives en attente dans une exécution avec un seul code |
+| `regen` | Mettre en file d’attente la régénération pour les tentatives rejetées |
+| `attempt-detail` | Afficher l’intégralité du cycle de vie pour une tentative |
+| `finish-board` | Générer un tableau comparatif en phase finale |
+| `status` | Résumé de l’état du pipeline |
+| `story` | Récit complet de la provenance pour un sujet |
+| `lineage` | Chaîne de régénération pour une tentative |
+| `winner` | Gagnant canonique par direction |
+| `drift` | Analyse des schémas d’échec et taux de réussite |
+| `metrics` | Indicateurs de débit (par exécution ou à l’échelle de l’usine) |
+| `produce` | Commande unique : cartes + captures en phase finale pour une exécution acceptée |
+| `export` | Exporter une exécution acceptée en phase finale sous forme d’ensemble d’éléments graphiques déterministe |
 
 ## Modèle de menace
 
-Sprite Foundry est un **outil de développement local**. Il ne :
+Sprite Foundry est un **outil de développement local**. Il ne :
 
-- Accède au réseau (ComfyUI s'exécute sur localhost)
-- Gère les secrets, les jetons ou les informations d'identification
-- Collecte ou envoie des données télémétriques
-- Écrit en dehors de son propre répertoire de travail
+- Accède pas au réseau (ComfyUI s’exécute sur localhost)
+- Gère pas les secrets, les jetons ou les informations d’identification
+- Collecte ni n’envoie pas de données de télémétrie
+- Écrit pas en dehors de son propre répertoire de travail
 
-Les opérations de fichiers sont limitées à `exports/`, `bakeoff/`, `boards/`, `derived/` et le registre SQLite. Les appels de sous-processus sont limités à l'API locale de ComfyUI et au rendu headless de Godot.
+Les opérations sur les fichiers sont limitées à `exports/`, `bakeoff/`, `boards/`, `derived/` et au registre SQLite. Les appels aux sous-processus sont limités à l’API locale de ComfyUI et au rendu sans tête de Godot.
 
 ## Licence
 

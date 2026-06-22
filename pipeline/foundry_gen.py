@@ -222,6 +222,46 @@ def remove_bg(img, tolerance=35):
     return Image.fromarray(arr)
 
 
+def content_crop_box(cleaned):
+    """Compute the content bounding box + square side for a subject.
+
+    Returns ``(box, side)`` where ``box`` is the ``(left, top, right, bottom)``
+    crop rectangle around every non-transparent pixel and ``side`` is the edge of
+    the centered square the crop is padded into. Returns ``None`` when the image
+    is fully transparent (no content to bound).
+
+    Factored out of ``crop_to_square`` so the SAME box can be applied to a
+    sprite's derived maps (normal/depth), keeping them pixel-aligned with the
+    albedo they were rendered alongside (F-014 ingest follow-up).
+    """
+    arr = np.array(cleaned.convert("RGBA"))
+    visible = arr[:, :, 3] > 0
+    if not np.any(visible):
+        return None
+    rows = np.any(visible, axis=1)
+    cols = np.any(visible, axis=0)
+    top, bottom = np.where(rows)[0][[0, -1]]
+    left, right = np.where(cols)[0][[0, -1]]
+    box = (int(left), int(top), int(right) + 1, int(bottom) + 1)
+    side = max(box[2] - box[0], box[3] - box[1])
+    return box, side
+
+
+def apply_crop_box(img, box, side):
+    """Crop ``img`` to ``box`` and center-pad it into a transparent ``side`` square.
+
+    The geometric companion to ``content_crop_box``: given a box computed from one
+    image (typically the albedo's alpha), produce the identically-framed square
+    for any image rendered in the same frame. Always returns RGBA so the padded
+    border is transparent.
+    """
+    cropped = img.convert("RGBA").crop(box)
+    w, h = cropped.size
+    square = Image.new("RGBA", (side, side), (0, 0, 0, 0))
+    square.paste(cropped, ((side - w) // 2, (side - h) // 2))
+    return square
+
+
 def crop_to_square(cleaned):
     """Content-bounding-box crop + square pad (preserves the whole subject).
 
@@ -230,20 +270,11 @@ def crop_to_square(cleaned):
     short, or off-center figures (F-018). Ported from
     foundry_gen_zero123.process_to_pixel.
     """
-    arr = np.array(cleaned.convert("RGBA"))
-    visible = arr[:, :, 3] > 0
-    if not np.any(visible):
+    result = content_crop_box(cleaned)
+    if result is None:
         return cleaned  # nothing to crop; let downstream resize handle it
-    rows = np.any(visible, axis=1)
-    cols = np.any(visible, axis=0)
-    top, bottom = np.where(rows)[0][[0, -1]]
-    left, right = np.where(cols)[0][[0, -1]]
-    cropped = cleaned.crop((left, top, right + 1, bottom + 1))
-    w, h = cropped.size
-    side = max(w, h)
-    square = Image.new("RGBA", (side, side), (0, 0, 0, 0))
-    square.paste(cropped, ((side - w) // 2, (side - h) // 2))
-    return square
+    box, side = result
+    return apply_crop_box(cleaned, box, side)
 
 
 def make_contact_sheets(raw_images, pixel_images, config, run_id, out_dir):
