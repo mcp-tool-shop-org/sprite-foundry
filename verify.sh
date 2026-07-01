@@ -80,7 +80,13 @@ else
     echo "WARN: exports/roster_index.json not found (non-blocking)"
 fi
 
-# 6. Required files
+# 6. 3d-prerender syntax check
+# GPU stages (bpy/torch/trellis2) aren't installable here, so this is syntax-only —
+# it does not import the scripts, just compiles them.
+echo "Checking 3d-prerender script syntax..."
+python -m py_compile 3d-prerender/*.py || { echo "FAIL: 3d-prerender py_compile"; FAIL=1; }
+
+# 7. Required files
 echo "Checking required files..."
 for f in README.md LICENSE CHANGELOG.md SECURITY.md; do
     if [ -f "$f" ]; then
