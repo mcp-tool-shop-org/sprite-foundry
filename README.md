@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/mcp-tool-shop/brand/main/logos/sprite-foundry/readme.png" alt="Sprite Foundry" width="600">
+  <img src="https://raw.githubusercontent.com/mcp-tool-shop-org/brand/main/logos/sprite-foundry/readme.png" alt="Sprite Foundry" width="600">
 </p>
 
 <p align="center">
