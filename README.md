@@ -150,14 +150,21 @@ python -m foundry status
 
 ## Threat Model
 
-Sprite Foundry is a **local developer tool**. It does not:
+Sprite Foundry is a **local developer tool**. It does not handle secrets, tokens, or credentials, and
+collects no telemetry. Network/filesystem footprint differs by subsystem:
 
-- Access the network (ComfyUI runs on localhost)
-- Handle secrets, tokens, or credentials
-- Collect or send telemetry
-- Write outside its own working directory
+**`foundry/`** (the lifecycle-tracking CLI): does not access the network (ComfyUI runs on localhost).
+File operations are constrained to `exports/`, `bakeoff/`, `boards/`, `derived/`, and the SQLite
+registry. Subprocess calls are limited to ComfyUI's local API and Godot headless rendering.
 
-File operations are constrained to `exports/`, `bakeoff/`, `boards/`, `derived/`, and the SQLite registry. Subprocess calls are limited to ComfyUI's local API and Godot headless rendering.
+**`3d-prerender/`** (the mesh/retexture/render pipeline): does access the network — its jury scripts
+(`pack_jury.py`, `sprite_jury.py`, invocable via `cli.py jury`) send rendered character images to
+cloud-hosted vision models over Ollama's cloud API for QA scoring. Do not point the jury at images
+containing sensitive or unreleased material without accounting for that. File operations are NOT
+constrained to a subdirectory of this repo — `3d-prerender/config.py`'s defaults read/write rig model
+caches and working directories outside the repo (e.g. `E:/AI-Models`, a configurable working-copy path)
+by design, since this is a local generation pipeline, not a sandboxed tool; every path is overridable
+via an `SF_*` environment variable (see `3d-prerender/config.py`).
 
 ## License
 
