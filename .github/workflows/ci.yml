@@ -54,7 +54,7 @@ jobs:
       # rasterize_and_dilate) only need numpy/Pillow/scipy/trimesh/hypothesis — all
       # CPU-only and installable on ubuntu-latest, unlike the GPU stages.
       - name: Install 3d-prerender test dependencies
-        run: python -m pip install numpy Pillow scipy trimesh hypothesis
+        run: python -m pip install pytest numpy Pillow scipy trimesh hypothesis
 
       - name: Run 3d-prerender pure-logic tests
         run: pytest 3d-prerender/test_texture_patch_region.py -v
