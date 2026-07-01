@@ -5,11 +5,13 @@ Run: <COMFY_PY> _harpooner_concept.py
 import json, time, uuid, urllib.request
 from pathlib import Path
 from PIL import Image
-COMFY_URL = "http://127.0.0.1:8188"
-COMFY_OUT = Path("E:/AI-Models/ComfyUI_windows_portable/ComfyUI/output")
-OUT = Path("E:/AI/training/_p0_packs_modernize/pirate_raiders_hd/concepts")
-UNET = "qwen_image_fp8_e4m3fn.safetensors"; LORA = "sfhd_style_v1_1250.safetensors"
-CLIP = "qwen_2.5_vl_7b_fp8_scaled.safetensors"; VAE = "qwen_image_vae.safetensors"
+import config
+
+COMFY_URL = config.COMFY_URL
+COMFY_OUT = config.COMFY_OUT
+OUT = config.OUT
+UNET = config.UNET; LORA = config.LORA
+CLIP = config.CLIP; VAE = config.VAE
 
 POS = ("sfhd style, a hulking green-skinned orc harpooner with tusks and big ears, bare muscular arms with "
        "fur-trimmed leather bracers, a leather chest harness, a coil of rope, ragged trousers, "
@@ -41,7 +43,7 @@ def graph(seed):
 def submit(g, dst):
     pid = json.loads(urllib.request.urlopen(urllib.request.Request(f"{COMFY_URL}/prompt",
         json.dumps({"prompt": g, "client_id": uuid.uuid4().hex}).encode(), {"Content-Type": "application/json"}), timeout=120).read())["prompt_id"]
-    for _ in range(2400):
+    for _ in range(config.SUBMIT_TIMEOUT_S):
         hist = json.loads(urllib.request.urlopen(f"{COMFY_URL}/history/{pid}", timeout=30).read())
         if pid in hist and hist[pid].get("outputs"):
             img = hist[pid]["outputs"]["9"]["images"][0]; src = COMFY_OUT / img["subfolder"] / img["filename"]
@@ -51,7 +53,14 @@ def submit(g, dst):
         time.sleep(0.5)
     raise RuntimeError("timed out")
 
+succeeded = []; failed = []
 for i, seed in enumerate([770701, 880812, 113344, 556677]):
     dst = OUT / f"harpooner_side_{i}.png"
-    submit(graph(seed), dst); print(f"  harpooner_side_{i} -> {dst}", flush=True)
+    try:
+        submit(graph(seed), dst); print(f"  harpooner_side_{i} -> {dst}", flush=True)
+        succeeded.append(i)
+    except Exception as e:
+        print(f"  FAILED harpooner_side_{i} (seed={seed}): {e}", flush=True)
+        failed.append(i)
+print(f"SUMMARY: {len(succeeded)}/4 seeds succeeded (ok={succeeded}, failed={failed})", flush=True)
 print("HARPOONER CONCEPTS DONE", flush=True)

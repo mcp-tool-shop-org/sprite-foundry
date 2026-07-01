@@ -13,6 +13,8 @@ argv = sys.argv[sys.argv.index("--")+1:]
 def arg(n, d=None): return argv[argv.index(n)+1] if n in argv else d
 GLB = arg("--glb"); OUT = arg("--out"); VIEWS = int(arg("--views","8")); SIZE = int(arg("--size","768")); TAG = arg("--tag","view")
 CLAY = arg("--clay","0")=="1"   # override all materials with uniform grey = geometry-only compare
+if not GLB or not os.path.exists(GLB):
+    print(f"ERROR: --glb not supplied or not found: {GLB!r}", flush=True); sys.exit(1)
 os.makedirs(OUT, exist_ok=True)
 
 bpy.ops.wm.read_factory_settings(use_empty=True)

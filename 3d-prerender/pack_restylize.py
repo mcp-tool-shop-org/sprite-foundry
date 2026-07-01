@@ -8,16 +8,17 @@ import argparse, json, time, uuid, urllib.request
 from pathlib import Path
 import cv2, numpy as np
 from PIL import Image
+import config
 
-COMFY_URL = "http://127.0.0.1:8188"
-COMFY_ROOT = Path("E:/AI-Models/ComfyUI_windows_portable/ComfyUI")
-COMFY_IN = COMFY_ROOT / "input"; COMFY_OUT = COMFY_ROOT / "output"
-UNET = "qwen_image_fp8_e4m3fn.safetensors"; LORA = "sfhd_style_v1_1250.safetensors"
-CLIP = "qwen_2.5_vl_7b_fp8_scaled.safetensors"; VAE = "qwen_image_vae.safetensors"
-CTRL = "Qwen-Image-InstantX-ControlNet-Union.safetensors"; DIM = 1024
-PACK = Path("E:/AI/training/_p0_packs_modernize/_mesh_line/_pirate_pack")
-ROSTER = Path("E:/AI/sprite-foundry-2p5d/roster_pirate-raiders.json")
-BG = (216, 210, 192)  # house pale bg
+COMFY_URL = config.COMFY_URL
+COMFY_ROOT = config.COMFY_ROOT
+COMFY_IN = COMFY_ROOT / "input"; COMFY_OUT = config.COMFY_OUT
+UNET = config.UNET; LORA = config.LORA
+CLIP = config.CLIP; VAE = config.VAE
+CTRL = config.CTRL; DIM = 1024
+PACK = config.PACK
+ROSTER = config.ROSTER
+BG = config.BG  # house pale bg
 # my orbit convention: dir_0=front (-Y), CCW -> front, front-right, right, back-right, back, back-left, left, front-left
 DIRHINT = [
     "viewed from the front, facing the viewer",
@@ -73,7 +74,7 @@ def free():
 def submit(g, dst):
     pid = json.loads(urllib.request.urlopen(urllib.request.Request(f"{COMFY_URL}/prompt",
         json.dumps({"prompt": g, "client_id": uuid.uuid4().hex}).encode(), {"Content-Type": "application/json"}), timeout=120).read())["prompt_id"]
-    for _ in range(3000):
+    for _ in range(config.SUBMIT_TIMEOUT_S):
         hist = json.loads(urllib.request.urlopen(f"{COMFY_URL}/history/{pid}", timeout=30).read())
         if pid in hist:
             st = hist[pid].get("status", {})
@@ -91,21 +92,32 @@ def main():
     ap.add_argument("--only", default=None); ap.add_argument("--denoise", type=float, default=0.7)
     ap.add_argument("--ctrl", type=float, default=0.9); ap.add_argument("--seed", type=int, default=770700)
     a = ap.parse_args()
-    roster = {c["slug"]: c["subject"] for c in json.loads(ROSTER.read_text())}
+    try:
+        roster = {c["slug"]: c["subject"] for c in json.loads(ROSTER.read_text())}
+    except FileNotFoundError:
+        raise SystemExit(f"ERROR: roster file not found: {ROSTER} (set SF_ROSTER to override)")
+    except (json.JSONDecodeError, OSError) as e:
+        raise SystemExit(f"ERROR: roster file malformed or unreadable ({ROSTER}): {e}")
     slugs = [a.only] if a.only else list(roster.keys())
     free()
+    failed = []
     for s in slugs:
         subj = roster.get(s, "a fantasy pirate"); sdir = PACK / f"{s}_sprite"
         if not sdir.exists(): print(f"  SKIP {s} (no sprite dir)"); continue
         out = sdir / "_styled"; out.mkdir(exist_ok=True)
-        for i in range(8):
-            ren = sdir / f"dir_{i}.png"
-            if not ren.exists(): continue
-            pos = (f"sfhd style, {subj}, {DIRHINT[i]}, full body, standing, both feet on the ground, single figure, "
-                   f"hand-painted painterly concept art, matte illustration, soft warm light, plain pale background")
-            init_name, ctrl_name = prep(ren, f"{s}_{i}")
-            submit(graph(init_name, ctrl_name, pos, a.seed, a.denoise, a.ctrl, f"pk_{s}_{i}"), out / f"styled_{i}.png")
-            print(f"  {s} dir_{i} -> styled", flush=True)
+        try:
+            for i in range(8):
+                ren = sdir / f"dir_{i}.png"
+                if not ren.exists(): continue
+                pos = (f"sfhd style, {subj}, {DIRHINT[i]}, full body, standing, both feet on the ground, single figure, "
+                       f"hand-painted painterly concept art, matte illustration, soft warm light, plain pale background")
+                init_name, ctrl_name = prep(ren, f"{s}_{i}")
+                submit(graph(init_name, ctrl_name, pos, a.seed, a.denoise, a.ctrl, f"pk_{s}_{i}"), out / f"styled_{i}.png")
+                print(f"  {s} dir_{i} -> styled", flush=True)
+        except Exception as e:
+            print(f"  FAILED {s}: {e}", flush=True)
+            failed.append(s)
+            continue
         # styled sheet
         ims = [Image.open(out / f"styled_{i}.png").convert("RGB") for i in range(8) if (out / f"styled_{i}.png").exists()]
         if ims:
@@ -114,6 +126,8 @@ def main():
             for im in ims: M.paste(im, (x, g)); x += im.width + g
             M.save(out / "_styled_sheet.png")
         print(f"DONE {s}", flush=True)
+    if failed:
+        print(f"FAILED SLUGS ({len(failed)}): {', '.join(failed)}", flush=True)
     print("RESTYLIZE COMPLETE", flush=True)
 
 if __name__ == "__main__":

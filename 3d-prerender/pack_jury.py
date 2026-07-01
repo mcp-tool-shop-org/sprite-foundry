@@ -1,15 +1,24 @@
 """Generic pack jury: judge every character's FRONT sprite for coherence. Refute-by-default, 2-of-3.
-Run: python _pack_jury.py <pack-dir>   (expects <slug>_sprite/sprite_0.png)
+Run: python pack_jury.py <pack-dir>   (expects <slug>_sprite/sprite_0.png)
 """
-import base64, json, urllib.request, concurrent.futures as cf, sys, os
+import argparse, base64, json, urllib.request, concurrent.futures as cf, sys, os
 from pathlib import Path
-OLLAMA = "http://127.0.0.1:11434/api/chat"
-JURY = ["minimax-m3:cloud", "kimi-k2.6:cloud", "gemini-3-flash-preview:cloud"]
-CANARY = "gemini-3-flash-preview:cloud"
-PACK = Path(sys.argv[1])
-SLUGS = ['berserker','bombardier','bosun','breaker','brig-keeper','cabin-kid','cannoneer','captain','cook','diver',
-  'first-mate','harpooner','juggernaut','marine','marksman','navigator','poisoner','quartermaster','reaver','rigger',
-  'sawbones','sea-witch','smuggler','stormcaller','swashbuckler','tide-cultist']
+import config
+
+OLLAMA = config.OLLAMA
+JURY = config.JURY
+CANARY = config.CANARY
+
+ap = argparse.ArgumentParser(description="Judge every character's FRONT sprite in a pack for coherence.")
+ap.add_argument("pack_dir", type=Path, help="pack directory containing <slug>_sprite/sprite_0.png per character")
+args = ap.parse_args()
+PACK = args.pack_dir
+try:
+    SLUGS = [c["slug"] for c in json.loads(config.ROSTER.read_text())]
+except FileNotFoundError:
+    raise SystemExit(f"ERROR: roster file not found: {config.ROSTER} (set SF_ROSTER to override)")
+except (json.JSONDecodeError, OSError) as e:
+    raise SystemExit(f"ERROR: roster file malformed or unreadable ({config.ROSTER}): {e}")
 
 PROMPT = ("You are a STRICT 3D game-asset QA reviewer. REFUTE BY DEFAULT.\n"
   "INTENDED asset: a single stylized 3D game-character SPRITE of a fantasy PIRATE — may be human OR a fantasy "
@@ -52,6 +61,6 @@ for s in SLUGS:
             if r.get("pass") is False:
                 can = " (canary)" if r["model"] == CANARY else ""
                 print(f"    FAIL{can} {r['model']}: {'; '.join(r.get('issues') or [])}")
-print(f"\n--- SUMMARY: {len(passed)}/26 PASS ---")
+print(f"\n--- SUMMARY: {len(passed)}/{len(SLUGS)} PASS ---")
 print("PASS:", ", ".join(passed))
 print("NEEDS-WORK:", ", ".join(failed) if failed else "(none)")

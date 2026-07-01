@@ -9,7 +9,10 @@ import bpy, sys, os, math, mathutils
 argv = sys.argv[sys.argv.index("--")+1:]
 def arg(n, d=None): return argv[argv.index(n)+1] if n in argv else d
 GLB = arg("--glb"); OUT = arg("--out"); DIRS = int(arg("--dirs","8")); SIZE = int(arg("--size","1024"))
-SAMPLES = int(arg("--samples","512")); ELEV = float(arg("--elev","28")); os.makedirs(OUT, exist_ok=True)
+SAMPLES = int(arg("--samples","512")); ELEV = float(arg("--elev","28"))
+if not GLB or not os.path.exists(GLB):
+    print(f"ERROR: --glb not supplied or not found: {GLB!r}", flush=True); sys.exit(1)
+os.makedirs(OUT, exist_ok=True)
 
 bpy.ops.wm.read_factory_settings(use_empty=True)
 bpy.ops.import_scene.gltf(filepath=GLB)
@@ -18,6 +21,7 @@ for o in [o for o in bpy.context.scene.objects if o.type == "MESH" and len(o.dat
     if bb and max(max(p[i] for p in bb)-min(p[i] for p in bb) for i in range(3)) > 1.4:
         bpy.data.objects.remove(o, do_unlink=True)
 meshes = [o for o in bpy.context.scene.objects if o.type == "MESH"]
+assert meshes, "no mesh in GLB"
 bpy.ops.object.select_all(action='DESELECT')
 for o in meshes: o.select_set(True)
 bpy.context.view_layer.objects.active = meshes[0]

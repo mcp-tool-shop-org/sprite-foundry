@@ -1,23 +1,37 @@
 """Cross-family CLOUD-VISION jury for a directional 3D SPRITE — coherence + face gate. Refute-by-default,
-2-of-3. Run: python _sprite_jury.py <sprite-dir>  (expects sprite_0/2/4.png = front/side/back)
+2-of-3. Run: python sprite_jury.py <sprite-dir> --character-desc "..." (expects sprite_0/2/4.png = front/side/back)
 """
-import base64, json, urllib.request, concurrent.futures as cf, sys
+import argparse, base64, json, urllib.request, concurrent.futures as cf, sys
 from pathlib import Path
-OLLAMA = "http://127.0.0.1:11434/api/chat"
-JURY = ["minimax-m3:cloud", "kimi-k2.6:cloud", "gemini-3-flash-preview:cloud"]
-CANARY = "gemini-3-flash-preview:cloud"
-D = Path(sys.argv[1])
+import config
+
+OLLAMA = config.OLLAMA
+JURY = config.JURY
+CANARY = config.CANARY
+
+DEFAULT_CHARACTER_DESC = (
+    "a fantasy PIRATE CAPTAIN — bandana/headscarf, beard, long tattered greatcoat, sash and a buckled belt, "
+    "dark trousers, tall boots, holding a curved cutlass at his side"
+)
+
+ap = argparse.ArgumentParser(description="Cross-family cloud-vision jury for a directional 3D sprite.")
+ap.add_argument("sprite_dir", type=Path, help="directory containing sprite_0/2/4.png (front/side/back)")
+ap.add_argument("--character-desc", default=DEFAULT_CHARACTER_DESC,
+                 help="character description used in the jury prompt (species/outfit/weapon) so this script "
+                      "works for any character, not just the pirate captain default")
+args = ap.parse_args()
+D = args.sprite_dir
+CHARACTER_DESC = args.character_desc
 TASKS = {"front": (D/"sprite_0.png", "FRONT"), "side": (D/"sprite_2.png", "SIDE/profile"), "back": (D/"sprite_4.png", "BACK")}
 
 def prompt(view):
     return ("You are a STRICT 3D game-asset QA reviewer. REFUTE BY DEFAULT: assume DEFECTIVE unless clearly clean.\n"
-        f"INTENDED asset: a single stylized 3D game-character SPRITE of a fantasy PIRATE CAPTAIN — bandana/headscarf, "
-        f"beard, long tattered greatcoat, sash and a buckled belt, dark trousers, tall boots, holding a curved cutlass "
-        f"at his side. {view} view, plain/transparent background.\n"
+        f"INTENDED asset: a single stylized 3D game-character SPRITE of {CHARACTER_DESC}. "
+        f"{view} view, plain/transparent background.\n"
         "This is a 3D MESH render (NOT anime, NOT a photo) — do NOT flag the CGI/3D look, matte shading, soft style, "
-        "dark coat tones, or the background. A thin curved cutlass held at the side IS intended (not a defect).\n"
+        "dark tones, or the background. A held weapon consistent with the description IS intended (not a defect).\n"
         "Report ONLY genuine GEOMETRY/STRUCTURE defects: a melted/blobby/MISSING or caved-in face; holes or torn "
-        "geometry; missing/extra/duplicated limbs; a limb detached; the sword exploded/shredded; not a single "
+        "geometry; missing/extra/duplicated limbs; a limb detached; a held weapon exploded/shredded; not a single "
         "coherent humanoid. (Minor stray specks on the hair are a known texture artifact — mention if severe, but "
         "do not fail the asset on hair specks alone.)\n"
         'Respond with STRICT JSON only: {"pass": true|false, "issues": ["short defect", ...]}. JSON only.')
