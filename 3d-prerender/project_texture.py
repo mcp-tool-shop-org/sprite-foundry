@@ -216,6 +216,17 @@ def main() -> None:
                     help="global multiplier on the projected contribution (1 = full)")
     ap.add_argument("--min-iou", type=float, default=0.80,
                     help="fail the run if silhouette calibration lands below this")
+    ap.add_argument("--mirror", type=int, default=0,
+                    help="1 = also sample MIRRORED across the mesh's sagittal plane for "
+                         "texels the front view cannot see. A single-view projection covers "
+                         "only the camera-facing shell (~16%% of texels), so 3/4 and side "
+                         "views keep the smeared volume bake -- which the head-mask restylize "
+                         "then faithfully preserves. Mirroring is registration-EXACT by "
+                         "construction (the right cheek IS the left cheek's texels), unlike a "
+                         "generated side view, which invents a subtly different face and makes "
+                         "the blend worse than the smear it replaces.")
+    ap.add_argument("--mirror-plane", type=float, default=None,
+                    help="x of the sagittal plane. Default: the mesh's own x-midpoint.")
     ap.add_argument("--no-refine", action="store_true")
     ap.add_argument("--align-head", type=int, default=1,
                     help="1 = after the body-wide fit, re-fit using ONLY the head region "
@@ -376,6 +387,48 @@ def main() -> None:
         src, grid, mode="bilinear", padding_mode="border", align_corners=True)
     samp = samp[0, :, 0].permute(1, 0)                            # (n_tex, 3)
 
+    # --- MIRROR PASS: cover what the single front view cannot see ----------------------
+    if args.mirror:
+        px_plane = args.mirror_plane
+        if px_plane is None:
+            px_plane = float((pos[:, 0].min() + pos[:, 0].max()) * 0.5)
+        # Reflect BOTH position and normal across the sagittal plane, then run the exact
+        # same projection/visibility/facing test. A texel on the unseen right cheek borrows
+        # the seen left cheek's pixel -- the same surface point on a bilaterally symmetric
+        # head, so it is registered by construction rather than generated.
+        pos_m = pos.clone()
+        pos_m[:, 0] = 2 * px_plane - pos_m[:, 0]
+        nrm_m = nrm.clone()
+        nrm_m[:, 0] = -nrm_m[:, 0]
+
+        uvp_m = project(pos_m, cx, cy, side, iw, ih)
+        inb_m = ((uvp_m[:, 0] >= 0) & (uvp_m[:, 0] <= iw - 1) &
+                 (uvp_m[:, 1] >= 0) & (uvp_m[:, 1] <= ih - 1))
+        gx_m = uvp_m[:, 0].long().clamp(0, iw - 1)
+        gy_m = uvp_m[:, 1].long().clamp(0, ih - 1)
+        flat_m = gy_m * iw + gx_m
+        vis_m = pos_m[:, 2] >= depth[flat_m] - args.depth_tol
+        face_m = nrm_m[:, 2]
+        w_m = ((face_m - args.facing_min) / (args.facing_full - args.facing_min)).clamp(0, 1)
+        w_m = w_m * w_m * (3 - 2 * w_m)
+        w_m = (w_m * inb_m.float() * vis_m.float()
+               * fg_t.reshape(-1)[flat_m].float() * args.strength)
+        # Only fills where the direct view had nothing to say; never overrides real data.
+        w_m = w_m * (1.0 - w)
+
+        gu_m = (uvp_m[:, 0] / (iw - 1)) * 2 - 1
+        gv_m = (uvp_m[:, 1] / (ih - 1)) * 2 - 1
+        samp_m = torch.nn.functional.grid_sample(
+            src, torch.stack([gu_m, gv_m], dim=-1)[None, None],
+            mode="bilinear", padding_mode="border", align_corners=True)[0, :, 0].permute(1, 0)
+
+        gained = float(((w + w_m > 0.5).float().mean() - (w > 0.5).float().mean()) * 100)
+        print(f"[mirr] sagittal plane x={px_plane:+.5f}  "
+              f"coverage {100*(w > 0.5).float().mean():.1f}% -> "
+              f"{100*((w + w_m) > 0.5).float().mean():.1f}%  (+{gained:.1f} pts)")
+    else:
+        w_m = None
+
     # --- composite -------------------------------------------------------------------
     old = torch.as_tensor(atlas, dtype=torch.float32, device=dev).reshape(-1, 3)
     cov_flat = covered.reshape(-1)
@@ -398,7 +451,11 @@ def main() -> None:
                 f"They are the same figure, so they should broadly agree. Suspect the atlas "
                 f"row order (ATLAS_ROWS_ARE_FLIPPED), the UV convention, or the calibration.")
 
-    new = w[:, None] * samp + (1 - w[:, None]) * base
+    if w_m is not None:
+        new = (w[:, None] * samp + w_m[:, None] * samp_m
+               + (1 - w - w_m).clamp(min=0)[:, None] * base)
+    else:
+        new = w[:, None] * samp + (1 - w[:, None]) * base
     old[cov_flat] = (new * 255.0).clamp(0, 255)
     out_atlas = old.reshape(T, T, 3).to(torch.uint8).cpu().numpy()
 
