@@ -239,4 +239,4 @@ Zero123++ weights are CC-BY-NC (non-commercial). Stable Zero123 has a more permi
 - [IP-Adapter Documentation](https://github.com/cubiq/ComfyUI_IPAdapter_plus)
 - [Stable Virtual Camera](https://stability.ai/) — multi-view diffusion with N inputs
 - [CharTurn XL LoRA](https://civitai.com/models/694887/xl-charturn-multi-view-turnaround-model-sheet-character-design)
-- [Multi-View Extension Analysis](C:\Users\mikey\Downloads\Multi-View Extension of Zero123.txt)
+- [Multi-View Extension Analysis](~/Downloads\Multi-View Extension of Zero123.txt)

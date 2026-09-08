@@ -209,7 +209,7 @@ games/hunyuan3d-lab/assets/*.png  (turnaround sheets, contact sheets, sprite cro
 ### System changes
 
 ```
-C:\Users\mikey\AppData\Roaming\Python\Python314\site-packages\
+~/AppData\Roaming\Python\Python314\site-packages\
   diffusers/models/attention_processor.py  — xformers try/except patch
 
 F:\AI-Models\ComfyUI-runtime\custom_nodes\
