@@ -10,6 +10,9 @@ on:
       - 'exports/**/manifest.json'
       - 'verify.sh'
       - '.github/workflows/**'
+      - 'site/package.json'
+      - 'site/package-lock.json'
+      - 'site/astro.config.mjs'
   pull_request:
     paths:
       - 'foundry/**'
@@ -19,6 +22,9 @@ on:
       - 'exports/**/manifest.json'
       - 'verify.sh'
       - '.github/workflows/**'
+      - 'site/package.json'
+      - 'site/package-lock.json'
+      - 'site/astro.config.mjs'
   workflow_dispatch:
 
 concurrency:
