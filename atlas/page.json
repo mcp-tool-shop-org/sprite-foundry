@@ -1,0 +1,275 @@
+{
+  "authored": [
+    ".github/",
+    "pipeline/chars/",
+    "preflight/",
+    "root",
+    "site/"
+  ],
+  "breaks": [
+    {
+      "doors": 1,
+      "importedBy": [
+        "pipeline",
+        "root"
+      ],
+      "importedByTests": [
+        "tests"
+      ],
+      "kind": "part",
+      "name": "foundry",
+      "partLabel": "foundry"
+    },
+    {
+      "doors": 1,
+      "importedBy": [],
+      "importedByTests": [
+        "tests"
+      ],
+      "kind": "part",
+      "name": "pipeline",
+      "partLabel": "pipeline",
+      "spawnedBy": [
+        "foundry"
+      ]
+    }
+  ],
+  "changes": {
+    "first": true
+  },
+  "changesTogether": [],
+  "changesTogetherNote": [
+    "Window: 180 days; a pair counts from 3 shared commits, since 0 source files reach 10 revisions; the floor rises to 10 when 25 do."
+  ],
+  "changesTogetherWithTests": 0,
+  "commit": "347c92f4efd4dd8d816c2ca2e1662c57cbc6f5c0",
+  "defaultBranch": "main",
+  "derived": "10 parts, mostly Python (65 files), GDScript (4), TypeScript (2) and JavaScript (1). Work enters through 3 doors; the busiest is CI, which reaches 4 parts. People run the game.",
+  "doors": [
+    {
+      "checks": [
+        "CHANGELOG.md",
+        "LICENSE",
+        "README.md",
+        "SECURITY.md"
+      ],
+      "checksCount": 4,
+      "checksMore": 1,
+      "file": ".github/workflows/ci.yml",
+      "id": ".github/workflows/ci.yml",
+      "landings": [
+        "game/godot/render-lab/scripts/auto_lab.gd"
+      ],
+      "name": "CI",
+      "pushes": false,
+      "reach": [
+        {
+          "boundary": "3d-prerender",
+          "depth": 0,
+          "files": 2
+        },
+        {
+          "boundary": "foundry",
+          "depth": 0,
+          "files": 3
+        },
+        {
+          "boundary": "root",
+          "depth": 0,
+          "files": 5
+        },
+        {
+          "boundary": "pipeline",
+          "depth": 1,
+          "files": 2
+        }
+      ],
+      "runs": [
+        "3d-prerender/test_texture_patch_region.py",
+        "foundry/__init__.py",
+        "foundry/cli.py",
+        "foundry/db.py",
+        "verify.sh"
+      ],
+      "runsCount": 5,
+      "runsMore": 2,
+      "sends": [],
+      "stages": [],
+      "triggers": [
+        "on a pull request touching 11 paths",
+        "on a push touching 11 paths",
+        "or by hand"
+      ],
+      "untracked": "bakeoff/ and game/godot/render-lab/assets/, which are not tracked"
+    },
+    {
+      "checks": [],
+      "checksCount": 0,
+      "checksMore": 0,
+      "file": ".github/workflows/pages.yml",
+      "id": ".github/workflows/pages.yml",
+      "landings": [],
+      "name": "Deploy site to GitHub Pages",
+      "pushes": false,
+      "reach": [
+        {
+          "boundary": "site",
+          "depth": 0,
+          "files": 3
+        }
+      ],
+      "runs": [
+        "site/astro.config.mjs",
+        "site/src/"
+      ],
+      "runsCount": 2,
+      "runsMore": 0,
+      "sends": [
+        "deploys the site"
+      ],
+      "stages": [],
+      "triggers": [
+        "on a push to main touching 2 paths",
+        "or by hand"
+      ]
+    },
+    {
+      "app": "game",
+      "checks": [],
+      "checksCount": 0,
+      "checksMore": 0,
+      "file": "game/godot/render-lab/project.godot",
+      "id": "game/godot/render-lab/project.godot#the game",
+      "kind": "command",
+      "landings": [],
+      "name": "the game",
+      "pushes": false,
+      "reach": [
+        {
+          "boundary": "render-lab",
+          "depth": 0,
+          "files": 2
+        }
+      ],
+      "runs": [
+        "game/godot/render-lab/scenes/render_lab.tscn"
+      ],
+      "runsCount": 1,
+      "runsMore": 0,
+      "sends": [],
+      "stages": [],
+      "triggers": []
+    }
+  ],
+  "duplicates": [
+    {
+      "files": [
+        "3d-prerender/cli.py",
+        "foundry/cli.py"
+      ],
+      "name": "build_parser",
+      "partLabels": [
+        "3d-prerender",
+        "foundry"
+      ],
+      "parts": [
+        "3d-prerender",
+        "foundry"
+      ]
+    },
+    {
+      "files": [
+        "3d-prerender/cli.py",
+        "foundry/cli.py"
+      ],
+      "name": "main",
+      "partLabels": [
+        "3d-prerender",
+        "foundry"
+      ],
+      "parts": [
+        "3d-prerender",
+        "foundry"
+      ]
+    }
+  ],
+  "duplicatesLead": "These are candidates from names and call order, not a judgement.",
+  "duplicatesNote": [],
+  "edges": [
+    {
+      "from": "pipeline",
+      "fromTests": false,
+      "to": "foundry"
+    }
+  ],
+  "generated": [
+    {
+      "place": "game/godot/render-lab/scripts/auto_lab.gd",
+      "writers": [
+        "pipeline/foundry_finish.py"
+      ]
+    }
+  ],
+  "generatedAt": "2026-09-25T09:53:15.458Z",
+  "limits": [
+    "1 import could not be resolved: `tests/test_ingest.py` imports `pipeline`, which is no module on its import path and no declared dependency.",
+    "31 writes and 22 reads use paths built at run time and are not named here.",
+    "25 writes go to places this repository does not track, so they are not listed as generated.",
+    "14 writes and 6 reads go to a path their caller passes, not to this repository.",
+    "Statistics confidence is low: fewer than 20 source files reach 10 revisions in the window."
+  ],
+  "mainDoor": ".github/workflows/ci.yml",
+  "partLabels": {
+    ".github": ".github",
+    "3d-prerender": "3d-prerender",
+    "chars": "chars",
+    "foundry": "foundry",
+    "pipeline": "pipeline",
+    "preflight": "preflight",
+    "render-lab": "render-lab",
+    "root": "the repository root",
+    "site": "the site",
+    "tests": "tests"
+  },
+  "parts": 10,
+  "readers": [
+    {
+      "readers": [
+        "game/godot/render-lab/scenes/render_lab.tscn"
+      ],
+      "target": "game/godot/render-lab/scripts/auto_lab.gd"
+    }
+  ],
+  "repo": "mcp-tool-shop-org/sprite-foundry",
+  "sequences": [],
+  "startDoor": ".github/workflows/ci.yml",
+  "startHere": [
+    ".github/workflows/ci.yml",
+    "foundry/cli.py",
+    "foundry/__init__.py"
+  ],
+  "summary": null,
+  "summaryFrom": null,
+  "testFiles": 12,
+  "testedBy": {
+    "3d-prerender": 1,
+    "foundry": 9,
+    "pipeline": 1,
+    "render-lab": 0
+  },
+  "unnamedWrites": 31,
+  "unread": [],
+  "unreadFiles": 0,
+  "unreadNote": [],
+  "untested": [
+    {
+      "part": "render-lab",
+      "partLabel": "render-lab",
+      "testedBy": 0
+    }
+  ],
+  "untestedNote": [
+    "11 test files run in no workflow: pipeline/test_hunyuan3d_shape.py, pipeline/test_hunyuan3d_texture.py, tests/test_cli_parser.py and 8 mores."
+  ],
+  "written": 1
+}
