@@ -1,0 +1,3505 @@
+{
+  "boundaries": [
+    {
+      "dynamicReads": 0,
+      "dynamicSpawns": 0,
+      "dynamicSpawnsInTests": 0,
+      "dynamicWrites": 0,
+      "entryPoints": [],
+      "externals": 0,
+      "files": [
+        {
+          "hash": "97b3d1bdbc6cc40cd6d6865b65861598af45da0e5bc44709ff9bcc8a180c5b33",
+          "path": ".github/workflows/ci.yml"
+        },
+        {
+          "hash": "93dc62c74dfddae3a1dc3291b236a3e266cc0f9963100f2967357b3f3833b310",
+          "path": ".github/workflows/pages.yml"
+        }
+      ],
+      "globs": [
+        ".github/**"
+      ],
+      "importConfidence": "full",
+      "name": ".github",
+      "origin": "authored",
+      "role": "config",
+      "testedBy": 0,
+      "unresolvedSites": 0
+    },
+    {
+      "dynamicReads": 3,
+      "dynamicSpawns": 0,
+      "dynamicSpawnsInTests": 0,
+      "dynamicWrites": 3,
+      "entryPoints": [
+        "3d-prerender/cli.py"
+      ],
+      "externals": 0,
+      "files": [
+        {
+          "hash": "870bdbafacff8a63f168487292694bac9b26b4619b8ce742c11b6794e4211e2b",
+          "path": "3d-prerender/README.md"
+        },
+        {
+          "exports": [
+            "bake_glb"
+          ],
+          "hash": "7456f07fef0e37c15ea5c676fe6fa32b696f4de85b8526dc01ec81e0a92bd852",
+          "importsFiles": [
+            "3d-prerender/uv_rasterize.py"
+          ],
+          "path": "3d-prerender/bake_glb.py"
+        },
+        {
+          "exports": [
+            "build_parser",
+            "cmd_doctor",
+            "cmd_jury",
+            "cmd_mesh",
+            "cmd_patch",
+            "cmd_pipeline",
+            "cmd_render",
+            "cmd_retexture",
+            "main"
+          ],
+          "hash": "a2d9f619b8d3a70f977e27c58bb509a407b72190bb8d8581d751b96c23c45f2f",
+          "importsFiles": [
+            "3d-prerender/config.py"
+          ],
+          "path": "3d-prerender/cli.py"
+        },
+        {
+          "hash": "a6deb88309068fabc170729ce4979bfdfd7ae51841aef5d95a41c9cabc363d6c",
+          "path": "3d-prerender/config.py"
+        },
+        {
+          "exports": [
+            "graph",
+            "submit"
+          ],
+          "hash": "2a0e9f5ffe82983a546f9640e6ad989453e37890dcc45526a8c0dfda9dff4c23",
+          "importsFiles": [
+            "3d-prerender/config.py"
+          ],
+          "path": "3d-prerender/harpooner_concept.py"
+        },
+        {
+          "exports": [
+            "block_noncommercial",
+            "report"
+          ],
+          "hash": "94ab7f632f50a8c1da8a0cf7f07dce50776c40cf357ceda84643fecb24350f4c",
+          "path": "3d-prerender/licence_guard.py"
+        },
+        {
+          "hash": "6dbe66b10644b284909b8c1290ad0c339e949610aa25744bdcba9a94402e4bd7",
+          "importOrder": [
+            "3d-prerender/config.py",
+            "3d-prerender/licence_guard.py",
+            "3d-prerender/bake_glb.py"
+          ],
+          "importsFiles": [
+            "3d-prerender/bake_glb.py",
+            "3d-prerender/config.py",
+            "3d-prerender/licence_guard.py"
+          ],
+          "path": "3d-prerender/mesh_character.py"
+        },
+        {
+          "exports": [
+            "call"
+          ],
+          "hash": "a26914ab7ee9e8458658aac48dd1dfdf7ab0ef61ea1bc9ef9e8aac0ee510cc04",
+          "importsFiles": [
+            "3d-prerender/config.py"
+          ],
+          "path": "3d-prerender/pack_jury.py"
+        },
+        {
+          "exports": [
+            "free",
+            "graph",
+            "main",
+            "prep",
+            "submit"
+          ],
+          "hash": "0fd0f062ca98fc777d6c773b2789c9a72c0f30f6565128ad4577dd4400aa79f4",
+          "importsFiles": [
+            "3d-prerender/config.py"
+          ],
+          "path": "3d-prerender/pack_restylize.py"
+        },
+        {
+          "exports": [
+            "foreground_mask",
+            "main",
+            "project",
+            "silhouette_iou",
+            "to_raster_rows",
+            "trellis_square_crop"
+          ],
+          "hash": "910c610f453d14574c6ce37ca3c496b87b3757fa22ee2f4dd064cd06d45dd56b",
+          "importsFiles": [
+            "3d-prerender/uv_rasterize.py"
+          ],
+          "path": "3d-prerender/project_texture.py"
+        },
+        {
+          "hash": "4063d78ce27deff3dc284b4286540e9c1c3669bea528c998179e6f7f82c3a4ad",
+          "importsFiles": [
+            "3d-prerender/config.py"
+          ],
+          "path": "3d-prerender/retexture_character.py"
+        },
+        {
+          "exports": [
+            "call",
+            "prompt"
+          ],
+          "hash": "f6b9eb10489c383dd06e5da54136c87d887a1c86e686e571d5f7f87b4ea64f76",
+          "importsFiles": [
+            "3d-prerender/config.py"
+          ],
+          "path": "3d-prerender/sprite_jury.py"
+        },
+        {
+          "exports": [
+            "arg"
+          ],
+          "hash": "c6bd0c5f3960660b39e445827656aee0f83f2c70d37e69798705fad06d038a29",
+          "path": "3d-prerender/sprite_render.py"
+        },
+        {
+          "entry": "test_classify_skin_mask_just_above_thresholds_is_skin",
+          "entryRule": 4,
+          "exports": [
+            "test_classify_skin_mask_bright_but_cool_is_not_skin",
+            "test_classify_skin_mask_just_above_thresholds_is_skin",
+            "test_classify_skin_mask_just_below_thresholds_is_not_skin",
+            "test_classify_skin_mask_mixed_rows",
+            "test_classify_skin_mask_returns_bool_array_of_correct_length",
+            "test_dilation_is_monotonically_non_shrinking",
+            "test_pick_patch_color_ignores_unmasked_samples",
+            "test_pick_patch_color_selects_median_of_bright_half",
+            "test_rasterize_and_dilate_covers_triangle_bbox_with_one_iteration",
+            "test_rasterize_and_dilate_empty_face_mask_yields_empty_hit",
+            "test_rasterized_mask_contains_triangle_bbox_footprint"
+          ],
+          "hash": "fd763c92a2984ff8cfc8e211d22f40be08f65285cb18dbfe97b77fba629088a3",
+          "importsFiles": [
+            "3d-prerender/texture_patch_region.py"
+          ],
+          "path": "3d-prerender/test_texture_patch_region.py",
+          "sequences": [
+            {
+              "calls": [
+                {
+                  "line": 45,
+                  "name": "classify_skin_mask",
+                  "target": {
+                    "file": "3d-prerender/texture_patch_region.py"
+                  }
+                }
+              ],
+              "exported": true,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "test_classify_skin_mask_just_above_thresholds_is_skin"
+            },
+            {
+              "calls": [
+                {
+                  "line": 54,
+                  "name": "classify_skin_mask",
+                  "target": {
+                    "file": "3d-prerender/texture_patch_region.py"
+                  }
+                }
+              ],
+              "exported": true,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "test_classify_skin_mask_just_below_thresholds_is_not_skin"
+            },
+            {
+              "calls": [
+                {
+                  "line": 64,
+                  "name": "classify_skin_mask",
+                  "target": {
+                    "file": "3d-prerender/texture_patch_region.py"
+                  }
+                }
+              ],
+              "exported": true,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "test_classify_skin_mask_bright_but_cool_is_not_skin"
+            },
+            {
+              "calls": [
+                {
+                  "line": 74,
+                  "name": "classify_skin_mask",
+                  "target": {
+                    "file": "3d-prerender/texture_patch_region.py"
+                  }
+                }
+              ],
+              "exported": true,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "test_classify_skin_mask_mixed_rows"
+            },
+            {
+              "calls": [
+                {
+                  "line": 92,
+                  "name": "pick_patch_color",
+                  "target": {
+                    "file": "3d-prerender/texture_patch_region.py"
+                  }
+                }
+              ],
+              "exported": true,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "test_pick_patch_color_selects_median_of_bright_half"
+            },
+            {
+              "calls": [
+                {
+                  "line": 106,
+                  "name": "pick_patch_color",
+                  "target": {
+                    "file": "3d-prerender/texture_patch_region.py"
+                  }
+                }
+              ],
+              "exported": true,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "test_pick_patch_color_ignores_unmasked_samples"
+            },
+            {
+              "calls": [
+                {
+                  "line": 129,
+                  "name": "rasterize_and_dilate",
+                  "target": {
+                    "file": "3d-prerender/texture_patch_region.py"
+                  }
+                }
+              ],
+              "exported": true,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "test_rasterize_and_dilate_covers_triangle_bbox_with_one_iteration"
+            },
+            {
+              "calls": [
+                {
+                  "line": 146,
+                  "name": "rasterize_and_dilate",
+                  "target": {
+                    "file": "3d-prerender/texture_patch_region.py"
+                  }
+                }
+              ],
+              "exported": true,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "test_rasterize_and_dilate_empty_face_mask_yields_empty_hit"
+            },
+            {
+              "calls": [
+                {
+                  "line": 169,
+                  "name": "rasterize_and_dilate",
+                  "target": {
+                    "file": "3d-prerender/texture_patch_region.py"
+                  }
+                }
+              ],
+              "exported": true,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "test_dilation_is_monotonically_non_shrinking"
+            },
+            {
+              "calls": [
+                {
+                  "line": 193,
+                  "name": "rasterize_and_dilate",
+                  "target": {
+                    "file": "3d-prerender/texture_patch_region.py"
+                  }
+                }
+              ],
+              "exported": true,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "test_rasterized_mask_contains_triangle_bbox_footprint"
+            },
+            {
+              "calls": [
+                {
+                  "line": 208,
+                  "name": "classify_skin_mask",
+                  "target": {
+                    "file": "3d-prerender/texture_patch_region.py"
+                  }
+                }
+              ],
+              "exported": true,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "test_classify_skin_mask_returns_bool_array_of_correct_length"
+            }
+          ]
+        },
+        {
+          "entry": "classify_skin_mask",
+          "entryRule": 1,
+          "exports": [
+            "classify_skin_mask",
+            "pick_patch_color",
+            "rasterize_and_dilate"
+          ],
+          "hash": "d7243779f5dadb78ae0e391c7e87dc43789df8476d51cfd3b160f13597924fe3",
+          "path": "3d-prerender/texture_patch_region.py",
+          "sequences": []
+        },
+        {
+          "exports": [
+            "arg",
+            "render",
+            "sun"
+          ],
+          "hash": "ae5a2d4f4920ecf7322f7ca768ef02ecd62f0446dab6bb0e3c352b25d6fc7410",
+          "path": "3d-prerender/turntable.py"
+        },
+        {
+          "exports": [
+            "interpolate",
+            "rasterize"
+          ],
+          "hash": "75893261aacf235fdc962eeb7a98b7c70ceb633f4a71aed68edb048e12a84f6f",
+          "path": "3d-prerender/uv_rasterize.py"
+        },
+        {
+          "exports": [
+            "compare",
+            "from_glb",
+            "synthetic"
+          ],
+          "hash": "cdfb42e83b7b627a8f9fc8e3cf5f623eda72d2e3f8e7a7ef00aad0c6b0a3870d",
+          "importsFiles": [
+            "3d-prerender/uv_rasterize.py"
+          ],
+          "path": "3d-prerender/verify_uv_rasterize.py"
+        }
+      ],
+      "globs": [
+        "3d-prerender/**"
+      ],
+      "importConfidence": "full",
+      "name": "3d-prerender",
+      "origin": "authored",
+      "outsidePlaces": [
+        {
+          "reads": 1,
+          "where": [
+            "caller"
+          ],
+          "writes": 9
+        }
+      ],
+      "outsideReads": 1,
+      "outsideWrites": 9,
+      "role": "code",
+      "testedBy": 1,
+      "unresolvedSites": 0
+    },
+    {
+      "dynamicReads": 0,
+      "dynamicSpawns": 0,
+      "dynamicSpawnsInTests": 0,
+      "dynamicWrites": 0,
+      "entryPoints": [],
+      "externals": 0,
+      "files": [
+        {
+          "hash": "63a79ada4371d86ed95ff83b93038ff05e2631035a5bd35043fb9f6320fee589",
+          "path": "pipeline/chars/beast_bell_warden.json"
+        },
+        {
+          "hash": "6a38dd2d48ad80e15e341f73ad709ad8ea05fe15d5d49a5ccf6c0f727f55a4cc",
+          "path": "pipeline/chars/beast_bone_weaver.json"
+        },
+        {
+          "hash": "8b6a7b8906429baf5b609b4d4bfc0033e20af42e2e3c8e58aa0352c93b6100e4",
+          "path": "pipeline/chars/beast_chain_dancer.json"
+        },
+        {
+          "hash": "b1a0eeb1b15136be89322eca0d8b4ae6eabcbb49a3388f2867058bcf205734ee",
+          "path": "pipeline/chars/beast_clock_golem.json"
+        },
+        {
+          "hash": "83c7109da30321c2ffcf95023ef2f3a871139fbb9450c2b50cefdd65fc9f2b55",
+          "path": "pipeline/chars/beast_grinning_idol.json"
+        },
+        {
+          "hash": "0112898bd31ab6f7cd82f09f83c21fafb4c62299040f7dfecb6356323a9e937f",
+          "path": "pipeline/chars/beast_hive_keeper.json"
+        },
+        {
+          "hash": "78a647af16049e16a93fe9934fddeaf215f032784cd0f8326f3e57c01a206bf6",
+          "path": "pipeline/chars/beast_hollow_knight.json"
+        },
+        {
+          "hash": "6bb80425114d40aa21ab5631965099f521ad1d898165fd5a0252adc57311d4d9",
+          "path": "pipeline/chars/beast_ink_shade.json"
+        },
+        {
+          "hash": "74d3c1d8a99681b4648ad95eb1bea6eae4a386c5280887b8209aeda86402371d",
+          "path": "pipeline/chars/beast_lantern_angler.json"
+        },
+        {
+          "hash": "1e28717e8b8dd90a76d36cf76ba13757856729b7aec4ea8b76737d08adc36c6f",
+          "path": "pipeline/chars/beast_mirror_stalker.json"
+        },
+        {
+          "hash": "5091a16bdc8809db0848d9fcf6330795eb959bc3b2fc2cfd00eec57717f5a9bb",
+          "path": "pipeline/chars/beast_mud_revenant.json"
+        },
+        {
+          "hash": "e9f4b8fce408b4c252ab5085cd87263509815eabd7157ca74a3304d25fee20d0",
+          "path": "pipeline/chars/beast_rat_king.json"
+        },
+        {
+          "hash": "3b3948f3b4fafe02563b9fc93f2d7dfd5119595ceff59dacc53b7241cf52c535",
+          "path": "pipeline/chars/beast_root_puppet.json"
+        },
+        {
+          "hash": "2e3f4c0a5892a492c7896aaa221431d7da98bb4fa7c8a6c8096fe064f08fd6c9",
+          "path": "pipeline/chars/beast_spore_mother.json"
+        },
+        {
+          "hash": "e08bdd0280271106fcc5299a7c58f9f7a5bb2e4655ffee7a54f1ae0c5ed64a46",
+          "path": "pipeline/chars/beast_teeth_collector.json"
+        },
+        {
+          "hash": "ff052ba0adf545a3b3c9c74b1ca672c47ce51321c6e67ac1663566e1c988b8e6",
+          "path": "pipeline/chars/beast_throat_singer.json"
+        },
+        {
+          "hash": "dcaf3907dd28866a0f50d5729b3c37b0a4c087650de341a7c938ba87b19c5306",
+          "path": "pipeline/chars/beast_wyvern.json"
+        },
+        {
+          "hash": "89724e92023f8d07e85414aa1a2b1c2faf0d9a406909adbd5ecf45be4fcf545a",
+          "path": "pipeline/chars/cargo_beast.json"
+        },
+        {
+          "hash": "7d82c872e4aa4620cca49dec621fcaea795cd1d0e0b54447d306b4ad4e92af04",
+          "path": "pipeline/chars/claude_opus.json"
+        },
+        {
+          "hash": "af6d4ea06a852287ef35a4954b20444fa1c3e20d5fd9dd536cb1b06248c263ef",
+          "path": "pipeline/chars/compact_patrol.json"
+        },
+        {
+          "hash": "e4971f1a231f4e130ac2238795a3dbf817ea467f3eee01794cf5a34218babfcb",
+          "path": "pipeline/chars/drift_lurker.json"
+        },
+        {
+          "hash": "443de5570d55eba84db6fbc0f099b783687d936cf0c9de157a97dfa759646f81",
+          "path": "pipeline/chars/drift_maw.json"
+        },
+        {
+          "hash": "eb648cff28fa93ef1e5d7bccc474e838d3e826203e6dc78ee9355fac369f89f8",
+          "path": "pipeline/chars/drift_maw_v2.json"
+        },
+        {
+          "hash": "a3c0dad8293562352a6fc10e72c7ab5bf730d5c2889956ea43445687273c435a",
+          "path": "pipeline/chars/goblin_archer.json"
+        },
+        {
+          "hash": "0d68bd1ab254edf39a272c76f3013ab0b84850532b3f58a5afa73aee42ba846b",
+          "path": "pipeline/chars/goblin_bomber.json"
+        },
+        {
+          "hash": "73a6bdbfbb08b2ddf125eb75897c9af75c2415d084937072087c30b6ecb32f83",
+          "path": "pipeline/chars/goblin_brute.json"
+        },
+        {
+          "hash": "bf3c79c7fa3898fd9ee203d428f09e8885d203578e3132028167553500bd5d3b",
+          "path": "pipeline/chars/goblin_grunt.json"
+        },
+        {
+          "hash": "6948c385c786822108153ce5c68f4b38bbb5b1036a48b50f3cdf2736b6b9ddb6",
+          "path": "pipeline/chars/goblin_scout.json"
+        },
+        {
+          "hash": "c161a70d96dd6adcf3ff077c0800b9a519b19d9185ed6c4632c3e22275d82e8e",
+          "path": "pipeline/chars/goblin_shaman.json"
+        },
+        {
+          "hash": "4694852cd8961dd3e355a14d3a5c05cf20872d2845443e3ab5b523b9818a2696",
+          "path": "pipeline/chars/goblin_warchief.json"
+        },
+        {
+          "hash": "a41bb8968ec717b39db34c4cc6d25df75cb1d16d385b46a4d9f090b027913ebf",
+          "path": "pipeline/chars/goblin_wolf_rider.json"
+        },
+        {
+          "hash": "12fcfc5074d94f0004263e28c07cc34a2178c0b6b6ad5b677749c0882c132934",
+          "path": "pipeline/chars/h3d_armored_knight.json"
+        },
+        {
+          "hash": "24aedfc612886341111521213a261f5f469b43ce4fa339b75b953ab57c507576",
+          "path": "pipeline/chars/h3d_dire_wolf.json"
+        },
+        {
+          "hash": "4dabc4e2cebfc4dd14fd5fec58bb57f262150d6776d80f0cfc391a74ca9bd382",
+          "path": "pipeline/chars/h3d_knight_battleaxe.json"
+        },
+        {
+          "hash": "435a66a7389eece5bf626ab3f8af9d21d047836603043ba1d68f607c58d341a9",
+          "path": "pipeline/chars/h3d_knight_bow.json"
+        },
+        {
+          "hash": "b86123eea91de6bb2d1413f9eefbf1a3c826b15ce4f87112adbfb17cb4464932",
+          "path": "pipeline/chars/h3d_knight_dual_daggers.json"
+        },
+        {
+          "hash": "be9a1caedec9931e932fb9ac1d8f4d96855a913109c3e672d83f95bd42a3144a",
+          "path": "pipeline/chars/h3d_knight_greatsword.json"
+        },
+        {
+          "hash": "cb5d2145681b21037dd42a53a15c2567606c36a3b85bd5fd28644feaeb6186a9",
+          "path": "pipeline/chars/h3d_knight_hammer.json"
+        },
+        {
+          "hash": "d739f8952f714f73426905a6fb1a7541b948d1e403be97b3d11aab0f284580b8",
+          "path": "pipeline/chars/h3d_knight_sword_shield.json"
+        },
+        {
+          "hash": "fcf80dde40462912be7ac4a81d5304815bb43f2328a4d0f0a25ad8b23997253f",
+          "path": "pipeline/chars/h3d_moth_shaman.json"
+        },
+        {
+          "hash": "e2b27ea4cc8cf1d2b85b524769ff7dff7a755723e4579c0076cf0d43dcfe3d47",
+          "path": "pipeline/chars/h3d_scorpion_beast.json"
+        },
+        {
+          "hash": "f8ed84d54776870eb6d4e1eb4710e32e8f2917522c76e5b67414be3edaad5182",
+          "path": "pipeline/chars/h3d_spear_lancer.json"
+        },
+        {
+          "hash": "0012c55a2785b2ed762738ee90bfeeb3d3cb79151ebe4d5d35b8ab67245906fe",
+          "path": "pipeline/chars/h3d_winged_demon.json"
+        },
+        {
+          "hash": "ba57799ad1b636147c52cd8201118e22b1c7dcf0dc35d9d28b5f0b36838bd982",
+          "path": "pipeline/chars/hull_diver.json"
+        },
+        {
+          "hash": "21c35bac60c4ec6ebeba3b792b70e60144a64025ee6fc8a6a45bf1a69884d9ff",
+          "path": "pipeline/chars/ilen.json"
+        },
+        {
+          "hash": "60afd009ca435ecabbff408c092de2a13dd84f06e677a8bc150dc7008b9bb825",
+          "path": "pipeline/chars/interdiction_agent.json"
+        },
+        {
+          "hash": "22e7ac910d9eb3c6517c33af89414f2a889346b80d8807021cdc908ab914ad98",
+          "path": "pipeline/chars/keth_healer_drone.json"
+        },
+        {
+          "hash": "db4403a87a773f5dc850239d00a697109f8f95f5d267002c92dd8e9c84e44f7c",
+          "path": "pipeline/chars/nera.json"
+        },
+        {
+          "hash": "dd9cf07b35d93aa5cf0d89708beddb53a56dc1f063613f4aff3c0c70edcdfcf2",
+          "path": "pipeline/chars/orryn_broker.json"
+        },
+        {
+          "hash": "69c9542e3e04c74ac619f87cf7f324cc2d96bdccc737faa730fe8a4033825778",
+          "path": "pipeline/chars/reach_pirate.json"
+        },
+        {
+          "hash": "930e061ec005614a19488aa9affd01455fda82ae0381f794b25add2b22e56c64",
+          "path": "pipeline/chars/scav_raider.json"
+        },
+        {
+          "hash": "19b10b825f8a764aaaa0bfe56fc994c2050404bd108318835750db8419a74713",
+          "path": "pipeline/chars/sera.json"
+        },
+        {
+          "hash": "6b2a3ffd0c9921023e0e728cb1da4b414bed40f6d28627fb030f23bb8aae00a4",
+          "path": "pipeline/chars/skitter_drone.json"
+        },
+        {
+          "hash": "de3418f4d89e81d2a833399d02f978807331cb2aac3c4a1760dc3d4e4f0af6f1",
+          "path": "pipeline/chars/thal.json"
+        },
+        {
+          "hash": "da6ae2c13cc0c289eb113544c70edbb4b3c0c4c7ab394385b7bf6348de756cb4",
+          "path": "pipeline/chars/thal_hazard.json"
+        },
+        {
+          "hash": "c99e357ce930c1e4bf1ba203912e2f8b4e53c453c47a7319ee7c5c4de559b9d5",
+          "path": "pipeline/chars/varek.json"
+        },
+        {
+          "hash": "2124afc62b6df6e87f650b32f075690f04f152d22027b8d94fb7ede6d0c90b8f",
+          "path": "pipeline/chars/varek_v2.json"
+        },
+        {
+          "hash": "dee68f9378619c39bd2d7d2687bfc5f3c6319993a4700b713e44ef15019fdcac",
+          "path": "pipeline/chars/veshan_envoy.json"
+        },
+        {
+          "hash": "fdc954fb7d453e902f3293b48439b1ee7d1aa676aeda15db64e16f150c9b0117",
+          "path": "pipeline/chars/void_raptor.json"
+        },
+        {
+          "hash": "c01a32a9981caedb5623e0f8d2def0dd3765b24399e11cb88ba4e25cecb579c1",
+          "path": "pipeline/chars/zombie_bloater.json"
+        },
+        {
+          "hash": "f8b5091f62e54a4b7373acf09eb8c20f9f70c287e5b554dde6ba9e08befc2450",
+          "path": "pipeline/chars/zombie_elite.json"
+        },
+        {
+          "hash": "32226c34b88dfa3bc4343ec57ace990ed768abb10b02743b30ac6cef7d439dee",
+          "path": "pipeline/chars/zombie_hazmat.json"
+        },
+        {
+          "hash": "abbeecfe1b55f2f5395cd65f19983a717d863dbf9c2a0ad0a340712295d973af",
+          "path": "pipeline/chars/zombie_riot.json"
+        },
+        {
+          "hash": "52888d26fa216d5e68e45a33e5d9adb6ba56ff8cea5ce69d61812b549ab86a9f",
+          "path": "pipeline/chars/zombie_runner.json"
+        },
+        {
+          "hash": "6880e8b0a7aa8000ee31b1c65158cd3cbfcece4fc6ae70104a92aeeadbf415a7",
+          "path": "pipeline/chars/zombie_shambler.json"
+        },
+        {
+          "hash": "80908fb14adedf121eec3d0a310029c16f47b8687679b7d6dc63c5f00ae2118d",
+          "path": "pipeline/chars/zombie_skeletal.json"
+        },
+        {
+          "hash": "2150712f78e07dafb30bd22603eeba3721553306c6d8b038970422b53c6aa6f5",
+          "path": "pipeline/chars/zombie_worker.json"
+        }
+      ],
+      "globs": [
+        "pipeline/chars/**"
+      ],
+      "importConfidence": "full",
+      "name": "chars",
+      "origin": "authored",
+      "role": "data",
+      "testedBy": 0,
+      "unresolvedSites": 0
+    },
+    {
+      "dynamicReads": 5,
+      "dynamicSpawns": 0,
+      "dynamicSpawnsInTests": 0,
+      "dynamicWrites": 9,
+      "entryPoints": [
+        "foundry/cli.py"
+      ],
+      "externals": 0,
+      "files": [
+        {
+          "hash": "5056ea20caa86f70c6b2fe0fee5af4f8c77385627948f59e9817c7dd03a296fa",
+          "path": "foundry/__init__.py"
+        },
+        {
+          "exports": [
+            "generate_attempt_detail",
+            "generate_finish_board",
+            "generate_run_board"
+          ],
+          "hash": "4e0e48c25777b7f8a9112523b752c1879fdff68d3c1f28bdf394bd6d78fa62ef",
+          "importsFiles": [
+            "foundry/__init__.py"
+          ],
+          "path": "foundry/boards.py"
+        },
+        {
+          "entry": "main",
+          "entryRule": 1,
+          "exports": [
+            "build_parser",
+            "cmd_attempt_detail",
+            "cmd_batch_accept",
+            "cmd_batch_reject",
+            "cmd_check",
+            "cmd_drift",
+            "cmd_export",
+            "cmd_finish_board",
+            "cmd_init",
+            "cmd_lineage",
+            "cmd_metrics",
+            "cmd_produce",
+            "cmd_regen",
+            "cmd_register_attempt",
+            "cmd_register_run",
+            "cmd_review_accept",
+            "cmd_review_reject",
+            "cmd_review_show",
+            "cmd_ship_check",
+            "cmd_ship_export",
+            "cmd_status",
+            "cmd_story",
+            "cmd_subject_add",
+            "cmd_winner",
+            "hash_file",
+            "main",
+            "now_iso"
+          ],
+          "hash": "3576044638e926c60dd14850e5127ecfd64fa88fd2e528eec609fe3b5b977aae",
+          "importsFiles": [
+            "foundry/__init__.py"
+          ],
+          "path": "foundry/cli.py",
+          "sequences": [
+            {
+              "calls": [
+                {
+                  "line": 30,
+                  "name": "init_db",
+                  "target": {
+                    "file": "foundry/__init__.py"
+                  }
+                }
+              ],
+              "exported": true,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "cmd_init"
+            },
+            {
+              "calls": [
+                {
+                  "line": 39,
+                  "name": "init_db",
+                  "target": {
+                    "file": "foundry/__init__.py"
+                  }
+                }
+              ],
+              "exported": true,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "cmd_subject_add"
+            },
+            {
+              "calls": [
+                {
+                  "line": 62,
+                  "name": "init_db",
+                  "target": {
+                    "file": "foundry/__init__.py"
+                  }
+                }
+              ],
+              "exported": true,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "cmd_register_run"
+            },
+            {
+              "calls": [
+                {
+                  "line": 112,
+                  "name": "init_db",
+                  "target": {
+                    "file": "foundry/__init__.py"
+                  }
+                }
+              ],
+              "exported": true,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "cmd_register_attempt"
+            },
+            {
+              "calls": [
+                {
+                  "line": 185,
+                  "name": "init_db",
+                  "target": {
+                    "file": "foundry/__init__.py"
+                  }
+                },
+                {
+                  "line": 232,
+                  "name": "run_all_gates",
+                  "target": {
+                    "file": "foundry/__init__.py"
+                  }
+                },
+                {
+                  "line": 236,
+                  "name": "add_gate_result",
+                  "target": {
+                    "file": "foundry/__init__.py"
+                  }
+                },
+                {
+                  "line": 257,
+                  "name": "add_review",
+                  "target": {
+                    "file": "foundry/__init__.py"
+                  }
+                },
+                {
+                  "line": 258,
+                  "name": "transition_attempt",
+                  "target": {
+                    "file": "foundry/__init__.py"
+                  }
+                },
+                {
+                  "line": 264,
+                  "name": "add_review",
+                  "target": {
+                    "file": "foundry/__init__.py"
+                  }
+                },
+                {
+                  "line": 265,
+                  "name": "transition_attempt",
+                  "target": {
+                    "file": "foundry/__init__.py"
+                  }
+                }
+              ],
+              "exported": true,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "cmd_check"
+            },
+            {
+              "calls": [
+                {
+                  "line": 295,
+                  "name": "init_db",
+                  "target": {
+                    "file": "foundry/__init__.py"
+                  }
+                },
+                {
+                  "line": 316,
+                  "name": "get_run_status",
+                  "target": {
+                    "file": "foundry/__init__.py"
+                  }
+                },
+                {
+                  "line": 334,
+                  "name": "get_attempt_artifacts",
+                  "target": {
+                    "file": "foundry/__init__.py"
+                  }
+                },
+                {
+                  "line": 340,
+                  "name": "get_attempt_gates",
+                  "target": {
+                    "file": "foundry/__init__.py"
+                  }
+                },
+                {
+                  "line": 350,
+                  "name": "get_attempt_reviews",
+                  "target": {
+                    "file": "foundry/__init__.py"
+                  }
+                },
+                {
+                  "line": 385,
+                  "name": "generate_run_board",
+                  "target": {
+                    "file": "foundry/__init__.py"
+                  }
+                }
+              ],
+              "exported": true,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "cmd_review_show"
+            },
+            {
+              "calls": [
+                {
+                  "line": 397,
+                  "name": "init_db",
+                  "target": {
+                    "file": "foundry/__init__.py"
+                  }
+                },
+                {
+                  "line": 425,
+                  "name": "add_review",
+                  "target": {
+                    "file": "foundry/__init__.py"
+                  }
+                },
+                {
+                  "line": 428,
+                  "name": "transition_attempt",
+                  "target": {
+                    "file": "foundry/__init__.py"
+                  }
+                }
+              ],
+              "exported": true,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "cmd_review_accept"
+            },
+            {
+              "calls": [
+                {
+                  "line": 449,
+                  "name": "init_db",
+                  "target": {
+                    "file": "foundry/__init__.py"
+                  }
+                },
+                {
+                  "line": 481,
+                  "name": "add_review",
+                  "target": {
+                    "file": "foundry/__init__.py"
+                  }
+                },
+                {
+                  "line": 483,
+                  "name": "transition_attempt",
+                  "target": {
+                    "file": "foundry/__init__.py"
+                  }
+                }
+              ],
+              "exported": true,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "cmd_review_reject"
+            },
+            {
+              "calls": [
+                {
+                  "line": 494,
+                  "name": "init_db",
+                  "target": {
+                    "file": "foundry/__init__.py"
+                  }
+                }
+              ],
+              "exported": true,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "cmd_regen"
+            },
+            {
+              "calls": [
+                {
+                  "line": 540,
+                  "name": "init_db",
+                  "target": {
+                    "file": "foundry/__init__.py"
+                  }
+                }
+              ],
+              "exported": true,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "cmd_status"
+            },
+            {
+              "calls": [
+                {
+                  "line": 720,
+                  "name": "init_db",
+                  "target": {
+                    "file": "foundry/__init__.py"
+                  }
+                },
+                {
+                  "line": 726,
+                  "name": "generate_attempt_detail",
+                  "target": {
+                    "file": "foundry/__init__.py"
+                  }
+                }
+              ],
+              "exported": true,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "cmd_attempt_detail"
+            },
+            {
+              "calls": [
+                {
+                  "line": 740,
+                  "name": "init_db",
+                  "target": {
+                    "file": "foundry/__init__.py"
+                  }
+                },
+                {
+                  "line": 746,
+                  "name": "generate_finish_board",
+                  "target": {
+                    "file": "foundry/__init__.py"
+                  }
+                }
+              ],
+              "exported": true,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "cmd_finish_board"
+            },
+            {
+              "calls": [
+                {
+                  "line": 760,
+                  "name": "init_db",
+                  "target": {
+                    "file": "foundry/__init__.py"
+                  }
+                },
+                {
+                  "line": 763,
+                  "name": "attempt_story",
+                  "target": {
+                    "file": "foundry/__init__.py"
+                  }
+                }
+              ],
+              "exported": true,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "cmd_story"
+            },
+            {
+              "calls": [
+                {
+                  "line": 812,
+                  "name": "init_db",
+                  "target": {
+                    "file": "foundry/__init__.py"
+                  }
+                },
+                {
+                  "line": 816,
+                  "name": "direction_lineage",
+                  "target": {
+                    "file": "foundry/__init__.py"
+                  }
+                },
+                {
+                  "line": 845,
+                  "name": "run_lineage_summary",
+                  "target": {
+                    "file": "foundry/__init__.py"
+                  }
+                }
+              ],
+              "exported": true,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "cmd_lineage"
+            },
+            {
+              "calls": [
+                {
+                  "line": 889,
+                  "name": "init_db",
+                  "target": {
+                    "file": "foundry/__init__.py"
+                  }
+                },
+                {
+                  "line": 891,
+                  "name": "canonical_winners",
+                  "target": {
+                    "file": "foundry/__init__.py"
+                  }
+                }
+              ],
+              "exported": true,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "cmd_winner"
+            },
+            {
+              "calls": [
+                {
+                  "line": 929,
+                  "name": "init_db",
+                  "target": {
+                    "file": "foundry/__init__.py"
+                  }
+                },
+                {
+                  "line": 931,
+                  "name": "failure_summary",
+                  "target": {
+                    "file": "foundry/__init__.py"
+                  }
+                }
+              ],
+              "exported": true,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "cmd_drift"
+            },
+            {
+              "calls": [
+                {
+                  "line": 984,
+                  "name": "init_db",
+                  "target": {
+                    "file": "foundry/__init__.py"
+                  }
+                }
+              ],
+              "exported": true,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "cmd_produce"
+            },
+            {
+              "calls": [
+                {
+                  "line": 1139,
+                  "name": "init_db",
+                  "target": {
+                    "file": "foundry/__init__.py"
+                  }
+                },
+                {
+                  "line": 1201,
+                  "name": "add_review",
+                  "target": {
+                    "file": "foundry/__init__.py"
+                  }
+                },
+                {
+                  "line": 1202,
+                  "name": "transition_attempt",
+                  "target": {
+                    "file": "foundry/__init__.py"
+                  }
+                }
+              ],
+              "exported": true,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "cmd_batch_accept"
+            },
+            {
+              "calls": [
+                {
+                  "line": 1250,
+                  "name": "init_db",
+                  "target": {
+                    "file": "foundry/__init__.py"
+                  }
+                },
+                {
+                  "line": 1305,
+                  "name": "add_review",
+                  "target": {
+                    "file": "foundry/__init__.py"
+                  }
+                },
+                {
+                  "line": 1307,
+                  "name": "transition_attempt",
+                  "target": {
+                    "file": "foundry/__init__.py"
+                  }
+                }
+              ],
+              "exported": true,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "cmd_batch_reject"
+            },
+            {
+              "calls": [
+                {
+                  "line": 1325,
+                  "name": "init_db",
+                  "target": {
+                    "file": "foundry/__init__.py"
+                  }
+                }
+              ],
+              "exported": true,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "cmd_metrics"
+            },
+            {
+              "calls": [
+                {
+                  "line": 1449,
+                  "name": "init_db",
+                  "target": {
+                    "file": "foundry/__init__.py"
+                  }
+                }
+              ],
+              "exported": true,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "cmd_export"
+            },
+            {
+              "calls": [
+                {
+                  "line": 1716,
+                  "name": "init_db",
+                  "target": {
+                    "file": "foundry/__init__.py"
+                  }
+                },
+                {
+                  "line": 1759,
+                  "name": "run_per_attempt_gates",
+                  "target": {
+                    "file": "foundry/__init__.py"
+                  }
+                },
+                {
+                  "line": 1762,
+                  "name": "add_gate_result",
+                  "target": {
+                    "file": "foundry/__init__.py"
+                  }
+                },
+                {
+                  "line": 1781,
+                  "name": "add_review",
+                  "target": {
+                    "file": "foundry/__init__.py"
+                  }
+                },
+                {
+                  "line": 1782,
+                  "name": "transition_attempt",
+                  "target": {
+                    "file": "foundry/__init__.py"
+                  }
+                },
+                {
+                  "line": 1788,
+                  "name": "add_review",
+                  "target": {
+                    "file": "foundry/__init__.py"
+                  }
+                },
+                {
+                  "line": 1789,
+                  "name": "transition_attempt",
+                  "target": {
+                    "file": "foundry/__init__.py"
+                  }
+                },
+                {
+                  "line": 1816,
+                  "name": "gate_ship_footprint_consistency",
+                  "target": {
+                    "file": "foundry/__init__.py"
+                  }
+                },
+                {
+                  "line": 1824,
+                  "name": "add_gate_result",
+                  "target": {
+                    "file": "foundry/__init__.py"
+                  }
+                }
+              ],
+              "exported": true,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "cmd_ship_check"
+            },
+            {
+              "calls": [
+                {
+                  "line": 1870,
+                  "name": "init_db",
+                  "target": {
+                    "file": "foundry/__init__.py"
+                  }
+                }
+              ],
+              "exported": true,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "cmd_ship_export"
+            }
+          ]
+        },
+        {
+          "entry": "transition_attempt",
+          "entryRule": 4,
+          "exports": [
+            "add_gate_result",
+            "add_review",
+            "get_attempt_artifacts",
+            "get_attempt_gates",
+            "get_attempt_lineage",
+            "get_attempt_reviews",
+            "get_connection",
+            "get_run_status",
+            "init_db",
+            "transition_attempt"
+          ],
+          "hash": "f5d6b4579ec8ffb820ff2c43b9df7f29d4e5dd6a24b79679354df65b33c22654",
+          "path": "foundry/db.py",
+          "sequences": [
+            {
+              "calls": [
+                {
+                  "line": 177,
+                  "name": "execute",
+                  "target": null
+                }
+              ],
+              "exported": false,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "_migrate_v1_to_v2"
+            },
+            {
+              "calls": [
+                {
+                  "line": 248,
+                  "name": "execute",
+                  "target": null
+                }
+              ],
+              "exported": true,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "transition_attempt"
+            },
+            {
+              "calls": [
+                {
+                  "line": 298,
+                  "name": "execute",
+                  "target": null
+                }
+              ],
+              "exported": true,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "add_review"
+            },
+            {
+              "calls": [
+                {
+                  "line": 308,
+                  "name": "execute",
+                  "target": null
+                }
+              ],
+              "exported": true,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "get_run_status"
+            },
+            {
+              "calls": [
+                {
+                  "line": 321,
+                  "name": "execute",
+                  "target": null
+                }
+              ],
+              "exported": true,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "get_attempt_reviews"
+            },
+            {
+              "calls": [
+                {
+                  "line": 333,
+                  "name": "execute",
+                  "target": null
+                }
+              ],
+              "exported": true,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "get_attempt_artifacts"
+            },
+            {
+              "calls": [
+                {
+                  "line": 345,
+                  "name": "execute",
+                  "target": null
+                }
+              ],
+              "exported": true,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "get_attempt_gates"
+            },
+            {
+              "calls": [
+                {
+                  "line": 371,
+                  "name": "execute",
+                  "target": null
+                }
+              ],
+              "exported": true,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "add_gate_result"
+            },
+            {
+              "calls": [
+                {
+                  "line": 406,
+                  "name": "execute",
+                  "target": null
+                }
+              ],
+              "exported": true,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "get_attempt_lineage"
+            }
+          ]
+        },
+        {
+          "exports": [
+            "attempt_story",
+            "canonical_winners",
+            "direction_lineage",
+            "failure_summary",
+            "run_lineage_summary"
+          ],
+          "hash": "a03171ff73aebe4227fe5ba341e70e3212f8ebf11aea0784c82b6d8f9e182571",
+          "importsFiles": [
+            "foundry/__init__.py"
+          ],
+          "path": "foundry/decisions.py"
+        },
+        {
+          "exports": [
+            "gate_alpha",
+            "gate_corner_transparency",
+            "gate_dimension",
+            "gate_foreground_content",
+            "gate_single_subject",
+            "run_all_gates"
+          ],
+          "hash": "22fda74760445f388ac77c5616913c001f19c7b50868f3b7f10b4b53aedfea57",
+          "importsFiles": [
+            "foundry/__init__.py"
+          ],
+          "path": "foundry/mechanical.py"
+        }
+      ],
+      "globs": [
+        "foundry/**"
+      ],
+      "importConfidence": "full",
+      "name": "foundry",
+      "origin": "authored",
+      "outsidePlaces": [
+        {
+          "reads": 1,
+          "where": [
+            "caller"
+          ],
+          "writes": 0
+        }
+      ],
+      "outsideReads": 1,
+      "role": "code",
+      "testedBy": 9,
+      "unresolvedSites": 0
+    },
+    {
+      "dynamicReads": 5,
+      "dynamicSpawns": 0,
+      "dynamicSpawnsInTests": 0,
+      "dynamicWrites": 15,
+      "entryPoints": [],
+      "externals": 0,
+      "files": [
+        {
+          "exports": [
+            "get_history",
+            "get_image",
+            "make_contact_sheet",
+            "make_stack_a_workflow",
+            "make_stack_b_workflow",
+            "make_stack_c_workflow",
+            "mechanical_check",
+            "pixelate",
+            "queue_prompt",
+            "run_bakeoff",
+            "wait_for_completion"
+          ],
+          "hash": "4797770d64c9a2cef4fba10e37b884a93859323583740e8b9aa3dea3adc4e5b5",
+          "path": "pipeline/bakeoff_runner.py"
+        },
+        {
+          "hash": "8c0af1d5d3bfd63872b3023a7678dc960d364a19e7e8ed338ff1d2adacac712d",
+          "path": "pipeline/batch_02_canon.md"
+        },
+        {
+          "hash": "12df85cac002291ce40b3032c4103c1168e50bf78c6dded3112575532c59cd08",
+          "path": "pipeline/batch_03_mixed.md"
+        },
+        {
+          "exports": [
+            "clear_scene",
+            "create_billboard_planes",
+            "main",
+            "render_directions",
+            "setup_camera",
+            "setup_lighting",
+            "setup_render"
+          ],
+          "hash": "603d071980f006398333ae0adbf389cdfb81f3c0fe5a69a2d5f707fe830a36a4",
+          "path": "pipeline/blender_rotate.py"
+        },
+        {
+          "exports": [
+            "copy_assets",
+            "main",
+            "now_iso",
+            "register_captures",
+            "resolve_godot_exe",
+            "run_finish_pipeline",
+            "run_godot_capture",
+            "run_godot_import",
+            "validate_godot_exe",
+            "write_auto_lab"
+          ],
+          "hash": "23e6ffee92db00932f32ff8a652f326fb6c89131962492edca80f7288c9011b6",
+          "importOrder": [
+            "foundry/cli.py",
+            "foundry/__init__.py"
+          ],
+          "importsFiles": [
+            "foundry/__init__.py",
+            "foundry/cli.py"
+          ],
+          "path": "pipeline/foundry_finish.py"
+        },
+        {
+          "exports": [
+            "apply_crop_box",
+            "check_comfy_reachable",
+            "content_crop_box",
+            "crop_to_square",
+            "foundry_cmd",
+            "generate_and_register",
+            "get_image",
+            "main",
+            "make_contact_sheets",
+            "make_workflow",
+            "queue_prompt",
+            "remove_bg",
+            "wait_for_completion"
+          ],
+          "hash": "bd7dbe1e8225d577fc56fc7550dc2e90cd747cad3b8b84d72459425793af490e",
+          "path": "pipeline/foundry_gen.py"
+        },
+        {
+          "exports": [
+            "check_comfy_reachable",
+            "check_occupancy",
+            "foundry_cmd",
+            "generate_iterative",
+            "get_image",
+            "main",
+            "make_contact_sheet",
+            "make_img2img_workflow",
+            "make_ipadapter_rotate_workflow",
+            "make_txt2img_workflow",
+            "process_raw_to_pixel",
+            "queue_prompt",
+            "remove_bg",
+            "submit_and_wait",
+            "upload_image",
+            "wait_for_completion"
+          ],
+          "hash": "2e07fc1362d6a94f3226251a2f3c6790e1d5a0bdbfeef0304af3c57fa884ca4b",
+          "path": "pipeline/foundry_gen_iterative.py"
+        },
+        {
+          "exports": [
+            "check_comfy_reachable",
+            "crop_to_square",
+            "foundry_cmd",
+            "generate_morph",
+            "get_image",
+            "main",
+            "make_workflow_morph",
+            "occupancy_pct",
+            "queue_prompt",
+            "remove_bg",
+            "resolve_body_class",
+            "upload_image",
+            "wait_for_completion"
+          ],
+          "hash": "4526ec6e1336ddc59126111179d3aaadcc706561f467b52e447073f93740e6d3",
+          "path": "pipeline/foundry_gen_morph.py"
+        },
+        {
+          "exports": [
+            "crop_figures_from_sheet",
+            "find_figures",
+            "generate_turnaround",
+            "get_image",
+            "main",
+            "make_contact_sheet",
+            "make_turnaround_workflow",
+            "queue_prompt",
+            "remove_bg",
+            "wait_for_completion"
+          ],
+          "hash": "f39ca2895a41922ee07c96800e98c032c685b8f08059b1e7f176e7dc77bab1b8",
+          "path": "pipeline/foundry_gen_turnaround.py"
+        },
+        {
+          "exports": [
+            "angle_distance",
+            "generate_zero123",
+            "get_image",
+            "main",
+            "make_contact_sheet",
+            "make_zero123_workflow",
+            "process_to_pixel",
+            "queue_prompt",
+            "remove_bg",
+            "select_seed",
+            "upload_image",
+            "wait_for_completion"
+          ],
+          "hash": "8eda49633b1f6f499c79a9d3f87e4eddc0d3f293201dd8f8265d6685e61768a2",
+          "path": "pipeline/foundry_gen_zero123.py"
+        },
+        {
+          "exports": [
+            "ingest",
+            "main",
+            "process_direction",
+            "validate_render_dir"
+          ],
+          "hash": "e4947e66e5a47f232cba3658d0539598a48ddc1777ac20b237b5a3b0d30a3eea",
+          "importsFiles": [
+            "foundry/__init__.py",
+            "pipeline/foundry_gen.py"
+          ],
+          "path": "pipeline/foundry_ingest.py"
+        },
+        {
+          "exports": [
+            "check_comfy_reachable",
+            "derive_maps",
+            "get_image",
+            "main",
+            "make_depth_workflow",
+            "make_normal_workflow",
+            "pixelate_map",
+            "queue_prompt",
+            "upload_image",
+            "wait_for_completion"
+          ],
+          "hash": "84dffc27c07b8a2c8f2703486d8dc0bd44e7c1341deab46f80fa36328d28282d",
+          "importsFiles": [
+            "foundry/__init__.py",
+            "foundry/cli.py"
+          ],
+          "path": "pipeline/foundry_maps.py"
+        },
+        {
+          "exports": [
+            "build"
+          ],
+          "hash": "095aca2d64cbc92d6d868e3afe227befda9e298ef3633117bdd31028e73e67db",
+          "path": "pipeline/gen_1b3_composite.py"
+        },
+        {
+          "exports": [
+            "get_image",
+            "make_depth_workflow",
+            "make_normal_workflow",
+            "make_review_sheet",
+            "queue_prompt",
+            "remove_bg",
+            "run",
+            "upload_image",
+            "wait_for_completion"
+          ],
+          "hash": "c069e45212657141ce05b814ce85e017706d2e8a82b810336c2b6dd070187a2c",
+          "path": "pipeline/gen_kael_maps.py"
+        },
+        {
+          "hash": "4853173945ca300351f3a5702f2921da6e875536e27f5a137f869d493fb39ff5",
+          "path": "pipeline/manifests/goblin_warband_02.json"
+        },
+        {
+          "hash": "06f5b5726f8b22d1794179c59e641fba7940e2e932764598bbfefdb8d0859a1a",
+          "path": "pipeline/manifests/undead_patrol_01.json"
+        },
+        {
+          "exports": [
+            "draw_amorphous",
+            "gen_set"
+          ],
+          "hash": "6600ba297425c82123abac13996fb4f088e440e08abb3b1cfca7e933fffe9fd7",
+          "path": "pipeline/morph_refs/gen_amorphous_depth.py"
+        },
+        {
+          "exports": [
+            "draw_lurker_depth",
+            "main"
+          ],
+          "hash": "34d3ae1a93d3e8c45dd803795a37083b9af5bd83e86ee440035a81e9993bcf2a",
+          "path": "pipeline/morph_refs/gen_drift_lurker_depth.py"
+        },
+        {
+          "exports": [
+            "draw_healer_drone"
+          ],
+          "hash": "8fcd018836b9635dbdcef49f523ef04deb8283eb26d502467565d6e2a514bfa2",
+          "path": "pipeline/morph_refs/gen_keth_healer_drone.py"
+        },
+        {
+          "exports": [
+            "draw_cargo_beast",
+            "draw_skitter",
+            "draw_void_raptor",
+            "gen_set"
+          ],
+          "hash": "6fa2dba6bc206800adfb2510b5c04e19f1e750ec0268c570f3d14c0ecd883c76",
+          "path": "pipeline/morph_refs/gen_morph_matrix.py"
+        },
+        {
+          "exports": [
+            "draw_quadruped_depth",
+            "main"
+          ],
+          "hash": "13c2dac5a60803ddafa9e333e7d7409952efa1166097d231f2e00008a9be9d22",
+          "path": "pipeline/morph_refs/gen_quadruped_depth.py"
+        },
+        {
+          "exports": [
+            "draw_tall_thin",
+            "gen_set"
+          ],
+          "hash": "a47b881724b48d212e9a4be247e5b1150642a9289d26fd4ece2c454fd608cff3",
+          "path": "pipeline/morph_refs/gen_tall_thin_depth.py"
+        },
+        {
+          "exports": [
+            "draw_edge_ref",
+            "main"
+          ],
+          "hash": "e1072c05ce6b8a6876d578cd23d1ddf897a44860a68304707c45a160317e9eb1",
+          "path": "pipeline/morph_refs/gen_void_raptor_edge.py"
+        },
+        {
+          "exports": [
+            "draw_wide_squat",
+            "gen_set"
+          ],
+          "hash": "8ee7ec62339cbb54c1f700be2798cccdaeb35c1d84a2e4e73aebbd7f4b903bdc",
+          "path": "pipeline/morph_refs/gen_wide_squat_depth.py"
+        },
+        {
+          "exports": [
+            "main",
+            "pixelate_sprite"
+          ],
+          "hash": "10faf8173e46283ae5de5c9a5ebb16f8ec0de9964c5442a1d668e11f1af50c78",
+          "path": "pipeline/pixelate.py"
+        },
+        {
+          "exports": [
+            "find_figures",
+            "main",
+            "pad_to_square_and_resize",
+            "remove_background"
+          ],
+          "hash": "fc3606404903bf9bd7de25e185fd6cea18ea7e67c02721d6e93afeff97b39858",
+          "path": "pipeline/prep_hunyuan3d_input.py"
+        },
+        {
+          "exports": [
+            "assert_forward_axis",
+            "look_at",
+            "main",
+            "make_contact_sheet",
+            "render_views"
+          ],
+          "hash": "74fbe9bd5c4d6e12828695496030d8b7968922851a6b1beea7c7674fcccb9d4a",
+          "path": "pipeline/render_mesh_views.py"
+        },
+        {
+          "exports": [
+            "get_image",
+            "make_pixel_contact_sheet",
+            "make_raw_contact_sheet",
+            "make_workflow",
+            "mechanical_check_48",
+            "queue_prompt",
+            "raw_source_check",
+            "remove_bg",
+            "run",
+            "wait_for_completion"
+          ],
+          "hash": "4a02efc9cd073515e0ad05636b29741452aff30b786ecbbd02e2ae687d4dc82b",
+          "path": "pipeline/run_kael_1c.py"
+        },
+        {
+          "exports": [
+            "get_image",
+            "make_contact_sheet",
+            "make_workflow",
+            "mechanical_check",
+            "queue_prompt",
+            "run",
+            "wait_for_completion"
+          ],
+          "hash": "ac2f40c5127d773ac51c357d17a6b4db738a854a8e27ed0e6b76958af89a80c8",
+          "path": "pipeline/run_stack_a.py"
+        },
+        {
+          "exports": [
+            "get_image",
+            "make_pixel_contact_sheet",
+            "make_raw_contact_sheet",
+            "make_workflow",
+            "mechanical_check_48",
+            "queue_prompt",
+            "raw_source_check",
+            "remove_bg",
+            "run",
+            "wait_for_completion"
+          ],
+          "hash": "ca73e98853cb86e806b854d1aaf7e28e90f07ba716ef3172097b0f65fddeb708",
+          "path": "pipeline/run_stack_a_v2.py"
+        },
+        {
+          "exports": [
+            "get_image",
+            "make_contact_sheet",
+            "make_workflow",
+            "mechanical_check",
+            "queue_prompt",
+            "run",
+            "wait_for_completion"
+          ],
+          "hash": "98705e4cf3a37c8c9a64baf78d552b4e781ec056035b695bf0fcc74bf63d1508",
+          "path": "pipeline/run_stack_b.py"
+        },
+        {
+          "exports": [
+            "get_image",
+            "make_contact_sheet",
+            "make_workflow",
+            "mechanical_check",
+            "queue_prompt",
+            "run",
+            "wait_for_completion"
+          ],
+          "hash": "9bad8859afef01c79d784d885f9c63df4582fbf700703e681d2a69e73bbd7e49",
+          "path": "pipeline/run_stack_c.py"
+        },
+        {
+          "exports": [
+            "main"
+          ],
+          "hash": "2edca15d430df4e53da30b9680e7f4b70c66300f016aec1deea4916a8f3b39cc",
+          "path": "pipeline/test_hunyuan3d_shape.py"
+        },
+        {
+          "exports": [
+            "main"
+          ],
+          "hash": "e15c4087c903900c121e430122e20abbe2263e348b768332a91a44ded9b896cd",
+          "path": "pipeline/test_hunyuan3d_texture.py"
+        },
+        {
+          "exports": [
+            "generate_view",
+            "load_zero123_manual",
+            "load_zero123_pipeline",
+            "main"
+          ],
+          "hash": "4b8ec365de5ed7f316d144c54bf3298fa396db4d6f4778058b7edd20481d64ab",
+          "path": "pipeline/zero123_direct.py"
+        }
+      ],
+      "globs": [
+        "pipeline/*",
+        "pipeline/manifests/**",
+        "pipeline/morph_refs/**"
+      ],
+      "importConfidence": "full",
+      "name": "pipeline",
+      "origin": "authored",
+      "outsidePlaces": [
+        {
+          "reads": 4,
+          "where": [
+            "caller"
+          ],
+          "writes": 5
+        }
+      ],
+      "outsideReads": 4,
+      "outsideWrites": 5,
+      "role": "code",
+      "testedBy": 1,
+      "unresolvedSites": 0
+    },
+    {
+      "dynamicReads": 0,
+      "dynamicSpawns": 0,
+      "dynamicSpawnsInTests": 0,
+      "dynamicWrites": 1,
+      "entryPoints": [],
+      "externals": 0,
+      "files": [
+        {
+          "hash": "8afa2e98fc3e7afdd023da6d280cbf539b906bc6bcb1d4940973c337c5b53417",
+          "path": "preflight/PREFLIGHT-STATUS.md"
+        },
+        {
+          "hash": "da5eb6867f07295959123d36a3d6acc4db844fdfe4b89b81e7cabbe4ab7dfd5b",
+          "path": "preflight/comfyui-inventory.md"
+        },
+        {
+          "hash": "b298b380866f99034244189d859e4d78ba839e39f390977c5a31ded87c03115d",
+          "path": "preflight/contact-sheet-placeholder.png"
+        },
+        {
+          "exports": [
+            "draw_placeholder_sprite",
+            "generate_contact_sheet",
+            "get_font"
+          ],
+          "hash": "3be078da98b3812160daecd56e107f25c2e652acdc9095e88edcf6b6e35e4dba",
+          "path": "preflight/gen_contact_sheet.py"
+        },
+        {
+          "hash": "49f450a644fea9c40514f10e6d5cc504df9bd9cb217474dba1d500710eb11239",
+          "path": "preflight/godot-render-lab.md"
+        },
+        {
+          "hash": "41186ad1ce695dc434afe6d92c3ddc1a0de108a9d48db89062cb8e54c6dd30fc",
+          "path": "preflight/subject-sheet-drift-lurker.md"
+        },
+        {
+          "hash": "fbf705678b97670b89a33b6abd3f0edab2459719398b930a1c3f26abf653663a",
+          "path": "preflight/subject-sheet-drift-maw.md"
+        },
+        {
+          "hash": "e5db22d04c06959dff28cb8b4b50f9744f2bd83f1c89e34fdad3aa95a8c211f2",
+          "path": "preflight/subject-sheet-hull-diver.md"
+        },
+        {
+          "hash": "6831b96e1854bce1629bc497c3bc266659e36028d24d653cd4d115d406d82ce8",
+          "path": "preflight/subject-sheet-ilen.md"
+        },
+        {
+          "hash": "62838d51b6cca502fe77bf70a9cdc05ef0d0d403791d299e7ea6706cd18f75a9",
+          "path": "preflight/subject-sheet-interdiction-agent.md"
+        },
+        {
+          "hash": "59b60515225237152caa3ae20908d8897d06e56c6e0b19f8d79ac775d6a23322",
+          "path": "preflight/subject-sheet-kael.md"
+        },
+        {
+          "hash": "45068c24029232dee6ed496ee40e2da174bfec94c467a377d41a5e1d5c404a72",
+          "path": "preflight/subject-sheet-scav-raider.md"
+        },
+        {
+          "hash": "2648f6d363be7e16d7bb1aafdf67c3856d93b35d965316d7107121b68c095846",
+          "path": "preflight/subject-sheet-thal-hazard.md"
+        },
+        {
+          "hash": "547b138de5871c67bc37805cad36df243d3162cf6ca4a94058d8e81a3d35216c",
+          "path": "preflight/subject-sheet-thal.md"
+        },
+        {
+          "hash": "ede60d7cc589afe67fa0a15e9f2cac22cb2ca3c64970f3c3ac28016043def2cd",
+          "path": "preflight/subject-sheet-varek.md"
+        },
+        {
+          "hash": "0cde074da57249f50cce4b10d5ff0b3fd5faa5f216f9ed25515d9801eab765ba",
+          "path": "preflight/subject-sheet-veshan-envoy.md"
+        },
+        {
+          "hash": "fa3077ed52ab2c5f88b09271e2937b8727a9c04c92589ebd107f4ede35a87d3b",
+          "path": "preflight/subject-sheet.md"
+        }
+      ],
+      "globs": [
+        "preflight/**"
+      ],
+      "importConfidence": "full",
+      "name": "preflight",
+      "origin": "authored",
+      "role": "docs",
+      "testedBy": 0,
+      "unresolvedSites": 0
+    },
+    {
+      "dynamicReads": 9,
+      "dynamicSpawns": 0,
+      "dynamicSpawnsInTests": 0,
+      "dynamicWrites": 1,
+      "entryPoints": [
+        "game/godot/render-lab/scenes/render_lab.tscn"
+      ],
+      "externals": 0,
+      "files": [
+        {
+          "hash": "ef355f4df96dd20ba6680343781c0e2066eb4835808e8dc3c59db06e9ce7f69f",
+          "path": "game/godot/render-lab/project.godot"
+        },
+        {
+          "hash": "151b2d258f0866521cca066d4fb027052ea7ac3597ec8dca6ebb00c0db3b51cc",
+          "importsFiles": [
+            "game/godot/render-lab/scripts/pack_viewer.gd"
+          ],
+          "path": "game/godot/render-lab/scenes/pack_viewer.tscn"
+        },
+        {
+          "hash": "540dcdfa8b54b9d9f713193a7481de0a99fc91150799ea2ccdc7f418ac1a835e",
+          "importsFiles": [
+            "game/godot/render-lab/scripts/pack_viewer_launcher.gd"
+          ],
+          "path": "game/godot/render-lab/scenes/pack_viewer_launcher.tscn"
+        },
+        {
+          "hash": "0001e7a617d9744a2bcb0da71ea64cf2ba9646c00c5748ee90cafb77a03ad34f",
+          "importsFiles": [
+            "game/godot/render-lab/scripts/auto_lab.gd"
+          ],
+          "path": "game/godot/render-lab/scenes/render_lab.tscn"
+        },
+        {
+          "entry": "_ready",
+          "entryRule": 1,
+          "hash": "7e71128d78e3ee82ca844d698a8ad33586781901fd38299eda994251dacc4624",
+          "path": "game/godot/render-lab/scripts/auto_lab.gd",
+          "sequences": []
+        },
+        {
+          "hash": "6e8a42535004e4f0308c987a4902c1bfe6f820694cdd6ad9d2d1a73d051a06f0",
+          "path": "game/godot/render-lab/scripts/auto_lab.gd.uid"
+        },
+        {
+          "hash": "e27fe2df819904279eb99447a716a6d519bf1874d1e5041d3548cae1ff75d861",
+          "path": "game/godot/render-lab/scripts/lab_controls.gd"
+        },
+        {
+          "hash": "3f65d8ec1aead4bf7dc4516fa1968de09c4463aa9484e31835b5030d54e4d388",
+          "path": "game/godot/render-lab/scripts/lab_controls.gd.uid"
+        },
+        {
+          "hash": "d0f07bce0e4649b2a442b52f977a8e481c702fdf01e8b1bcfa614676ede0fa56",
+          "path": "game/godot/render-lab/scripts/pack_viewer.gd"
+        },
+        {
+          "hash": "76d8b9b95f6a5aab48abb6d9d24329ed8063c0e5d3e01babd639236ef1ee8fcc",
+          "path": "game/godot/render-lab/scripts/pack_viewer.gd.uid"
+        },
+        {
+          "hash": "0d4ef0656f9b1df615382d3b4c5d0f35fd5e2042257b2ec4a1604b50259b6d8f",
+          "importsFiles": [
+            "game/godot/render-lab/scenes/pack_viewer.tscn"
+          ],
+          "path": "game/godot/render-lab/scripts/pack_viewer_launcher.gd"
+        },
+        {
+          "hash": "6e2f7c28213a069c3495d84580bce98e200ab849b7227f24806967c26c3db80e",
+          "path": "game/godot/render-lab/scripts/pack_viewer_launcher.gd.uid"
+        }
+      ],
+      "globs": [
+        "game/godot/render-lab/**"
+      ],
+      "importConfidence": "full",
+      "name": "render-lab",
+      "origin": "mixed",
+      "role": "code",
+      "testedBy": 0,
+      "unresolvedSites": 0
+    },
+    {
+      "dynamicReads": 0,
+      "dynamicSpawns": 0,
+      "dynamicSpawnsInTests": 0,
+      "dynamicWrites": 2,
+      "entryPoints": [],
+      "externals": 0,
+      "files": [
+        {
+          "hash": "c00e02f314d60d05ca05049a2d20d6a29fbaf6e99679b58c78a575542b7e025a",
+          "path": ".gitignore"
+        },
+        {
+          "hash": "705596716751238d7a5b1eb79072ad67c40fb7f9f0c89ba383d41926c65bd726",
+          "path": ".polyglot-cache.json"
+        },
+        {
+          "hash": "080b2d45a603feafd989561990837c0231d8ab093d47fd3e0a214ea0faead7b0",
+          "path": "CHANGELOG.md"
+        },
+        {
+          "hash": "7d6748c3c4270bba8deb627987e9defb05ec98973dbba09a4a591537fbc49d9b",
+          "path": "HANDOFF-PHASE7.md"
+        },
+        {
+          "hash": "7b0a5be13004187b1a961d77059d4742e7915cf11d2e1c3fa91929aa8fe1b3d5",
+          "path": "HUNYUAN3D-HANDOFF.md"
+        },
+        {
+          "hash": "367e5141e4f5884e5791c4021f33a9faa958840a5decf44e1b273a87aad1c459",
+          "path": "LICENSE"
+        },
+        {
+          "hash": "8066bb449f44dccefb4a1ad1dc8d102b00a85b3a5d2824812b34ec50ebe9632c",
+          "path": "OPTION-A-ROADMAP.md"
+        },
+        {
+          "hash": "ad5e5028a1d66ea019519f3a4dad259205a96a747fcc28fca3875513a73ad911",
+          "path": "README.es.md"
+        },
+        {
+          "hash": "9c4f33853854fc42b72627aaf02ceaec41c6985e5e8c95c255123ba3efb00786",
+          "path": "README.fr.md"
+        },
+        {
+          "hash": "13f3e43de8134873b84cb2c862c46588ee16115ae18cc49461fad1fc36ccaf1a",
+          "path": "README.hi.md"
+        },
+        {
+          "hash": "4f684dd24e3b166c220ce5533ab8a882ba3e28300cb9e4ccdbdca736b541612c",
+          "path": "README.it.md"
+        },
+        {
+          "hash": "ad197beca85221ad3eb22163b6c2589cb1ab55a85386c060f04484f53b35db44",
+          "path": "README.ja.md"
+        },
+        {
+          "hash": "c8f5eb270886669290e335b0235a6b07d359f5e948a32a00ceafd4481619acd7",
+          "path": "README.md"
+        },
+        {
+          "hash": "2633cdab53bb9dceccc7531e2ca6953860de2cb47543c883c5a1afbb1acc6208",
+          "path": "README.pt-BR.md"
+        },
+        {
+          "hash": "ce5e61627d97ccef2ea39e8528053f86351258f98f5ded4525892011b4d2b235",
+          "path": "README.zh.md"
+        },
+        {
+          "hash": "ec9405cc9e58b03d2457603eada11134a680edc83bfae96d498d89e082faf654",
+          "path": "SCORECARD.md"
+        },
+        {
+          "hash": "f6b4049126cc3481ab90a5bb7c44d94ef5c99e7a3fddae61b06ca84bbda3a033",
+          "path": "SECURITY.md"
+        },
+        {
+          "hash": "4f9ae953ca42c2677c76f140999148aab153cc17b34ccdbe7f3d29c8d0a41869",
+          "path": "SHIP_GATE.md"
+        },
+        {
+          "hash": "24870240f9d14c86a636dd4080e6ea9ec58f1a1a315d48cf7daf2d40d5ff80b5",
+          "path": "STYLE-LAB-HANDOFF.md"
+        },
+        {
+          "exports": [
+            "db_conn",
+            "make_png",
+            "registry"
+          ],
+          "hash": "76117253d25b37e4f1dddd9198a7631fba4179428fca7f1e66cc38b554add571",
+          "importsFiles": [
+            "foundry/__init__.py"
+          ],
+          "path": "conftest.py"
+        },
+        {
+          "hash": "082290b874cf964c2cb6dc69145fe2e5581116aba02e9cc71b90d38c89f408ef",
+          "path": "phase2-spec.md"
+        },
+        {
+          "hash": "96ed1d26580bfa450a25d0df0520c30675c4363fb01a335ce169ec0be3c8bf99",
+          "path": "verify.sh"
+        }
+      ],
+      "globs": [
+        "*"
+      ],
+      "importConfidence": "full",
+      "name": "root",
+      "origin": "authored",
+      "role": "docs",
+      "testedBy": 0,
+      "unresolvedSites": 0
+    },
+    {
+      "dynamicReads": 0,
+      "dynamicSpawns": 0,
+      "dynamicSpawnsInTests": 0,
+      "dynamicWrites": 0,
+      "entryPoints": [],
+      "externals": 0,
+      "files": [
+        {
+          "hash": "3f2b1d238ce9426a3b18f842d99332fb6fadc492a0a8ecc3814b47fece2aa084",
+          "path": "site/astro.config.mjs"
+        },
+        {
+          "hash": "28d520d0d7b966af965056a5abecd6be73c707bf6340f0b3675368e117840a91",
+          "path": "site/package-lock.json"
+        },
+        {
+          "hash": "2c5ddff9612c578ae239328ca43e1bc586ef650203b65ef9630c28d7735ad44a",
+          "path": "site/package.json"
+        },
+        {
+          "constantOnly": true,
+          "hash": "ee756dfba4122d2acc94a39b2555d9f200fff56a87a8c0b10f9cd01df26a8b62",
+          "path": "site/src/content.config.ts"
+        },
+        {
+          "hash": "db2e1ce9979483f1902a3c603df052f2654b720b729c11b9e0c0ab01ff257805",
+          "path": "site/src/content/docs/handbook/beginners.md"
+        },
+        {
+          "hash": "62790b12d1ccb56747de8a8149c03f68be57ee115d6d79fc47c9a41aa77ec7ee",
+          "path": "site/src/content/docs/handbook/getting-started.md"
+        },
+        {
+          "hash": "24276786018b08aa5ee12fb560f397ae4899b07ce38b586221c8c5703aabc1b5",
+          "path": "site/src/content/docs/handbook/index.md"
+        },
+        {
+          "hash": "dd436ac8e59c6f757d4c8e574166c31092b7b41c7c6337fbe97e552234270788",
+          "path": "site/src/content/docs/handbook/pipeline.md"
+        },
+        {
+          "hash": "e6c46ed5c1ecbfb33c12545dff3638e652a1c8a9e8541317f1a1c370b1090263",
+          "path": "site/src/content/docs/handbook/reference.md"
+        },
+        {
+          "hash": "34dd8fb1698e7bca20dc7b8e6e60dea69c33aa5ce8a87eed6b7afc30e3202912",
+          "path": "site/src/content/docs/handbook/security.md"
+        },
+        {
+          "hash": "391533713539035d3c92282579d43de0f137067867fdb502d7eaea3c74601d2a",
+          "path": "site/src/pages/index.astro"
+        },
+        {
+          "constantOnly": true,
+          "hash": "056179c09c99f2082260dfd571d7532c78ddd252364d4fc452d3cffb79a7a94a",
+          "path": "site/src/site-config.ts"
+        },
+        {
+          "hash": "7688405aae27cae714db3b9d91be44d29857bd8c09c3fbd0ccdd4c69cbd74519",
+          "path": "site/src/styles/global.css"
+        },
+        {
+          "hash": "2c6bb780671abe93b5c8517079beb38046532601e6f2246c024c3831d85a67ae",
+          "path": "site/src/styles/starlight-custom.css"
+        },
+        {
+          "hash": "b5b0a5b04a14cddd7713c5e1c82e86c79c17c2f86b170e26e9b170b3d5e01cd9",
+          "path": "site/tsconfig.json"
+        }
+      ],
+      "globs": [
+        "site/**"
+      ],
+      "importConfidence": "full",
+      "name": "site",
+      "origin": "authored",
+      "role": "site",
+      "testedBy": 0,
+      "unresolvedSites": 0
+    },
+    {
+      "dynamicReads": 0,
+      "dynamicSpawns": 0,
+      "dynamicSpawnsInTests": 0,
+      "dynamicWrites": 0,
+      "entryPoints": [],
+      "externals": 0,
+      "files": [
+        {
+          "exports": [
+            "test_build_parser_constructs",
+            "test_every_subcommand_has_a_handler",
+            "test_no_subcommand_exits_2",
+            "test_register_run_coerces_seed_to_int",
+            "test_register_run_defaults_target_to_int",
+            "test_review_reject_requires_code",
+            "test_ship_check_direction_count_is_int"
+          ],
+          "hash": "43ad23611240271fa6818a5f1e90253f5ae359f5998d1c9af6b9673cff76717e",
+          "importsFiles": [
+            "foundry/__init__.py"
+          ],
+          "path": "tests/test_cli_parser.py"
+        },
+        {
+          "exports": [
+            "attempt",
+            "test_add_gate_result_persists",
+            "test_add_review_persists_valid_row",
+            "test_add_review_rejects_invalid_decision",
+            "test_add_review_rejects_invalid_review_type"
+          ],
+          "hash": "f4398e1b7972559705b09c4f6ce6efb65ee2e3f30d288e3346071a5b56a9141b",
+          "importsFiles": [
+            "foundry/__init__.py"
+          ],
+          "path": "tests/test_db_helpers.py"
+        },
+        {
+          "exports": [
+            "base",
+            "test_cycle_guard_does_not_silently_truncate_a_healthy_chain",
+            "test_healthy_chain_terminates_at_root",
+            "test_root_only_chain_is_single_element",
+            "test_two_node_cycle_raises_not_hangs"
+          ],
+          "hash": "aef93664e8bf9c1e1a5fc03affa2eb9d0cf096566a6cf7afad156d09bb10dc3d",
+          "importsFiles": [
+            "foundry/__init__.py"
+          ],
+          "path": "tests/test_db_lineage.py"
+        },
+        {
+          "exports": [
+            "test_init_db_is_idempotent",
+            "test_init_db_on_fresh_db_stamps_current_version",
+            "test_old_db_is_actually_migrated",
+            "test_version_does_not_advance_without_a_registered_migration"
+          ],
+          "hash": "c9ae63faba09aab2de3f135bf10598e88a3aa327c01ec4c2741fdae4d38c090e",
+          "importsFiles": [
+            "foundry/__init__.py"
+          ],
+          "path": "tests/test_db_migration.py"
+        },
+        {
+          "exports": [
+            "base",
+            "test_accepted_winners_allowed_across_directions",
+            "test_concurrent_advance_then_repeat_transition_raises",
+            "test_every_valid_edge_is_accepted",
+            "test_illegal_skip_transition_raises",
+            "test_missing_attempt_raises",
+            "test_one_accepted_winner_per_direction_enforced",
+            "test_self_parent_rejected_by_check_constraint",
+            "test_stale_precondition_raises",
+            "test_terminal_state_rejects_forward_transition",
+            "test_valid_transition_succeeds"
+          ],
+          "hash": "3fa18640929131be4aca841de94f23770405785ab80fd050728ee704d9febb8d",
+          "importsFiles": [
+            "foundry/__init__.py"
+          ],
+          "path": "tests/test_db_transitions.py"
+        },
+        {
+          "exports": [
+            "base",
+            "test_empty_direction_has_no_winner",
+            "test_finish_accepted_is_the_winner",
+            "test_furthest_progressed_among_in_progress_wins",
+            "test_no_crash_on_any_valid_lifecycle_state",
+            "test_progress_rank_prefers_in_progress_over_rejected",
+            "test_progress_rank_prefers_in_progress_over_superseded"
+          ],
+          "hash": "31cd66250b5701710ff726d03f5425e8abe56755d16910e0367a4201499fb4b6",
+          "importsFiles": [
+            "foundry/__init__.py"
+          ],
+          "path": "tests/test_decisions.py"
+        },
+        {
+          "exports": [
+            "test_different_bytes_yield_different_checksums",
+            "test_empty_file_hashes_to_sha256_of_empty",
+            "test_hash_file_is_stable_across_calls",
+            "test_hash_file_matches_known_sha256",
+            "test_identical_bytes_yield_identical_checksums"
+          ],
+          "hash": "4a0f8f2dfb5afd50a1e5cdfd889993d8368082e8e00044a124870125e92da5a0",
+          "importsFiles": [
+            "foundry/__init__.py"
+          ],
+          "path": "tests/test_export.py"
+        },
+        {
+          "exports": [
+            "isolated_foundry",
+            "test_ingest_registers_run_and_eight_attempts",
+            "test_ingested_maps_are_aligned_to_albedo",
+            "test_ingested_run_passes_foundry_check",
+            "test_missing_direction_cli_exits_nonzero",
+            "test_missing_direction_fails_without_partial_register",
+            "test_optional_maps_are_ingested"
+          ],
+          "hash": "5d28b1a7f7f5bc9aed7000dcc4cdd3f8e072f78facef3faab15175dc0c0e3aa9",
+          "importsFiles": [
+            "foundry/__init__.py",
+            "pipeline/foundry_ingest.py"
+          ],
+          "path": "tests/test_ingest.py"
+        },
+        {
+          "exports": [
+            "attempt",
+            "test_alpha_fails_for_rgb_no_alpha",
+            "test_alpha_passes_for_rgba",
+            "test_corner_transparency_fails_for_rgb",
+            "test_corner_transparency_fails_with_three_opaque_corners",
+            "test_corner_transparency_passes_with_one_opaque_corner",
+            "test_corner_transparency_passes_with_two_opaque_corners",
+            "test_dimension_fails_one_pixel_under",
+            "test_dimension_fails_when_no_pixel_artifact",
+            "test_dimension_passes_at_exact_target",
+            "test_foreground_fails_on_empty_frame",
+            "test_foreground_passes_with_a_subject",
+            "test_run_all_gates_returns_all_five",
+            "test_single_subject_fails_for_left_right_split",
+            "test_single_subject_fails_when_no_foreground",
+            "test_single_subject_passes_for_centered_subject",
+            "test_single_subject_relaxed_for_wide_body_class"
+          ],
+          "hash": "01d32b72143a0dac9ae950501b364ce4ab00479acdc5449315aa05a558bb8d6c",
+          "importsFiles": [
+            "foundry/__init__.py"
+          ],
+          "path": "tests/test_mechanical.py"
+        }
+      ],
+      "globs": [
+        "tests/**"
+      ],
+      "importConfidence": "full",
+      "name": "tests",
+      "origin": "authored",
+      "role": "test",
+      "testedBy": 0,
+      "unresolvedNamed": [
+        {
+          "path": "tests/test_ingest.py",
+          "specifier": "pipeline",
+          "why": "unplaced"
+        }
+      ],
+      "unresolvedSites": 1
+    }
+  ],
+  "doors": [
+    {
+      "checksCount": 4,
+      "commands": [
+        {
+          "job": "verify",
+          "step": "Atlas check",
+          "text": "npx --yes @dogfood-lab/atlas@1.21.0 check"
+        },
+        {
+          "job": "verify",
+          "step": "Verify foundry module (fast pre-check)",
+          "text": "python -c \"from foundry import db; from foundry import cli; print('OK: imports')\"\npython -c \"from foundry.cli import build_parser; p = build_parser(); print('OK: parser')\"\n"
+        },
+        {
+          "job": "verify",
+          "step": "Syntax-check 3d-prerender scripts",
+          "text": "python -m py_compile 3d-prerender/*.py"
+        },
+        {
+          "job": "verify",
+          "step": "Install 3d-prerender test dependencies",
+          "text": "python -m pip install pytest numpy Pillow scipy trimesh hypothesis"
+        },
+        {
+          "job": "verify",
+          "step": "Run 3d-prerender pure-logic tests",
+          "text": "pytest 3d-prerender/test_texture_patch_region.py -v"
+        },
+        {
+          "job": "verify",
+          "step": "Run verify.sh",
+          "text": "bash verify.sh"
+        },
+        {
+          "job": "verify",
+          "step": "Validate export manifests",
+          "text": "python -c \"\nimport json, pathlib, sys\nmanifests = sorted(pathlib.Path('exports').rglob('manifest.json'))\nerrors = 0\nfor m in manifests:\n    try:\n        data = json.loads(m.read_text())\n        assert 'schema_version' in data, f'missing schema_version in {m}'\n    except Exception as e:\n        print(f'FAIL: {m} — {e}')\n        errors += 1\nprint(f'Checked {len(manifests)} manifests')\nsys.exit(1 if errors else 0)\n\"\n"
+        }
+      ],
+      "elsewhere": [],
+      "file": ".github/workflows/ci.yml",
+      "landings": [
+        "game/godot/render-lab/scripts/auto_lab.gd"
+      ],
+      "mentions": [],
+      "name": "CI",
+      "permissions": [],
+      "pushes": false,
+      "reach": [
+        {
+          "boundary": "3d-prerender",
+          "depth": 0,
+          "files": 2
+        },
+        {
+          "boundary": "foundry",
+          "depth": 0,
+          "files": 3
+        },
+        {
+          "boundary": "root",
+          "depth": 0,
+          "files": 5
+        },
+        {
+          "boundary": "pipeline",
+          "depth": 1,
+          "enters": {
+            "file": "pipeline/foundry_finish.py",
+            "from": "foundry/cli.py"
+          },
+          "files": 2
+        }
+      ],
+      "readers": [
+        {
+          "by": "game/godot/render-lab/scenes/render_lab.tscn",
+          "call": "import",
+          "confidence": "ast",
+          "target": "game/godot/render-lab/scripts/auto_lab.gd"
+        }
+      ],
+      "runs": [
+        {
+          "job": "verify",
+          "path": "3d-prerender/test_texture_patch_region.py",
+          "runKind": "executes"
+        },
+        {
+          "job": "verify",
+          "path": "CHANGELOG.md",
+          "runKind": "checks",
+          "via": "verify.sh"
+        },
+        {
+          "job": "verify",
+          "path": "LICENSE",
+          "runKind": "checks",
+          "via": "verify.sh"
+        },
+        {
+          "job": "verify",
+          "path": "README.md",
+          "runKind": "checks",
+          "via": "verify.sh"
+        },
+        {
+          "job": "verify",
+          "path": "SECURITY.md",
+          "runKind": "checks",
+          "via": "verify.sh"
+        },
+        {
+          "job": "verify",
+          "path": "foundry/__init__.py",
+          "runKind": "executes"
+        },
+        {
+          "job": "verify",
+          "path": "foundry/cli.py",
+          "runKind": "executes"
+        },
+        {
+          "job": "verify",
+          "path": "foundry/db.py",
+          "runKind": "executes",
+          "via": "verify.sh"
+        },
+        {
+          "job": "verify",
+          "path": "verify.sh",
+          "runKind": "executes"
+        }
+      ],
+      "runsCount": 9,
+      "secrets": [],
+      "sends": {
+        "deploysPages": false,
+        "dispatchesTo": [],
+        "opensIssues": false,
+        "opensIssuesOnFailure": false,
+        "opensPullRequests": false,
+        "publishes": false,
+        "publishesTo": [],
+        "releases": false
+      },
+      "stages": [],
+      "triggers": [
+        {
+          "event": "pull_request",
+          "paths": [
+            ".github/workflows/**",
+            "3d-prerender/**",
+            "atlas/**",
+            "exports/**/manifest.json",
+            "foundry/**",
+            "pipeline/**",
+            "site/astro.config.mjs",
+            "site/package-lock.json",
+            "site/package.json",
+            "tests/**",
+            "verify.sh"
+          ]
+        },
+        {
+          "event": "push",
+          "paths": [
+            ".github/workflows/**",
+            "3d-prerender/**",
+            "atlas/**",
+            "exports/**/manifest.json",
+            "foundry/**",
+            "pipeline/**",
+            "site/astro.config.mjs",
+            "site/package-lock.json",
+            "site/package.json",
+            "tests/**",
+            "verify.sh"
+          ]
+        },
+        {
+          "event": "workflow_dispatch"
+        }
+      ],
+      "untrackedLandings": [
+        "bakeoff/",
+        "game/godot/render-lab/assets/"
+      ],
+      "uses": [
+        "actions/checkout",
+        "actions/setup-node",
+        "actions/setup-python"
+      ],
+      "usesWorkflowToken": false
+    },
+    {
+      "checksCount": 0,
+      "commands": [
+        {
+          "job": "build",
+          "step": "Install site dependencies",
+          "text": "npm ci"
+        },
+        {
+          "job": "build",
+          "step": "Build site",
+          "text": "npm run build"
+        }
+      ],
+      "elsewhere": [],
+      "file": ".github/workflows/pages.yml",
+      "landings": [],
+      "mentions": [],
+      "name": "Deploy site to GitHub Pages",
+      "permissions": [
+        "contents:read",
+        "id-token:write",
+        "pages:write"
+      ],
+      "pushes": false,
+      "reach": [
+        {
+          "boundary": "site",
+          "depth": 0,
+          "files": 3
+        }
+      ],
+      "readers": [],
+      "runs": [
+        {
+          "job": "build",
+          "matched": true,
+          "path": "site/astro.config.mjs",
+          "runKind": "executes",
+          "via": "astro build"
+        },
+        {
+          "directory": true,
+          "job": "build",
+          "matched": true,
+          "path": "site/src/",
+          "runKind": "executes",
+          "via": "astro build"
+        }
+      ],
+      "runsCount": 2,
+      "secrets": [],
+      "sends": {
+        "deploysPages": true,
+        "dispatchesTo": [],
+        "opensIssues": false,
+        "opensIssuesOnFailure": false,
+        "opensPullRequests": false,
+        "publishes": false,
+        "publishesTo": [],
+        "releases": false
+      },
+      "stages": [],
+      "triggers": [
+        {
+          "branches": [
+            "main"
+          ],
+          "event": "push",
+          "paths": [
+            ".github/workflows/pages.yml",
+            "site/**"
+          ]
+        },
+        {
+          "event": "workflow_dispatch"
+        }
+      ],
+      "uses": [
+        "actions/checkout",
+        "actions/deploy-pages",
+        "actions/setup-node",
+        "actions/upload-pages-artifact"
+      ],
+      "usesWorkflowToken": false
+    },
+    {
+      "app": "game",
+      "checksCount": 0,
+      "commands": [],
+      "elsewhere": [],
+      "file": "game/godot/render-lab/project.godot",
+      "kind": "command",
+      "landings": [],
+      "mentions": [],
+      "name": "the game",
+      "permissions": [],
+      "pushes": false,
+      "reach": [
+        {
+          "boundary": "render-lab",
+          "depth": 0,
+          "files": 2
+        }
+      ],
+      "readers": [],
+      "runs": [
+        {
+          "path": "game/godot/render-lab/scenes/render_lab.tscn",
+          "runKind": "executes"
+        }
+      ],
+      "runsCount": 1,
+      "secrets": [],
+      "sends": {
+        "deploysPages": false,
+        "dispatchesTo": [],
+        "opensIssues": false,
+        "opensIssuesOnFailure": false,
+        "opensPullRequests": false,
+        "publishes": false,
+        "publishesTo": [],
+        "releases": false
+      },
+      "stages": [],
+      "triggers": [],
+      "uses": [],
+      "usesWorkflowToken": false
+    }
+  ],
+  "edges": [
+    {
+      "from": "foundry",
+      "kind": "spawns",
+      "to": "pipeline"
+    },
+    {
+      "from": "pipeline",
+      "kind": "file",
+      "to": "foundry"
+    },
+    {
+      "from": "root",
+      "kind": "file",
+      "to": "foundry"
+    },
+    {
+      "from": "tests",
+      "fromTests": true,
+      "kind": "file",
+      "to": "foundry"
+    },
+    {
+      "from": "tests",
+      "fromTests": true,
+      "kind": "file",
+      "to": "pipeline"
+    }
+  ],
+  "generatedFrom": {
+    "commit": "347c92f4efd4dd8d816c2ca2e1662c57cbc6f5c0",
+    "tracked": 203
+  },
+  "landings": [
+    {
+      "readers": [
+        {
+          "by": "3d-prerender/cli.py",
+          "call": "literal",
+          "confidence": "ast"
+        }
+      ],
+      "target": "3d-prerender/mesh_character.py",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "3d-prerender/cli.py",
+          "call": "literal",
+          "confidence": "ast"
+        }
+      ],
+      "target": "3d-prerender/pack_jury.py",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "3d-prerender/cli.py",
+          "call": "literal",
+          "confidence": "ast"
+        }
+      ],
+      "target": "3d-prerender/retexture_character.py",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "3d-prerender/cli.py",
+          "call": "literal",
+          "confidence": "ast"
+        }
+      ],
+      "target": "3d-prerender/sprite_jury.py",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "3d-prerender/cli.py",
+          "call": "literal",
+          "confidence": "ast"
+        }
+      ],
+      "target": "3d-prerender/sprite_render.py",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "3d-prerender/cli.py",
+          "call": "literal",
+          "confidence": "ast"
+        }
+      ],
+      "target": "3d-prerender/texture_patch_region.py",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "verify.sh",
+          "call": "literal",
+          "confidence": "text"
+        }
+      ],
+      "target": "CHANGELOG.md",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "verify.sh",
+          "call": "literal",
+          "confidence": "text"
+        }
+      ],
+      "target": "LICENSE",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "verify.sh",
+          "call": "literal",
+          "confidence": "text"
+        }
+      ],
+      "target": "README.md",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "verify.sh",
+          "call": "literal",
+          "confidence": "text"
+        }
+      ],
+      "target": "SECURITY.md",
+      "writers": []
+    },
+    {
+      "readers": [],
+      "target": "bakeoff",
+      "tracked": false,
+      "writers": [
+        {
+          "by": "pipeline/bakeoff_runner.py",
+          "confidence": "ast"
+        },
+        {
+          "by": "pipeline/foundry_gen.py",
+          "confidence": "ast"
+        },
+        {
+          "by": "pipeline/foundry_gen_iterative.py",
+          "confidence": "ast"
+        },
+        {
+          "by": "pipeline/foundry_gen_morph.py",
+          "confidence": "ast"
+        },
+        {
+          "by": "pipeline/foundry_gen_turnaround.py",
+          "confidence": "ast"
+        },
+        {
+          "by": "pipeline/foundry_gen_zero123.py",
+          "confidence": "ast"
+        },
+        {
+          "by": "pipeline/foundry_maps.py",
+          "confidence": "ast"
+        },
+        {
+          "by": "pipeline/run_kael_1c.py",
+          "confidence": "ast"
+        },
+        {
+          "by": "pipeline/run_stack_a.py",
+          "confidence": "ast"
+        },
+        {
+          "by": "pipeline/run_stack_a_v2.py",
+          "confidence": "ast"
+        },
+        {
+          "by": "pipeline/run_stack_b.py",
+          "confidence": "ast"
+        },
+        {
+          "by": "pipeline/run_stack_c.py",
+          "confidence": "ast"
+        }
+      ]
+    },
+    {
+      "readers": [],
+      "target": "bakeoff/kael_1c_maps",
+      "tracked": false,
+      "writers": [
+        {
+          "by": "pipeline/gen_kael_maps.py",
+          "confidence": "ast"
+        }
+      ]
+    },
+    {
+      "readers": [],
+      "target": "game/godot/render-lab/assets",
+      "tracked": false,
+      "writers": [
+        {
+          "by": "pipeline/foundry_finish.py",
+          "confidence": "ast"
+        }
+      ]
+    },
+    {
+      "readers": [
+        {
+          "by": "pipeline/foundry_finish.py",
+          "call": "glob",
+          "confidence": "ast"
+        }
+      ],
+      "target": "game/godot/render-lab/screenshots",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "game/godot/render-lab/scenes/render_lab.tscn",
+          "call": "import",
+          "confidence": "ast"
+        }
+      ],
+      "target": "game/godot/render-lab/scripts/auto_lab.gd",
+      "writers": [
+        {
+          "by": "pipeline/foundry_finish.py",
+          "confidence": "ast"
+        }
+      ]
+    },
+    {
+      "readers": [
+        {
+          "by": "foundry/cli.py",
+          "call": "open",
+          "confidence": "ast"
+        },
+        {
+          "by": "pipeline/batch_02_canon.md",
+          "call": "--config",
+          "confidence": "text"
+        },
+        {
+          "by": "pipeline/batch_03_mixed.md",
+          "call": "--config",
+          "confidence": "text"
+        }
+      ],
+      "target": "pipeline/chars",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "README.es.md",
+          "call": "--config",
+          "confidence": "text"
+        },
+        {
+          "by": "README.fr.md",
+          "call": "--config",
+          "confidence": "text"
+        },
+        {
+          "by": "README.hi.md",
+          "call": "--config",
+          "confidence": "text"
+        },
+        {
+          "by": "README.it.md",
+          "call": "--config",
+          "confidence": "text"
+        },
+        {
+          "by": "README.ja.md",
+          "call": "--config",
+          "confidence": "text"
+        },
+        {
+          "by": "README.md",
+          "call": "--config",
+          "confidence": "text"
+        },
+        {
+          "by": "README.pt-BR.md",
+          "call": "--config",
+          "confidence": "text"
+        },
+        {
+          "by": "README.zh.md",
+          "call": "--config",
+          "confidence": "text"
+        }
+      ],
+      "target": "pipeline/chars/beast_rat_king.json",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "pipeline/manifests/goblin_warband_02.json",
+          "call": "literal",
+          "confidence": "text"
+        }
+      ],
+      "target": "pipeline/chars/goblin_archer.json",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "pipeline/manifests/goblin_warband_02.json",
+          "call": "literal",
+          "confidence": "text"
+        }
+      ],
+      "target": "pipeline/chars/goblin_bomber.json",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "pipeline/manifests/goblin_warband_02.json",
+          "call": "literal",
+          "confidence": "text"
+        }
+      ],
+      "target": "pipeline/chars/goblin_brute.json",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "pipeline/manifests/goblin_warband_02.json",
+          "call": "literal",
+          "confidence": "text"
+        }
+      ],
+      "target": "pipeline/chars/goblin_grunt.json",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "pipeline/manifests/goblin_warband_02.json",
+          "call": "literal",
+          "confidence": "text"
+        }
+      ],
+      "target": "pipeline/chars/goblin_scout.json",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "pipeline/manifests/goblin_warband_02.json",
+          "call": "literal",
+          "confidence": "text"
+        }
+      ],
+      "target": "pipeline/chars/goblin_shaman.json",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "pipeline/manifests/goblin_warband_02.json",
+          "call": "literal",
+          "confidence": "text"
+        }
+      ],
+      "target": "pipeline/chars/goblin_warchief.json",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "pipeline/manifests/goblin_warband_02.json",
+          "call": "literal",
+          "confidence": "text"
+        }
+      ],
+      "target": "pipeline/chars/goblin_wolf_rider.json",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "pipeline/manifests/undead_patrol_01.json",
+          "call": "literal",
+          "confidence": "text"
+        }
+      ],
+      "target": "pipeline/chars/zombie_bloater.json",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "pipeline/manifests/undead_patrol_01.json",
+          "call": "literal",
+          "confidence": "text"
+        }
+      ],
+      "target": "pipeline/chars/zombie_elite.json",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "pipeline/manifests/undead_patrol_01.json",
+          "call": "literal",
+          "confidence": "text"
+        }
+      ],
+      "target": "pipeline/chars/zombie_hazmat.json",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "pipeline/manifests/undead_patrol_01.json",
+          "call": "literal",
+          "confidence": "text"
+        }
+      ],
+      "target": "pipeline/chars/zombie_riot.json",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "pipeline/manifests/undead_patrol_01.json",
+          "call": "literal",
+          "confidence": "text"
+        }
+      ],
+      "target": "pipeline/chars/zombie_runner.json",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "pipeline/manifests/undead_patrol_01.json",
+          "call": "literal",
+          "confidence": "text"
+        }
+      ],
+      "target": "pipeline/chars/zombie_shambler.json",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "pipeline/manifests/undead_patrol_01.json",
+          "call": "literal",
+          "confidence": "text"
+        }
+      ],
+      "target": "pipeline/chars/zombie_skeletal.json",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "pipeline/manifests/undead_patrol_01.json",
+          "call": "literal",
+          "confidence": "text"
+        }
+      ],
+      "target": "pipeline/chars/zombie_worker.json",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "pipeline/foundry_gen_morph.py",
+          "call": "literal",
+          "confidence": "ast"
+        }
+      ],
+      "target": "pipeline/morph_refs",
+      "writers": []
+    },
+    {
+      "readers": [],
+      "target": "pipeline/morph_refs/*_depth",
+      "tracked": false,
+      "writers": [
+        {
+          "by": "pipeline/morph_refs/gen_amorphous_depth.py",
+          "confidence": "ast"
+        },
+        {
+          "by": "pipeline/morph_refs/gen_morph_matrix.py",
+          "confidence": "ast"
+        },
+        {
+          "by": "pipeline/morph_refs/gen_tall_thin_depth.py",
+          "confidence": "ast"
+        },
+        {
+          "by": "pipeline/morph_refs/gen_wide_squat_depth.py",
+          "confidence": "ast"
+        }
+      ]
+    },
+    {
+      "readers": [],
+      "target": "pipeline/morph_refs/drift_lurker_depth",
+      "tracked": false,
+      "writers": [
+        {
+          "by": "pipeline/morph_refs/gen_drift_lurker_depth.py",
+          "confidence": "ast"
+        }
+      ]
+    },
+    {
+      "readers": [],
+      "target": "pipeline/morph_refs/drift_lurker_depth/depth_ref_sheet.png",
+      "tracked": false,
+      "writers": [
+        {
+          "by": "pipeline/morph_refs/gen_drift_lurker_depth.py",
+          "confidence": "ast"
+        }
+      ]
+    },
+    {
+      "readers": [],
+      "target": "pipeline/morph_refs/drift_maw_depth",
+      "tracked": false,
+      "writers": [
+        {
+          "by": "pipeline/morph_refs/gen_quadruped_depth.py",
+          "confidence": "ast"
+        }
+      ]
+    },
+    {
+      "readers": [],
+      "target": "pipeline/morph_refs/drift_maw_depth/depth_ref_sheet.png",
+      "tracked": false,
+      "writers": [
+        {
+          "by": "pipeline/morph_refs/gen_quadruped_depth.py",
+          "confidence": "ast"
+        }
+      ]
+    },
+    {
+      "readers": [],
+      "target": "pipeline/morph_refs/keth_healer_drone_depth",
+      "tracked": false,
+      "writers": [
+        {
+          "by": "pipeline/morph_refs/gen_keth_healer_drone.py",
+          "confidence": "ast"
+        }
+      ]
+    },
+    {
+      "readers": [],
+      "target": "pipeline/morph_refs/void_raptor_edge",
+      "tracked": false,
+      "writers": [
+        {
+          "by": "pipeline/morph_refs/gen_void_raptor_edge.py",
+          "confidence": "ast"
+        }
+      ]
+    },
+    {
+      "readers": [],
+      "target": "pipeline/morph_refs/void_raptor_edge/edge_ref_sheet.png",
+      "tracked": false,
+      "writers": [
+        {
+          "by": "pipeline/morph_refs/gen_void_raptor_edge.py",
+          "confidence": "ast"
+        }
+      ]
+    },
+    {
+      "readers": [
+        {
+          "by": "preflight/gen_contact_sheet.py",
+          "call": "literal",
+          "confidence": "ast"
+        }
+      ],
+      "target": "preflight/contact-sheet-placeholder.png",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "site/astro.config.mjs",
+          "call": "content-collection",
+          "confidence": "ast"
+        }
+      ],
+      "target": "site/src/content/docs",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "site/astro.config.mjs",
+          "call": "autogenerate",
+          "confidence": "ast"
+        }
+      ],
+      "target": "site/src/content/docs/handbook",
+      "writers": []
+    }
+  ],
+  "overlaps": [],
+  "submodules": [],
+  "symlinks": [],
+  "testFiles": 12,
+  "unassigned": []
+}

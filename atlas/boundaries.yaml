@@ -1,0 +1,44 @@
+summary: ""
+boundaries:
+  - name: .github
+    globs:
+      - .github/**
+    role: config
+  - name: 3d-prerender
+    globs:
+      - 3d-prerender/**
+    role: code
+  - name: foundry
+    globs:
+      - foundry/**
+    role: code
+  - name: chars
+    globs:
+      - pipeline/chars/**
+    role: data
+  - name: pipeline
+    globs:
+      - pipeline/*
+      - pipeline/manifests/**
+      - pipeline/morph_refs/**
+    role: code
+  - name: preflight
+    globs:
+      - preflight/**
+    role: docs
+  - name: render-lab
+    globs:
+      - game/godot/render-lab/**
+    role: code
+  - name: root
+    globs:
+      - "*"
+    role: docs
+  - name: site
+    globs:
+      - site/**
+    role: site
+  - name: tests
+    globs:
+      - tests/**
+    role: test
