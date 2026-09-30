@@ -69,7 +69,7 @@
       "confidence": "low",
       "highWater": null,
       "name": "foundry",
-      "qualifyingSourceCommits": 4,
+      "qualifyingSourceCommits": 2,
       "rebaseline": null
     },
     {
@@ -88,7 +88,7 @@
       "confidence": "low",
       "highWater": null,
       "name": "pipeline",
-      "qualifyingSourceCommits": 9,
+      "qualifyingSourceCommits": 6,
       "rebaseline": null
     },
     {
@@ -120,7 +120,7 @@
       "confidence": "low",
       "highWater": null,
       "name": "render-lab",
-      "qualifyingSourceCommits": 3,
+      "qualifyingSourceCommits": 2,
       "rebaseline": null
     },
     {
@@ -152,7 +152,7 @@
       "confidence": "low",
       "highWater": null,
       "name": "site",
-      "qualifyingSourceCommits": 4,
+      "qualifyingSourceCommits": 2,
       "rebaseline": null
     },
     {
@@ -177,23 +177,18 @@
     "files": [
       {
         "commits": 8,
-        "lines": 153,
+        "lines": 101,
         "path": ".github/workflows/ci.yml"
       },
       {
-        "commits": 2,
-        "lines": 58,
+        "commits": 1,
+        "lines": 8,
         "path": ".github/workflows/pages.yml"
       },
       {
-        "commits": 5,
-        "lines": 57,
+        "commits": 2,
+        "lines": 14,
         "path": ".gitignore"
-      },
-      {
-        "commits": 1,
-        "lines": 2959,
-        "path": ".polyglot-cache.json"
       },
       {
         "commits": 2,
@@ -286,14 +281,9 @@
         "path": "3d-prerender/verify_uv_rasterize.py"
       },
       {
-        "commits": 5,
-        "lines": 94,
+        "commits": 2,
+        "lines": 46,
         "path": "CHANGELOG.md"
-      },
-      {
-        "commits": 1,
-        "lines": 220,
-        "path": "HANDOFF-PHASE7.md"
       },
       {
         "commits": 1,
@@ -301,68 +291,58 @@
         "path": "HUNYUAN3D-HANDOFF.md"
       },
       {
-        "commits": 1,
-        "lines": 21,
-        "path": "LICENSE"
-      },
-      {
         "commits": 5,
         "lines": 308,
         "path": "OPTION-A-ROADMAP.md"
       },
       {
-        "commits": 4,
-        "lines": 434,
+        "commits": 2,
+        "lines": 212,
         "path": "README.es.md"
       },
       {
-        "commits": 4,
-        "lines": 436,
+        "commits": 2,
+        "lines": 260,
         "path": "README.fr.md"
       },
       {
-        "commits": 4,
-        "lines": 492,
+        "commits": 2,
+        "lines": 316,
         "path": "README.hi.md"
       },
       {
-        "commits": 4,
-        "lines": 450,
+        "commits": 2,
+        "lines": 208,
         "path": "README.it.md"
       },
       {
-        "commits": 4,
-        "lines": 436,
+        "commits": 2,
+        "lines": 260,
         "path": "README.ja.md"
       },
       {
-        "commits": 10,
-        "lines": 229,
+        "commits": 5,
+        "lines": 45,
         "path": "README.md"
       },
       {
-        "commits": 4,
-        "lines": 332,
+        "commits": 2,
+        "lines": 156,
         "path": "README.pt-BR.md"
       },
       {
-        "commits": 4,
-        "lines": 490,
+        "commits": 2,
+        "lines": 240,
         "path": "README.zh.md"
       },
       {
-        "commits": 2,
-        "lines": 84,
+        "commits": 1,
+        "lines": 35,
         "path": "SCORECARD.md"
       },
       {
         "commits": 1,
-        "lines": 36,
-        "path": "SECURITY.md"
-      },
-      {
-        "commits": 4,
-        "lines": 137,
+        "lines": 62,
         "path": "SHIP_GATE.md"
       },
       {
@@ -371,119 +351,79 @@
         "path": "STYLE-LAB-HANDOFF.md"
       },
       {
+        "commits": 1,
+        "lines": 86,
+        "path": "atlas/README.md"
+      },
+      {
+        "commits": 1,
+        "lines": 44,
+        "path": "atlas/boundaries.yaml"
+      },
+      {
+        "commits": 1,
+        "lines": 275,
+        "path": "atlas/page.json"
+      },
+      {
+        "commits": 1,
+        "lines": 1414,
+        "path": "atlas/statistics.json"
+      },
+      {
+        "commits": 1,
+        "lines": 3505,
+        "path": "atlas/structure.json"
+      },
+      {
         "commits": 2,
         "lines": 434,
         "path": "conftest.py"
       },
       {
-        "commits": 3,
-        "lines": 9,
+        "commits": 2,
+        "lines": 8,
         "path": "foundry/__init__.py"
       },
       {
-        "commits": 3,
-        "lines": 587,
+        "commits": 2,
+        "lines": 38,
         "path": "foundry/boards.py"
       },
       {
-        "commits": 6,
-        "lines": 3304,
+        "commits": 3,
+        "lines": 1120,
         "path": "foundry/cli.py"
       },
       {
-        "commits": 3,
-        "lines": 551,
+        "commits": 2,
+        "lines": 218,
         "path": "foundry/db.py"
       },
       {
-        "commits": 3,
-        "lines": 423,
+        "commits": 2,
+        "lines": 64,
         "path": "foundry/decisions.py"
       },
       {
-        "commits": 4,
-        "lines": 433,
+        "commits": 2,
+        "lines": 106,
         "path": "foundry/mechanical.py"
       },
       {
-        "commits": 1,
-        "lines": 26,
-        "path": "game/godot/render-lab/project.godot"
-      },
-      {
-        "commits": 1,
-        "lines": 7,
-        "path": "game/godot/render-lab/scenes/pack_viewer.tscn"
-      },
-      {
-        "commits": 1,
-        "lines": 6,
-        "path": "game/godot/render-lab/scenes/pack_viewer_launcher.tscn"
-      },
-      {
-        "commits": 1,
-        "lines": 6,
-        "path": "game/godot/render-lab/scenes/render_lab.tscn"
-      },
-      {
-        "commits": 5,
-        "lines": 347,
+        "commits": 3,
+        "lines": 108,
         "path": "game/godot/render-lab/scripts/auto_lab.gd"
       },
       {
-        "commits": 1,
-        "lines": 1,
-        "path": "game/godot/render-lab/scripts/auto_lab.gd.uid"
-      },
-      {
-        "commits": 3,
-        "lines": 154,
+        "commits": 2,
+        "lines": 54,
         "path": "game/godot/render-lab/scripts/lab_controls.gd"
       },
       {
-        "commits": 1,
-        "lines": 1,
-        "path": "game/godot/render-lab/scripts/lab_controls.gd.uid"
-      },
-      {
-        "commits": 1,
-        "lines": 228,
-        "path": "game/godot/render-lab/scripts/pack_viewer.gd"
-      },
-      {
-        "commits": 1,
-        "lines": 1,
-        "path": "game/godot/render-lab/scripts/pack_viewer.gd.uid"
-      },
-      {
-        "commits": 3,
-        "lines": 172,
-        "path": "game/godot/render-lab/scripts/pack_viewer_launcher.gd"
-      },
-      {
-        "commits": 1,
-        "lines": 1,
-        "path": "game/godot/render-lab/scripts/pack_viewer_launcher.gd.uid"
-      },
-      {
-        "commits": 1,
-        "lines": 345,
-        "path": "phase2-spec.md"
-      },
-      {
-        "commits": 1,
-        "lines": 649,
-        "path": "pipeline/bakeoff_runner.py"
-      },
-      {
         "commits": 2,
-        "lines": 82,
-        "path": "pipeline/batch_02_canon.md"
-      },
-      {
-        "commits": 1,
-        "lines": 101,
-        "path": "pipeline/batch_03_mixed.md"
+        "lines": 116,
+        "path": "game/godot/render-lab/scripts/pack_viewer_launcher.gd"
       },
       {
         "commits": 1,
@@ -492,158 +432,8 @@
       },
       {
         "commits": 1,
-        "lines": 7,
-        "path": "pipeline/chars/beast_bell_warden.json"
-      },
-      {
-        "commits": 1,
-        "lines": 8,
-        "path": "pipeline/chars/beast_bone_weaver.json"
-      },
-      {
-        "commits": 1,
-        "lines": 7,
-        "path": "pipeline/chars/beast_chain_dancer.json"
-      },
-      {
-        "commits": 1,
-        "lines": 8,
-        "path": "pipeline/chars/beast_clock_golem.json"
-      },
-      {
-        "commits": 1,
-        "lines": 8,
-        "path": "pipeline/chars/beast_grinning_idol.json"
-      },
-      {
-        "commits": 2,
-        "lines": 14,
-        "path": "pipeline/chars/beast_hive_keeper.json"
-      },
-      {
-        "commits": 1,
-        "lines": 7,
-        "path": "pipeline/chars/beast_hollow_knight.json"
-      },
-      {
-        "commits": 1,
-        "lines": 8,
-        "path": "pipeline/chars/beast_ink_shade.json"
-      },
-      {
-        "commits": 1,
-        "lines": 8,
-        "path": "pipeline/chars/beast_lantern_angler.json"
-      },
-      {
-        "commits": 1,
-        "lines": 8,
-        "path": "pipeline/chars/beast_mirror_stalker.json"
-      },
-      {
-        "commits": 1,
-        "lines": 8,
-        "path": "pipeline/chars/beast_mud_revenant.json"
-      },
-      {
-        "commits": 1,
-        "lines": 8,
-        "path": "pipeline/chars/beast_rat_king.json"
-      },
-      {
-        "commits": 1,
-        "lines": 8,
-        "path": "pipeline/chars/beast_root_puppet.json"
-      },
-      {
-        "commits": 1,
-        "lines": 8,
-        "path": "pipeline/chars/beast_spore_mother.json"
-      },
-      {
-        "commits": 1,
-        "lines": 7,
-        "path": "pipeline/chars/beast_teeth_collector.json"
-      },
-      {
-        "commits": 1,
-        "lines": 8,
-        "path": "pipeline/chars/beast_throat_singer.json"
-      },
-      {
-        "commits": 1,
-        "lines": 8,
-        "path": "pipeline/chars/beast_wyvern.json"
-      },
-      {
-        "commits": 1,
-        "lines": 7,
-        "path": "pipeline/chars/cargo_beast.json"
-      },
-      {
-        "commits": 1,
         "lines": 16,
         "path": "pipeline/chars/claude_opus.json"
-      },
-      {
-        "commits": 1,
-        "lines": 7,
-        "path": "pipeline/chars/compact_patrol.json"
-      },
-      {
-        "commits": 1,
-        "lines": 7,
-        "path": "pipeline/chars/drift_lurker.json"
-      },
-      {
-        "commits": 1,
-        "lines": 7,
-        "path": "pipeline/chars/drift_maw.json"
-      },
-      {
-        "commits": 1,
-        "lines": 7,
-        "path": "pipeline/chars/drift_maw_v2.json"
-      },
-      {
-        "commits": 1,
-        "lines": 25,
-        "path": "pipeline/chars/goblin_archer.json"
-      },
-      {
-        "commits": 1,
-        "lines": 25,
-        "path": "pipeline/chars/goblin_bomber.json"
-      },
-      {
-        "commits": 1,
-        "lines": 25,
-        "path": "pipeline/chars/goblin_brute.json"
-      },
-      {
-        "commits": 1,
-        "lines": 25,
-        "path": "pipeline/chars/goblin_grunt.json"
-      },
-      {
-        "commits": 1,
-        "lines": 25,
-        "path": "pipeline/chars/goblin_scout.json"
-      },
-      {
-        "commits": 1,
-        "lines": 25,
-        "path": "pipeline/chars/goblin_shaman.json"
-      },
-      {
-        "commits": 1,
-        "lines": 25,
-        "path": "pipeline/chars/goblin_warchief.json"
-      },
-      {
-        "commits": 1,
-        "lines": 25,
-        "path": "pipeline/chars/goblin_wolf_rider.json"
       },
       {
         "commits": 1,
@@ -706,133 +496,13 @@
         "path": "pipeline/chars/h3d_winged_demon.json"
       },
       {
-        "commits": 1,
-        "lines": 7,
-        "path": "pipeline/chars/hull_diver.json"
-      },
-      {
-        "commits": 1,
-        "lines": 7,
-        "path": "pipeline/chars/ilen.json"
-      },
-      {
-        "commits": 1,
-        "lines": 7,
-        "path": "pipeline/chars/interdiction_agent.json"
-      },
-      {
-        "commits": 1,
-        "lines": 7,
-        "path": "pipeline/chars/keth_healer_drone.json"
-      },
-      {
-        "commits": 1,
-        "lines": 7,
-        "path": "pipeline/chars/nera.json"
-      },
-      {
-        "commits": 1,
-        "lines": 7,
-        "path": "pipeline/chars/orryn_broker.json"
-      },
-      {
-        "commits": 1,
-        "lines": 7,
-        "path": "pipeline/chars/reach_pirate.json"
-      },
-      {
-        "commits": 1,
-        "lines": 7,
-        "path": "pipeline/chars/scav_raider.json"
-      },
-      {
-        "commits": 1,
-        "lines": 7,
-        "path": "pipeline/chars/sera.json"
-      },
-      {
-        "commits": 1,
-        "lines": 7,
-        "path": "pipeline/chars/skitter_drone.json"
-      },
-      {
-        "commits": 1,
-        "lines": 7,
-        "path": "pipeline/chars/thal.json"
-      },
-      {
-        "commits": 1,
-        "lines": 7,
-        "path": "pipeline/chars/thal_hazard.json"
-      },
-      {
-        "commits": 1,
-        "lines": 7,
-        "path": "pipeline/chars/varek.json"
-      },
-      {
-        "commits": 1,
-        "lines": 7,
-        "path": "pipeline/chars/varek_v2.json"
-      },
-      {
-        "commits": 1,
-        "lines": 7,
-        "path": "pipeline/chars/veshan_envoy.json"
-      },
-      {
-        "commits": 1,
-        "lines": 7,
-        "path": "pipeline/chars/void_raptor.json"
-      },
-      {
-        "commits": 1,
-        "lines": 16,
-        "path": "pipeline/chars/zombie_bloater.json"
-      },
-      {
-        "commits": 1,
-        "lines": 16,
-        "path": "pipeline/chars/zombie_elite.json"
-      },
-      {
-        "commits": 1,
-        "lines": 16,
-        "path": "pipeline/chars/zombie_hazmat.json"
-      },
-      {
-        "commits": 1,
-        "lines": 16,
-        "path": "pipeline/chars/zombie_riot.json"
-      },
-      {
-        "commits": 1,
-        "lines": 16,
-        "path": "pipeline/chars/zombie_runner.json"
-      },
-      {
-        "commits": 1,
-        "lines": 16,
-        "path": "pipeline/chars/zombie_shambler.json"
-      },
-      {
-        "commits": 1,
-        "lines": 16,
-        "path": "pipeline/chars/zombie_skeletal.json"
-      },
-      {
-        "commits": 1,
-        "lines": 16,
-        "path": "pipeline/chars/zombie_worker.json"
-      },
-      {
-        "commits": 3,
-        "lines": 774,
+        "commits": 2,
+        "lines": 290,
         "path": "pipeline/foundry_finish.py"
       },
       {
-        "commits": 5,
-        "lines": 759,
+        "commits": 4,
+        "lines": 361,
         "path": "pipeline/foundry_gen.py"
       },
       {
@@ -841,8 +511,8 @@
         "path": "pipeline/foundry_gen_iterative.py"
       },
       {
-        "commits": 4,
-        "lines": 995,
+        "commits": 2,
+        "lines": 370,
         "path": "pipeline/foundry_gen_morph.py"
       },
       {
@@ -861,74 +531,9 @@
         "path": "pipeline/foundry_ingest.py"
       },
       {
-        "commits": 3,
-        "lines": 483,
+        "commits": 2,
+        "lines": 194,
         "path": "pipeline/foundry_maps.py"
-      },
-      {
-        "commits": 1,
-        "lines": 102,
-        "path": "pipeline/gen_1b3_composite.py"
-      },
-      {
-        "commits": 1,
-        "lines": 320,
-        "path": "pipeline/gen_kael_maps.py"
-      },
-      {
-        "commits": 1,
-        "lines": 85,
-        "path": "pipeline/manifests/goblin_warband_02.json"
-      },
-      {
-        "commits": 1,
-        "lines": 80,
-        "path": "pipeline/manifests/undead_patrol_01.json"
-      },
-      {
-        "commits": 1,
-        "lines": 134,
-        "path": "pipeline/morph_refs/gen_amorphous_depth.py"
-      },
-      {
-        "commits": 1,
-        "lines": 232,
-        "path": "pipeline/morph_refs/gen_drift_lurker_depth.py"
-      },
-      {
-        "commits": 1,
-        "lines": 132,
-        "path": "pipeline/morph_refs/gen_keth_healer_drone.py"
-      },
-      {
-        "commits": 1,
-        "lines": 268,
-        "path": "pipeline/morph_refs/gen_morph_matrix.py"
-      },
-      {
-        "commits": 1,
-        "lines": 207,
-        "path": "pipeline/morph_refs/gen_quadruped_depth.py"
-      },
-      {
-        "commits": 1,
-        "lines": 170,
-        "path": "pipeline/morph_refs/gen_tall_thin_depth.py"
-      },
-      {
-        "commits": 1,
-        "lines": 178,
-        "path": "pipeline/morph_refs/gen_void_raptor_edge.py"
-      },
-      {
-        "commits": 1,
-        "lines": 180,
-        "path": "pipeline/morph_refs/gen_wide_squat_depth.py"
-      },
-      {
-        "commits": 1,
-        "lines": 87,
-        "path": "pipeline/pixelate.py"
       },
       {
         "commits": 1,
@@ -939,31 +544,6 @@
         "commits": 3,
         "lines": 338,
         "path": "pipeline/render_mesh_views.py"
-      },
-      {
-        "commits": 1,
-        "lines": 471,
-        "path": "pipeline/run_kael_1c.py"
-      },
-      {
-        "commits": 1,
-        "lines": 339,
-        "path": "pipeline/run_stack_a.py"
-      },
-      {
-        "commits": 1,
-        "lines": 472,
-        "path": "pipeline/run_stack_a_v2.py"
-      },
-      {
-        "commits": 1,
-        "lines": 346,
-        "path": "pipeline/run_stack_b.py"
-      },
-      {
-        "commits": 1,
-        "lines": 340,
-        "path": "pipeline/run_stack_c.py"
       },
       {
         "commits": 3,
@@ -982,333 +562,43 @@
       },
       {
         "commits": 1,
-        "lines": 50,
-        "path": "preflight/PREFLIGHT-STATUS.md"
-      },
-      {
-        "commits": 1,
-        "lines": 151,
-        "path": "preflight/comfyui-inventory.md"
-      },
-      {
-        "commits": 1,
-        "lines": 0,
-        "path": "preflight/contact-sheet-placeholder.png"
-      },
-      {
-        "commits": 1,
-        "lines": 159,
-        "path": "preflight/gen_contact_sheet.py"
-      },
-      {
-        "commits": 1,
-        "lines": 86,
-        "path": "preflight/godot-render-lab.md"
-      },
-      {
-        "commits": 1,
-        "lines": 120,
-        "path": "preflight/subject-sheet-drift-lurker.md"
-      },
-      {
-        "commits": 1,
-        "lines": 56,
-        "path": "preflight/subject-sheet-drift-maw.md"
-      },
-      {
-        "commits": 1,
-        "lines": 110,
-        "path": "preflight/subject-sheet-hull-diver.md"
-      },
-      {
-        "commits": 1,
-        "lines": 115,
-        "path": "preflight/subject-sheet-ilen.md"
-      },
-      {
-        "commits": 1,
-        "lines": 117,
-        "path": "preflight/subject-sheet-interdiction-agent.md"
-      },
-      {
-        "commits": 1,
-        "lines": 131,
-        "path": "preflight/subject-sheet-kael.md"
-      },
-      {
-        "commits": 1,
-        "lines": 49,
-        "path": "preflight/subject-sheet-scav-raider.md"
-      },
-      {
-        "commits": 1,
-        "lines": 120,
-        "path": "preflight/subject-sheet-thal-hazard.md"
-      },
-      {
-        "commits": 1,
-        "lines": 111,
-        "path": "preflight/subject-sheet-thal.md"
-      },
-      {
-        "commits": 1,
-        "lines": 114,
-        "path": "preflight/subject-sheet-varek.md"
-      },
-      {
-        "commits": 1,
-        "lines": 109,
-        "path": "preflight/subject-sheet-veshan-envoy.md"
-      },
-      {
-        "commits": 1,
-        "lines": 110,
-        "path": "preflight/subject-sheet.md"
-      },
-      {
-        "commits": 3,
-        "lines": 50,
+        "lines": 2,
         "path": "site/astro.config.mjs"
       },
       {
-        "commits": 2,
-        "lines": 2,
-        "path": "site/dist/_astro/MobileTableOfContents.astro_astro_type_script_index_0_lang.hwBsy0Mo.js"
+        "commits": 1,
+        "lines": 5714,
+        "path": "site/package-lock.json"
       },
       {
-        "commits": 2,
-        "lines": 2,
-        "path": "site/dist/_astro/Search.astro_astro_type_script_index_0_lang.Cnixptlx.js"
-      },
-      {
-        "commits": 2,
-        "lines": 2,
-        "path": "site/dist/_astro/TableOfContents.astro_astro_type_script_index_0_lang.FuRcXuRY.js"
-      },
-      {
-        "commits": 2,
+        "commits": 1,
         "lines": 6,
-        "path": "site/dist/_astro/ec.0vx5m.js"
-      },
-      {
-        "commits": 2,
-        "lines": 2,
-        "path": "site/dist/_astro/ec.v4551.css"
-      },
-      {
-        "commits": 2,
-        "lines": 2,
-        "path": "site/dist/_astro/index@_@astro.Btlw_HVM.css"
-      },
-      {
-        "commits": 2,
-        "lines": 2,
-        "path": "site/dist/_astro/index@_@astro.DR6QRk90.css"
-      },
-      {
-        "commits": 2,
-        "lines": 2,
-        "path": "site/dist/_astro/page.BIhdncjw.js"
-      },
-      {
-        "commits": 2,
-        "lines": 2,
-        "path": "site/dist/_astro/print.DNXP8c50.css"
-      },
-      {
-        "commits": 2,
-        "lines": 4,
-        "path": "site/dist/_astro/ui-core.CK4l8n8o.js"
-      },
-      {
-        "commits": 2,
-        "lines": 256,
-        "path": "site/dist/handbook/getting-started/index.html"
-      },
-      {
-        "commits": 2,
-        "lines": 252,
-        "path": "site/dist/handbook/index.html"
-      },
-      {
-        "commits": 2,
-        "lines": 310,
-        "path": "site/dist/handbook/pipeline/index.html"
-      },
-      {
-        "commits": 2,
-        "lines": 502,
-        "path": "site/dist/handbook/reference/index.html"
-      },
-      {
-        "commits": 2,
-        "lines": 300,
-        "path": "site/dist/handbook/security/index.html"
-      },
-      {
-        "commits": 2,
-        "lines": 32,
-        "path": "site/dist/index.html"
-      },
-      {
-        "commits": 2,
-        "lines": 0,
-        "path": "site/dist/pagefind/fragment/en_0802b60.pf_fragment"
-      },
-      {
-        "commits": 2,
-        "lines": 0,
-        "path": "site/dist/pagefind/fragment/en_2d6843b.pf_fragment"
-      },
-      {
-        "commits": 2,
-        "lines": 0,
-        "path": "site/dist/pagefind/fragment/en_4ad7b68.pf_fragment"
-      },
-      {
-        "commits": 2,
-        "lines": 0,
-        "path": "site/dist/pagefind/fragment/en_9daedb0.pf_fragment"
-      },
-      {
-        "commits": 2,
-        "lines": 0,
-        "path": "site/dist/pagefind/fragment/en_dfcff16.pf_fragment"
-      },
-      {
-        "commits": 2,
-        "lines": 0,
-        "path": "site/dist/pagefind/index/en_4761b04.pf_index"
-      },
-      {
-        "commits": 2,
-        "lines": 2,
-        "path": "site/dist/pagefind/pagefind-entry.json"
-      },
-      {
-        "commits": 2,
-        "lines": 2128,
-        "path": "site/dist/pagefind/pagefind-highlight.js"
-      },
-      {
-        "commits": 2,
-        "lines": 428,
-        "path": "site/dist/pagefind/pagefind-modular-ui.css"
-      },
-      {
-        "commits": 2,
-        "lines": 16,
-        "path": "site/dist/pagefind/pagefind-modular-ui.js"
-      },
-      {
-        "commits": 2,
-        "lines": 2,
-        "path": "site/dist/pagefind/pagefind-ui.css"
-      },
-      {
-        "commits": 2,
-        "lines": 4,
-        "path": "site/dist/pagefind/pagefind-ui.js"
-      },
-      {
-        "commits": 2,
-        "lines": 0,
-        "path": "site/dist/pagefind/pagefind.en_c159f12592.pf_meta"
+        "path": "site/package.json"
       },
       {
         "commits": 2,
         "lines": 12,
-        "path": "site/dist/pagefind/pagefind.js"
-      },
-      {
-        "commits": 2,
-        "lines": 0,
-        "path": "site/dist/pagefind/wasm.en.pagefind"
-      },
-      {
-        "commits": 2,
-        "lines": 0,
-        "path": "site/dist/pagefind/wasm.unknown.pagefind"
-      },
-      {
-        "commits": 2,
-        "lines": 2,
-        "path": "site/dist/sitemap-0.xml"
-      },
-      {
-        "commits": 2,
-        "lines": 2,
-        "path": "site/dist/sitemap-index.xml"
-      },
-      {
-        "commits": 2,
-        "lines": 12933,
-        "path": "site/package-lock.json"
-      },
-      {
-        "commits": 2,
-        "lines": 25,
-        "path": "site/package.json"
-      },
-      {
-        "commits": 1,
-        "lines": 7,
-        "path": "site/src/content.config.ts"
-      },
-      {
-        "commits": 3,
-        "lines": 154,
         "path": "site/src/content/docs/handbook/beginners.md"
       },
       {
-        "commits": 4,
-        "lines": 102,
+        "commits": 2,
+        "lines": 28,
         "path": "site/src/content/docs/handbook/getting-started.md"
       },
       {
-        "commits": 7,
-        "lines": 62,
+        "commits": 2,
+        "lines": 8,
         "path": "site/src/content/docs/handbook/index.md"
-      },
-      {
-        "commits": 5,
-        "lines": 127,
-        "path": "site/src/content/docs/handbook/pipeline.md"
-      },
-      {
-        "commits": 2,
-        "lines": 68,
-        "path": "site/src/content/docs/handbook/reference.md"
-      },
-      {
-        "commits": 2,
-        "lines": 47,
-        "path": "site/src/content/docs/handbook/security.md"
-      },
-      {
-        "commits": 1,
-        "lines": 33,
-        "path": "site/src/pages/index.astro"
-      },
-      {
-        "commits": 3,
-        "lines": 72,
-        "path": "site/src/site-config.ts"
       },
       {
         "commits": 2,
         "lines": 4,
-        "path": "site/src/styles/global.css"
+        "path": "site/src/content/docs/handbook/pipeline.md"
       },
       {
         "commits": 2,
-        "lines": 22,
-        "path": "site/src/styles/starlight-custom.css"
-      },
-      {
-        "commits": 1,
-        "lines": 5,
-        "path": "site/tsconfig.json"
+        "lines": 12,
+        "path": "site/src/site-config.ts"
       },
       {
         "commits": 2,
@@ -1356,19 +646,19 @@
         "path": "tests/test_mechanical.py"
       },
       {
-        "commits": 4,
-        "lines": 154,
+        "commits": 3,
+        "lines": 60,
         "path": "verify.sh"
       }
     ]
   },
   "confidence": {
     "level": "low",
-    "reason": "fewer than 20 source files reach 10 revisions in the window"
+    "reason": "fewer than 30 qualifying commits in the window, and fewer than 25 source files reach 10 revisions"
   },
-  "generatedAt": "2026-09-25T09:53:15.458Z",
+  "generatedAt": "2026-09-30T20:13:13.422Z",
   "generatedFrom": {
-    "commit": "347c92f4efd4dd8d816c2ca2e1662c57cbc6f5c0"
+    "commit": "45a55551f914f03a09c5de9a09b95f5388d5be70"
   },
   "pairs": [],
   "parameters": {
@@ -1380,17 +670,17 @@
     "fallenShared": 3,
     "floor": "fallen",
     "floorHeld": false,
-    "floorTrigger": "revision-depth",
-    "headDate": "2026-09-17T18:49:44-07:00",
-    "inScopeFiles": 203,
+    "floorTrigger": "both",
+    "headDate": "2026-09-25T03:02:22-07:00",
+    "inScopeFiles": 208,
     "pinnedStart": null,
-    "priorFloor": null,
-    "qualifyingCommits": 39,
+    "priorFloor": "fallen",
+    "qualifyingCommits": 24,
     "qualifyingMinimum": 30,
     "revisions": 5,
     "shared": 10,
     "sharedFloorUsed": 3,
-    "since": "2026-03-22T01:49:44.000Z",
+    "since": "2026-03-29T10:02:22.000Z",
     "sourceExtensions": [
       ".js",
       ".mjs",

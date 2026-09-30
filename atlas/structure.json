@@ -9,7 +9,7 @@
       "externals": 0,
       "files": [
         {
-          "hash": "97b3d1bdbc6cc40cd6d6865b65861598af45da0e5bc44709ff9bcc8a180c5b33",
+          "hash": "081fe10d86c0c5a6063a1128356bffe300cd3e7b97e6504d627cece43bf701f9",
           "path": ".github/workflows/ci.yml"
         },
         {
@@ -45,6 +45,18 @@
           "exports": [
             "bake_glb"
           ],
+          "failurePaths": [
+            {
+              "in": "_as_tensor",
+              "kind": "raise",
+              "line": 61
+            },
+            {
+              "in": "bake_glb",
+              "kind": "raise",
+              "line": 106
+            }
+          ],
           "hash": "7456f07fef0e37c15ea5c676fe6fa32b696f4de85b8526dc01ec81e0a92bd852",
           "importsFiles": [
             "3d-prerender/uv_rasterize.py"
@@ -63,6 +75,18 @@
             "cmd_retexture",
             "main"
           ],
+          "failurePaths": [
+            {
+              "in": "cmd_doctor",
+              "kind": "except",
+              "line": 111
+            },
+            {
+              "in": "cmd_doctor",
+              "kind": "except",
+              "line": 114
+            }
+          ],
           "hash": "a2d9f619b8d3a70f977e27c58bb509a407b72190bb8d8581d751b96c23c45f2f",
           "importsFiles": [
             "3d-prerender/config.py"
@@ -78,6 +102,17 @@
             "graph",
             "submit"
           ],
+          "failurePaths": [
+            {
+              "in": "submit",
+              "kind": "raise",
+              "line": 54
+            },
+            {
+              "kind": "except",
+              "line": 62
+            }
+          ],
           "hash": "2a0e9f5ffe82983a546f9640e6ad989453e37890dcc45526a8c0dfda9dff4c23",
           "importsFiles": [
             "3d-prerender/config.py"
@@ -89,10 +124,40 @@
             "block_noncommercial",
             "report"
           ],
+          "failurePaths": [
+            {
+              "in": "__getattr__",
+              "kind": "raise",
+              "line": 62
+            },
+            {
+              "in": "__getattr__",
+              "kind": "raise",
+              "line": 63
+            }
+          ],
           "hash": "94ab7f632f50a8c1da8a0cf7f07dce50776c40cf357ceda84643fecb24350f4c",
           "path": "3d-prerender/licence_guard.py"
         },
         {
+          "failurePaths": [
+            {
+              "kind": "except",
+              "line": 39
+            },
+            {
+              "kind": "except",
+              "line": 73
+            },
+            {
+              "kind": "except",
+              "line": 161
+            },
+            {
+              "kind": "except",
+              "line": 165
+            }
+          ],
           "hash": "6dbe66b10644b284909b8c1290ad0c339e949610aa25744bdcba9a94402e4bd7",
           "importOrder": [
             "3d-prerender/config.py",
@@ -110,6 +175,29 @@
           "exports": [
             "call"
           ],
+          "failurePaths": [
+            {
+              "kind": "except",
+              "line": 18
+            },
+            {
+              "kind": "raise",
+              "line": 19
+            },
+            {
+              "kind": "except",
+              "line": 20
+            },
+            {
+              "kind": "raise",
+              "line": 21
+            },
+            {
+              "in": "call",
+              "kind": "except",
+              "line": 44
+            }
+          ],
           "hash": "a26914ab7ee9e8458658aac48dd1dfdf7ab0ef61ea1bc9ef9e8aac0ee510cc04",
           "importsFiles": [
             "3d-prerender/config.py"
@@ -123,6 +211,48 @@
             "main",
             "prep",
             "submit"
+          ],
+          "failurePaths": [
+            {
+              "in": "free",
+              "kind": "except",
+              "line": 72
+            },
+            {
+              "in": "submit",
+              "kind": "raise",
+              "line": 81
+            },
+            {
+              "in": "submit",
+              "kind": "raise",
+              "line": 88
+            },
+            {
+              "in": "main",
+              "kind": "except",
+              "line": 97
+            },
+            {
+              "in": "main",
+              "kind": "raise",
+              "line": 98
+            },
+            {
+              "in": "main",
+              "kind": "except",
+              "line": 99
+            },
+            {
+              "in": "main",
+              "kind": "raise",
+              "line": 100
+            },
+            {
+              "in": "main",
+              "kind": "except",
+              "line": 117
+            }
           ],
           "hash": "0fd0f062ca98fc777d6c773b2789c9a72c0f30f6565128ad4577dd4400aa79f4",
           "importsFiles": [
@@ -139,6 +269,18 @@
             "to_raster_rows",
             "trellis_square_crop"
           ],
+          "failurePaths": [
+            {
+              "in": "main",
+              "kind": "raise",
+              "line": 357
+            },
+            {
+              "in": "main",
+              "kind": "raise",
+              "line": 448
+            }
+          ],
           "hash": "910c610f453d14574c6ce37ca3c496b87b3757fa22ee2f4dd064cd06d45dd56b",
           "importsFiles": [
             "3d-prerender/uv_rasterize.py"
@@ -146,6 +288,24 @@
           "path": "3d-prerender/project_texture.py"
         },
         {
+          "failurePaths": [
+            {
+              "kind": "except",
+              "line": 28
+            },
+            {
+              "kind": "except",
+              "line": 46
+            },
+            {
+              "kind": "except",
+              "line": 67
+            },
+            {
+              "kind": "except",
+              "line": 71
+            }
+          ],
           "hash": "4063d78ce27deff3dc284b4286540e9c1c3669bea528c998179e6f7f82c3a4ad",
           "importsFiles": [
             "3d-prerender/config.py"
@@ -157,6 +317,13 @@
             "call",
             "prompt"
           ],
+          "failurePaths": [
+            {
+              "in": "call",
+              "kind": "except",
+              "line": 51
+            }
+          ],
           "hash": "f6b9eb10489c383dd06e5da54136c87d887a1c86e686e571d5f7f87b4ea64f76",
           "importsFiles": [
             "3d-prerender/config.py"
@@ -166,6 +333,16 @@
         {
           "exports": [
             "arg"
+          ],
+          "failurePaths": [
+            {
+              "kind": "except",
+              "line": 57
+            },
+            {
+              "kind": "except",
+              "line": 64
+            }
           ],
           "hash": "c6bd0c5f3960660b39e445827656aee0f83f2c70d37e69798705fad06d038a29",
           "path": "3d-prerender/sprite_render.py"
@@ -357,7 +534,8 @@
               "isDefaultExport": false,
               "name": "test_classify_skin_mask_returns_bool_array_of_correct_length"
             }
-          ]
+          ],
+          "testFramework": "pytest"
         },
         {
           "entry": "classify_skin_mask",
@@ -366,6 +544,24 @@
             "classify_skin_mask",
             "pick_patch_color",
             "rasterize_and_dilate"
+          ],
+          "failurePaths": [
+            {
+              "kind": "raise",
+              "line": 100
+            },
+            {
+              "kind": "raise",
+              "line": 110
+            },
+            {
+              "kind": "raise",
+              "line": 128
+            },
+            {
+              "kind": "raise",
+              "line": 132
+            }
           ],
           "hash": "d7243779f5dadb78ae0e391c7e87dc43789df8476d51cfd3b160f13597924fe3",
           "path": "3d-prerender/texture_patch_region.py",
@@ -376,6 +572,16 @@
             "arg",
             "render",
             "sun"
+          ],
+          "failurePaths": [
+            {
+              "kind": "except",
+              "line": 73
+            },
+            {
+              "kind": "except",
+              "line": 78
+            }
           ],
           "hash": "ae5a2d4f4920ecf7322f7ca768ef02ecd62f0446dab6bb0e3c352b25d6fc7410",
           "path": "3d-prerender/turntable.py"
@@ -419,6 +625,9 @@
       "outsideReads": 1,
       "outsideWrites": 9,
       "role": "code",
+      "testRunners": [
+        "pytest"
+      ],
       "testedBy": 1,
       "unresolvedSites": 0
     },
@@ -713,13 +922,14 @@
       "dynamicReads": 5,
       "dynamicSpawns": 0,
       "dynamicSpawnsInTests": 0,
-      "dynamicWrites": 9,
+      "dynamicWrites": 6,
       "entryPoints": [
         "foundry/cli.py"
       ],
       "externals": 0,
       "files": [
         {
+          "constantOnly": true,
           "hash": "5056ea20caa86f70c6b2fe0fee5af4f8c77385627948f59e9817c7dd03a296fa",
           "path": "foundry/__init__.py"
         },
@@ -729,9 +939,32 @@
             "generate_finish_board",
             "generate_run_board"
           ],
+          "failurePaths": [
+            {
+              "in": "_fonts",
+              "kind": "except",
+              "line": 30
+            },
+            {
+              "in": "generate_run_board",
+              "kind": "raise",
+              "line": 122
+            },
+            {
+              "in": "generate_attempt_detail",
+              "kind": "raise",
+              "line": 293
+            },
+            {
+              "in": "generate_finish_board",
+              "kind": "raise",
+              "line": 468
+            }
+          ],
           "hash": "4e0e48c25777b7f8a9112523b752c1879fdff68d3c1f28bdf394bd6d78fa62ef",
           "importsFiles": [
-            "foundry/__init__.py"
+            "foundry/__init__.py",
+            "foundry/db.py"
           ],
           "path": "foundry/boards.py"
         },
@@ -767,9 +1000,142 @@
             "main",
             "now_iso"
           ],
+          "failurePaths": [
+            {
+              "in": "cmd_register_attempt",
+              "kind": "except",
+              "line": 144
+            },
+            {
+              "in": "cmd_register_attempt",
+              "kind": "except",
+              "line": 151
+            },
+            {
+              "in": "_resolve_body_class",
+              "kind": "except",
+              "line": 176
+            },
+            {
+              "in": "cmd_check",
+              "kind": "except",
+              "line": 279
+            },
+            {
+              "in": "cmd_check",
+              "kind": "raise",
+              "line": 282
+            },
+            {
+              "in": "cmd_review_show",
+              "kind": "except",
+              "line": 387
+            },
+            {
+              "in": "cmd_attempt_detail",
+              "kind": "except",
+              "line": 728
+            },
+            {
+              "in": "cmd_finish_board",
+              "kind": "except",
+              "line": 748
+            },
+            {
+              "in": "cmd_story",
+              "kind": "except",
+              "line": 764
+            },
+            {
+              "in": "cmd_lineage",
+              "kind": "except",
+              "line": 846
+            },
+            {
+              "in": "cmd_batch_accept",
+              "kind": "except",
+              "line": 1234
+            },
+            {
+              "in": "cmd_batch_accept",
+              "kind": "raise",
+              "line": 1237
+            },
+            {
+              "in": "cmd_batch_reject",
+              "kind": "except",
+              "line": 1312
+            },
+            {
+              "in": "cmd_batch_reject",
+              "kind": "raise",
+              "line": 1315
+            },
+            {
+              "in": "cmd_export",
+              "kind": "except",
+              "line": 1616
+            },
+            {
+              "in": "cmd_export",
+              "kind": "except",
+              "line": 1618
+            },
+            {
+              "in": "cmd_export",
+              "kind": "except",
+              "line": 1632
+            },
+            {
+              "in": "cmd_ship_check",
+              "kind": "except",
+              "line": 1803
+            },
+            {
+              "in": "cmd_ship_check",
+              "kind": "raise",
+              "line": 1806
+            },
+            {
+              "in": "cmd_ship_check",
+              "kind": "except",
+              "line": 1835
+            },
+            {
+              "in": "cmd_ship_check",
+              "kind": "raise",
+              "line": 1838
+            },
+            {
+              "in": "cmd_ship_export",
+              "kind": "except",
+              "line": 2032
+            },
+            {
+              "in": "cmd_ship_export",
+              "kind": "except",
+              "line": 2034
+            },
+            {
+              "in": "cmd_ship_export",
+              "kind": "except",
+              "line": 2049
+            }
+          ],
           "hash": "3576044638e926c60dd14850e5127ecfd64fa88fd2e528eec609fe3b5b977aae",
+          "importOrder": [
+            "foundry/__init__.py",
+            "foundry/db.py",
+            "foundry/mechanical.py",
+            "foundry/boards.py",
+            "foundry/decisions.py"
+          ],
           "importsFiles": [
-            "foundry/__init__.py"
+            "foundry/__init__.py",
+            "foundry/boards.py",
+            "foundry/db.py",
+            "foundry/decisions.py",
+            "foundry/mechanical.py"
           ],
           "path": "foundry/cli.py",
           "sequences": [
@@ -1373,6 +1739,58 @@
             "init_db",
             "transition_attempt"
           ],
+          "failurePaths": [
+            {
+              "in": "init_db",
+              "kind": "raise",
+              "line": 226
+            },
+            {
+              "in": "init_db",
+              "kind": "except",
+              "line": 237
+            },
+            {
+              "in": "init_db",
+              "kind": "raise",
+              "line": 240
+            },
+            {
+              "in": "transition_attempt",
+              "kind": "raise",
+              "line": 252
+            },
+            {
+              "in": "transition_attempt",
+              "kind": "raise",
+              "line": 257
+            },
+            {
+              "in": "transition_attempt",
+              "kind": "raise",
+              "line": 271
+            },
+            {
+              "in": "add_review",
+              "kind": "raise",
+              "line": 290
+            },
+            {
+              "in": "add_review",
+              "kind": "raise",
+              "line": 292
+            },
+            {
+              "in": "get_attempt_lineage",
+              "kind": "raise",
+              "line": 396
+            },
+            {
+              "in": "get_attempt_lineage",
+              "kind": "raise",
+              "line": 401
+            }
+          ],
           "hash": "f5d6b4579ec8ffb820ff2c43b9df7f29d4e5dd6a24b79679354df65b33c22654",
           "path": "foundry/db.py",
           "sequences": [
@@ -1503,9 +1921,22 @@
             "failure_summary",
             "run_lineage_summary"
           ],
+          "failurePaths": [
+            {
+              "in": "attempt_story",
+              "kind": "raise",
+              "line": 32
+            },
+            {
+              "in": "run_lineage_summary",
+              "kind": "raise",
+              "line": 177
+            }
+          ],
           "hash": "a03171ff73aebe4227fe5ba341e70e3212f8ebf11aea0784c82b6d8f9e182571",
           "importsFiles": [
-            "foundry/__init__.py"
+            "foundry/__init__.py",
+            "foundry/db.py"
           ],
           "path": "foundry/decisions.py"
         },
@@ -1520,7 +1951,8 @@
           ],
           "hash": "22fda74760445f388ac77c5616913c001f19c7b50868f3b7f10b4b53aedfea57",
           "importsFiles": [
-            "foundry/__init__.py"
+            "foundry/__init__.py",
+            "foundry/db.py"
           ],
           "path": "foundry/mechanical.py"
         }
@@ -1537,19 +1969,20 @@
           "where": [
             "caller"
           ],
-          "writes": 0
+          "writes": 4
         }
       ],
       "outsideReads": 1,
+      "outsideWrites": 4,
       "role": "code",
       "testedBy": 9,
       "unresolvedSites": 0
     },
     {
-      "dynamicReads": 5,
+      "dynamicReads": 2,
       "dynamicSpawns": 0,
       "dynamicSpawnsInTests": 0,
-      "dynamicWrites": 15,
+      "dynamicWrites": 5,
       "entryPoints": [],
       "externals": 0,
       "files": [
@@ -1566,6 +1999,43 @@
             "queue_prompt",
             "run_bakeoff",
             "wait_for_completion"
+          ],
+          "failurePaths": [
+            {
+              "in": "wait_for_completion",
+              "kind": "except",
+              "line": 345
+            },
+            {
+              "in": "wait_for_completion",
+              "kind": "raise",
+              "line": 348
+            },
+            {
+              "in": "make_contact_sheet",
+              "kind": "except",
+              "line": 396
+            },
+            {
+              "in": "mechanical_check",
+              "kind": "except",
+              "line": 467
+            },
+            {
+              "in": "run_bakeoff",
+              "kind": "except",
+              "line": 535
+            },
+            {
+              "in": "run_bakeoff",
+              "kind": "except",
+              "line": 542
+            },
+            {
+              "in": "run_bakeoff",
+              "kind": "except",
+              "line": 585
+            }
           ],
           "hash": "4797770d64c9a2cef4fba10e37b884a93859323583740e8b9aa3dea3adc4e5b5",
           "path": "pipeline/bakeoff_runner.py"
@@ -1604,14 +2074,78 @@
             "validate_godot_exe",
             "write_auto_lab"
           ],
+          "failurePaths": [
+            {
+              "in": "validate_godot_exe",
+              "kind": "raise",
+              "line": 66
+            },
+            {
+              "in": "run_godot_import",
+              "kind": "except",
+              "line": 401
+            },
+            {
+              "in": "run_godot_import",
+              "kind": "raise",
+              "line": 403
+            },
+            {
+              "in": "run_godot_import",
+              "kind": "except",
+              "line": 407
+            },
+            {
+              "in": "run_godot_import",
+              "kind": "raise",
+              "line": 409
+            },
+            {
+              "in": "run_godot_import",
+              "kind": "raise",
+              "line": 415
+            },
+            {
+              "in": "run_godot_capture",
+              "kind": "except",
+              "line": 437
+            },
+            {
+              "in": "run_godot_capture",
+              "kind": "raise",
+              "line": 439
+            },
+            {
+              "in": "run_godot_capture",
+              "kind": "except",
+              "line": 443
+            },
+            {
+              "in": "run_godot_capture",
+              "kind": "raise",
+              "line": 445
+            },
+            {
+              "in": "run_godot_capture",
+              "kind": "raise",
+              "line": 452
+            },
+            {
+              "in": "run_finish_pipeline",
+              "kind": "except",
+              "line": 537
+            }
+          ],
           "hash": "23e6ffee92db00932f32ff8a652f326fb6c89131962492edca80f7288c9011b6",
           "importOrder": [
             "foundry/cli.py",
-            "foundry/__init__.py"
+            "foundry/__init__.py",
+            "foundry/db.py"
           ],
           "importsFiles": [
             "foundry/__init__.py",
-            "foundry/cli.py"
+            "foundry/cli.py",
+            "foundry/db.py"
           ],
           "path": "pipeline/foundry_finish.py"
         },
@@ -1630,6 +2164,73 @@
             "queue_prompt",
             "remove_bg",
             "wait_for_completion"
+          ],
+          "failurePaths": [
+            {
+              "in": "check_comfy_reachable",
+              "kind": "except",
+              "line": 126
+            },
+            {
+              "in": "check_comfy_reachable",
+              "kind": "raise",
+              "line": 127
+            },
+            {
+              "in": "_check_history_status",
+              "kind": "raise",
+              "line": 152
+            },
+            {
+              "in": "wait_for_completion",
+              "kind": "except",
+              "line": 167
+            },
+            {
+              "in": "wait_for_completion",
+              "kind": "raise",
+              "line": 169
+            },
+            {
+              "in": "wait_for_completion",
+              "kind": "except",
+              "line": 170
+            },
+            {
+              "in": "wait_for_completion",
+              "kind": "raise",
+              "line": 176
+            },
+            {
+              "in": "wait_for_completion",
+              "kind": "except",
+              "line": 180
+            },
+            {
+              "in": "wait_for_completion",
+              "kind": "raise",
+              "line": 183
+            },
+            {
+              "in": "make_contact_sheets",
+              "kind": "except",
+              "line": 296
+            },
+            {
+              "in": "generate_and_register",
+              "kind": "except",
+              "line": 411
+            },
+            {
+              "in": "generate_and_register",
+              "kind": "except",
+              "line": 419
+            },
+            {
+              "in": "generate_and_register",
+              "kind": "except",
+              "line": 444
+            }
           ],
           "hash": "bd7dbe1e8225d577fc56fc7550dc2e90cd747cad3b8b84d72459425793af490e",
           "path": "pipeline/foundry_gen.py"
@@ -1653,6 +2254,73 @@
             "upload_image",
             "wait_for_completion"
           ],
+          "failurePaths": [
+            {
+              "in": "check_comfy_reachable",
+              "kind": "except",
+              "line": 288
+            },
+            {
+              "in": "check_comfy_reachable",
+              "kind": "raise",
+              "line": 289
+            },
+            {
+              "in": "_check_history_status",
+              "kind": "raise",
+              "line": 313
+            },
+            {
+              "in": "wait_for_completion",
+              "kind": "except",
+              "line": 328
+            },
+            {
+              "in": "wait_for_completion",
+              "kind": "raise",
+              "line": 329
+            },
+            {
+              "in": "wait_for_completion",
+              "kind": "except",
+              "line": 330
+            },
+            {
+              "in": "wait_for_completion",
+              "kind": "raise",
+              "line": 333
+            },
+            {
+              "in": "wait_for_completion",
+              "kind": "except",
+              "line": 337
+            },
+            {
+              "in": "wait_for_completion",
+              "kind": "raise",
+              "line": 340
+            },
+            {
+              "in": "make_contact_sheet",
+              "kind": "except",
+              "line": 459
+            },
+            {
+              "in": "generate_iterative",
+              "kind": "except",
+              "line": 591
+            },
+            {
+              "in": "generate_iterative",
+              "kind": "except",
+              "line": 637
+            },
+            {
+              "in": "generate_iterative",
+              "kind": "except",
+              "line": 675
+            }
+          ],
           "hash": "2e07fc1362d6a94f3226251a2f3c6790e1d5a0bdbfeef0304af3c57fa884ca4b",
           "path": "pipeline/foundry_gen_iterative.py"
         },
@@ -1672,6 +2340,68 @@
             "upload_image",
             "wait_for_completion"
           ],
+          "failurePaths": [
+            {
+              "in": "check_comfy_reachable",
+              "kind": "except",
+              "line": 243
+            },
+            {
+              "in": "check_comfy_reachable",
+              "kind": "raise",
+              "line": 244
+            },
+            {
+              "in": "_check_history_status",
+              "kind": "raise",
+              "line": 263
+            },
+            {
+              "in": "wait_for_completion",
+              "kind": "except",
+              "line": 278
+            },
+            {
+              "in": "wait_for_completion",
+              "kind": "raise",
+              "line": 279
+            },
+            {
+              "in": "wait_for_completion",
+              "kind": "except",
+              "line": 280
+            },
+            {
+              "in": "wait_for_completion",
+              "kind": "raise",
+              "line": 283
+            },
+            {
+              "in": "wait_for_completion",
+              "kind": "except",
+              "line": 287
+            },
+            {
+              "in": "wait_for_completion",
+              "kind": "raise",
+              "line": 290
+            },
+            {
+              "in": "generate_morph",
+              "kind": "except",
+              "line": 484
+            },
+            {
+              "in": "generate_morph",
+              "kind": "except",
+              "line": 492
+            },
+            {
+              "in": "generate_morph",
+              "kind": "except",
+              "line": 526
+            }
+          ],
           "hash": "4526ec6e1336ddc59126111179d3aaadcc706561f467b52e447073f93740e6d3",
           "path": "pipeline/foundry_gen_morph.py"
         },
@@ -1687,6 +2417,23 @@
             "queue_prompt",
             "remove_bg",
             "wait_for_completion"
+          ],
+          "failurePaths": [
+            {
+              "in": "wait_for_completion",
+              "kind": "except",
+              "line": 137
+            },
+            {
+              "in": "wait_for_completion",
+              "kind": "raise",
+              "line": 140
+            },
+            {
+              "in": "make_contact_sheet",
+              "kind": "except",
+              "line": 266
+            }
           ],
           "hash": "f39ca2895a41922ee07c96800e98c032c685b8f08059b1e7f176e7dc77bab1b8",
           "path": "pipeline/foundry_gen_turnaround.py"
@@ -1706,6 +2453,28 @@
             "upload_image",
             "wait_for_completion"
           ],
+          "failurePaths": [
+            {
+              "in": "wait_for_completion",
+              "kind": "except",
+              "line": 66
+            },
+            {
+              "in": "wait_for_completion",
+              "kind": "raise",
+              "line": 69
+            },
+            {
+              "in": "make_contact_sheet",
+              "kind": "except",
+              "line": 213
+            },
+            {
+              "in": "generate_zero123",
+              "kind": "except",
+              "line": 356
+            }
+          ],
           "hash": "8eda49633b1f6f499c79a9d3f87e4eddc0d3f293201dd8f8265d6685e61768a2",
           "path": "pipeline/foundry_gen_zero123.py"
         },
@@ -1716,9 +2485,33 @@
             "process_direction",
             "validate_render_dir"
           ],
+          "failurePaths": [
+            {
+              "in": "ingest",
+              "kind": "raise",
+              "line": 177
+            },
+            {
+              "in": "ingest",
+              "kind": "raise",
+              "line": 186
+            },
+            {
+              "in": "ingest",
+              "kind": "raise",
+              "line": 285
+            },
+            {
+              "in": "main",
+              "kind": "except",
+              "line": 356
+            }
+          ],
           "hash": "e4947e66e5a47f232cba3658d0539598a48ddc1777ac20b237b5a3b0d30a3eea",
           "importsFiles": [
             "foundry/__init__.py",
+            "foundry/cli.py",
+            "foundry/db.py",
             "pipeline/foundry_gen.py"
           ],
           "path": "pipeline/foundry_ingest.py"
@@ -1736,16 +2529,96 @@
             "upload_image",
             "wait_for_completion"
           ],
+          "failurePaths": [
+            {
+              "in": "check_comfy_reachable",
+              "kind": "except",
+              "line": 77
+            },
+            {
+              "in": "check_comfy_reachable",
+              "kind": "raise",
+              "line": 78
+            },
+            {
+              "in": "_check_history_status",
+              "kind": "raise",
+              "line": 97
+            },
+            {
+              "in": "wait_for_completion",
+              "kind": "except",
+              "line": 112
+            },
+            {
+              "in": "wait_for_completion",
+              "kind": "raise",
+              "line": 113
+            },
+            {
+              "in": "wait_for_completion",
+              "kind": "except",
+              "line": 114
+            },
+            {
+              "in": "wait_for_completion",
+              "kind": "raise",
+              "line": 117
+            },
+            {
+              "in": "wait_for_completion",
+              "kind": "except",
+              "line": 121
+            },
+            {
+              "in": "wait_for_completion",
+              "kind": "raise",
+              "line": 124
+            },
+            {
+              "in": "derive_maps",
+              "kind": "except",
+              "line": 235
+            },
+            {
+              "in": "derive_maps",
+              "kind": "except",
+              "line": 278
+            },
+            {
+              "in": "derive_maps",
+              "kind": "except",
+              "line": 313
+            },
+            {
+              "in": "derive_maps",
+              "kind": "except",
+              "line": 345
+            }
+          ],
           "hash": "84dffc27c07b8a2c8f2703486d8dc0bd44e7c1341deab46f80fa36328d28282d",
+          "importOrder": [
+            "foundry/__init__.py",
+            "foundry/db.py",
+            "foundry/cli.py"
+          ],
           "importsFiles": [
             "foundry/__init__.py",
-            "foundry/cli.py"
+            "foundry/cli.py",
+            "foundry/db.py"
           ],
           "path": "pipeline/foundry_maps.py"
         },
         {
           "exports": [
             "build"
+          ],
+          "failurePaths": [
+            {
+              "in": "build",
+              "kind": "except",
+              "line": 40
+            }
           ],
           "hash": "095aca2d64cbc92d6d868e3afe227befda9e298ef3633117bdd31028e73e67db",
           "path": "pipeline/gen_1b3_composite.py"
@@ -1761,6 +2634,33 @@
             "run",
             "upload_image",
             "wait_for_completion"
+          ],
+          "failurePaths": [
+            {
+              "in": "wait_for_completion",
+              "kind": "except",
+              "line": 99
+            },
+            {
+              "in": "wait_for_completion",
+              "kind": "raise",
+              "line": 102
+            },
+            {
+              "in": "make_review_sheet",
+              "kind": "except",
+              "line": 176
+            },
+            {
+              "in": "run",
+              "kind": "except",
+              "line": 271
+            },
+            {
+              "in": "run",
+              "kind": "except",
+              "line": 302
+            }
           ],
           "hash": "c069e45212657141ce05b814ce85e017706d2e8a82b810336c2b6dd070187a2c",
           "path": "pipeline/gen_kael_maps.py"
@@ -1864,6 +2764,28 @@
             "make_contact_sheet",
             "render_views"
           ],
+          "failurePaths": [
+            {
+              "in": "assert_forward_axis",
+              "kind": "raise",
+              "line": 68
+            },
+            {
+              "in": "assert_forward_axis",
+              "kind": "raise",
+              "line": 70
+            },
+            {
+              "in": "render_views",
+              "kind": "raise",
+              "line": 201
+            },
+            {
+              "in": "make_contact_sheet",
+              "kind": "except",
+              "line": 229
+            }
+          ],
           "hash": "74fbe9bd5c4d6e12828695496030d8b7968922851a6b1beea7c7674fcccb9d4a",
           "path": "pipeline/render_mesh_views.py"
         },
@@ -1880,6 +2802,43 @@
             "run",
             "wait_for_completion"
           ],
+          "failurePaths": [
+            {
+              "in": "wait_for_completion",
+              "kind": "except",
+              "line": 158
+            },
+            {
+              "in": "wait_for_completion",
+              "kind": "raise",
+              "line": 161
+            },
+            {
+              "in": "make_raw_contact_sheet",
+              "kind": "except",
+              "line": 253
+            },
+            {
+              "in": "make_pixel_contact_sheet",
+              "kind": "except",
+              "line": 307
+            },
+            {
+              "in": "run",
+              "kind": "except",
+              "line": 364
+            },
+            {
+              "in": "run",
+              "kind": "except",
+              "line": 372
+            },
+            {
+              "in": "run",
+              "kind": "except",
+              "line": 415
+            }
+          ],
           "hash": "4a02efc9cd073515e0ad05636b29741452aff30b786ecbbd02e2ae687d4dc82b",
           "path": "pipeline/run_kael_1c.py"
         },
@@ -1892,6 +2851,38 @@
             "queue_prompt",
             "run",
             "wait_for_completion"
+          ],
+          "failurePaths": [
+            {
+              "in": "wait_for_completion",
+              "kind": "except",
+              "line": 140
+            },
+            {
+              "in": "wait_for_completion",
+              "kind": "raise",
+              "line": 143
+            },
+            {
+              "in": "make_contact_sheet",
+              "kind": "except",
+              "line": 188
+            },
+            {
+              "in": "run",
+              "kind": "except",
+              "line": 253
+            },
+            {
+              "in": "run",
+              "kind": "except",
+              "line": 261
+            },
+            {
+              "in": "run",
+              "kind": "except",
+              "line": 292
+            }
           ],
           "hash": "ac2f40c5127d773ac51c357d17a6b4db738a854a8e27ed0e6b76958af89a80c8",
           "path": "pipeline/run_stack_a.py"
@@ -1909,6 +2900,43 @@
             "run",
             "wait_for_completion"
           ],
+          "failurePaths": [
+            {
+              "in": "wait_for_completion",
+              "kind": "except",
+              "line": 161
+            },
+            {
+              "in": "wait_for_completion",
+              "kind": "raise",
+              "line": 164
+            },
+            {
+              "in": "make_raw_contact_sheet",
+              "kind": "except",
+              "line": 269
+            },
+            {
+              "in": "make_pixel_contact_sheet",
+              "kind": "except",
+              "line": 324
+            },
+            {
+              "in": "run",
+              "kind": "except",
+              "line": 381
+            },
+            {
+              "in": "run",
+              "kind": "except",
+              "line": 389
+            },
+            {
+              "in": "run",
+              "kind": "except",
+              "line": 436
+            }
+          ],
           "hash": "ca73e98853cb86e806b854d1aaf7e28e90f07ba716ef3172097b0f65fddeb708",
           "path": "pipeline/run_stack_a_v2.py"
         },
@@ -1922,6 +2950,38 @@
             "run",
             "wait_for_completion"
           ],
+          "failurePaths": [
+            {
+              "in": "wait_for_completion",
+              "kind": "except",
+              "line": 149
+            },
+            {
+              "in": "wait_for_completion",
+              "kind": "raise",
+              "line": 152
+            },
+            {
+              "in": "make_contact_sheet",
+              "kind": "except",
+              "line": 197
+            },
+            {
+              "in": "run",
+              "kind": "except",
+              "line": 262
+            },
+            {
+              "in": "run",
+              "kind": "except",
+              "line": 270
+            },
+            {
+              "in": "run",
+              "kind": "except",
+              "line": 301
+            }
+          ],
           "hash": "98705e4cf3a37c8c9a64baf78d552b4e781ec056035b695bf0fcc74bf63d1508",
           "path": "pipeline/run_stack_b.py"
         },
@@ -1934,6 +2994,38 @@
             "queue_prompt",
             "run",
             "wait_for_completion"
+          ],
+          "failurePaths": [
+            {
+              "in": "wait_for_completion",
+              "kind": "except",
+              "line": 142
+            },
+            {
+              "in": "wait_for_completion",
+              "kind": "raise",
+              "line": 145
+            },
+            {
+              "in": "make_contact_sheet",
+              "kind": "except",
+              "line": 190
+            },
+            {
+              "in": "run",
+              "kind": "except",
+              "line": 255
+            },
+            {
+              "in": "run",
+              "kind": "except",
+              "line": 263
+            },
+            {
+              "in": "run",
+              "kind": "except",
+              "line": 294
+            }
           ],
           "hash": "9bad8859afef01c79d784d885f9c63df4582fbf700703e681d2a69e73bbd7e49",
           "path": "pipeline/run_stack_c.py"
@@ -1973,15 +3065,23 @@
       "origin": "authored",
       "outsidePlaces": [
         {
-          "reads": 4,
+          "reads": 7,
           "where": [
             "caller"
           ],
-          "writes": 5
+          "writes": 1
+        },
+        {
+          "reads": 0,
+          "where": [
+            "caller",
+            "cwd:bakeoff/"
+          ],
+          "writes": 7
         }
       ],
-      "outsideReads": 4,
-      "outsideWrites": 5,
+      "outsideReads": 7,
+      "outsideWrites": 8,
       "role": "code",
       "testedBy": 1,
       "unresolvedSites": 0
@@ -1990,7 +3090,7 @@
       "dynamicReads": 0,
       "dynamicSpawns": 0,
       "dynamicSpawnsInTests": 0,
-      "dynamicWrites": 1,
+      "dynamicWrites": 0,
       "entryPoints": [],
       "externals": 0,
       "files": [
@@ -2011,6 +3111,18 @@
             "draw_placeholder_sprite",
             "generate_contact_sheet",
             "get_font"
+          ],
+          "failurePaths": [
+            {
+              "in": "get_font",
+              "kind": "except",
+              "line": 58
+            },
+            {
+              "in": "get_font",
+              "kind": "except",
+              "line": 61
+            }
           ],
           "hash": "3be078da98b3812160daecd56e107f25c2e652acdc9095e88edcf6b6e35e4dba",
           "path": "preflight/gen_contact_sheet.py"
@@ -2073,7 +3185,7 @@
       ],
       "importConfidence": "full",
       "name": "preflight",
-      "origin": "authored",
+      "origin": "mixed",
       "role": "docs",
       "testedBy": 0,
       "unresolvedSites": 0
@@ -2166,7 +3278,7 @@
       "dynamicReads": 0,
       "dynamicSpawns": 0,
       "dynamicSpawnsInTests": 0,
-      "dynamicWrites": 2,
+      "dynamicWrites": 0,
       "entryPoints": [],
       "externals": 0,
       "files": [
@@ -2254,7 +3366,8 @@
           ],
           "hash": "76117253d25b37e4f1dddd9198a7631fba4179428fca7f1e66cc38b554add571",
           "importsFiles": [
-            "foundry/__init__.py"
+            "foundry/__init__.py",
+            "foundry/db.py"
           ],
           "path": "conftest.py"
         },
@@ -2273,6 +3386,16 @@
       "importConfidence": "full",
       "name": "root",
       "origin": "authored",
+      "outsidePlaces": [
+        {
+          "reads": 0,
+          "where": [
+            "caller"
+          ],
+          "writes": 2
+        }
+      ],
+      "outsideWrites": 2,
       "role": "docs",
       "testedBy": 0,
       "unresolvedSites": 0
@@ -2328,6 +3451,14 @@
         },
         {
           "hash": "391533713539035d3c92282579d43de0f137067867fdb502d7eaea3c74601d2a",
+          "importOrder": [
+            "site/src/styles/global.css",
+            "site/src/site-config.ts"
+          ],
+          "importsFiles": [
+            "site/src/site-config.ts",
+            "site/src/styles/global.css"
+          ],
           "path": "site/src/pages/index.astro"
         },
         {
@@ -2378,9 +3509,11 @@
           ],
           "hash": "43ad23611240271fa6818a5f1e90253f5ae359f5998d1c9af6b9673cff76717e",
           "importsFiles": [
-            "foundry/__init__.py"
+            "foundry/__init__.py",
+            "foundry/cli.py"
           ],
-          "path": "tests/test_cli_parser.py"
+          "path": "tests/test_cli_parser.py",
+          "testFramework": "pytest"
         },
         {
           "exports": [
@@ -2392,9 +3525,11 @@
           ],
           "hash": "f4398e1b7972559705b09c4f6ce6efb65ee2e3f30d288e3346071a5b56a9141b",
           "importsFiles": [
-            "foundry/__init__.py"
+            "foundry/__init__.py",
+            "foundry/db.py"
           ],
-          "path": "tests/test_db_helpers.py"
+          "path": "tests/test_db_helpers.py",
+          "testFramework": "pytest"
         },
         {
           "exports": [
@@ -2406,9 +3541,11 @@
           ],
           "hash": "aef93664e8bf9c1e1a5fc03affa2eb9d0cf096566a6cf7afad156d09bb10dc3d",
           "importsFiles": [
-            "foundry/__init__.py"
+            "foundry/__init__.py",
+            "foundry/db.py"
           ],
-          "path": "tests/test_db_lineage.py"
+          "path": "tests/test_db_lineage.py",
+          "testFramework": "pytest"
         },
         {
           "exports": [
@@ -2419,9 +3556,11 @@
           ],
           "hash": "c9ae63faba09aab2de3f135bf10598e88a3aa327c01ec4c2741fdae4d38c090e",
           "importsFiles": [
-            "foundry/__init__.py"
+            "foundry/__init__.py",
+            "foundry/db.py"
           ],
-          "path": "tests/test_db_migration.py"
+          "path": "tests/test_db_migration.py",
+          "testFramework": "pytest"
         },
         {
           "exports": [
@@ -2439,9 +3578,11 @@
           ],
           "hash": "3fa18640929131be4aca841de94f23770405785ab80fd050728ee704d9febb8d",
           "importsFiles": [
-            "foundry/__init__.py"
+            "foundry/__init__.py",
+            "foundry/db.py"
           ],
-          "path": "tests/test_db_transitions.py"
+          "path": "tests/test_db_transitions.py",
+          "testFramework": "pytest"
         },
         {
           "exports": [
@@ -2454,10 +3595,18 @@
             "test_progress_rank_prefers_in_progress_over_superseded"
           ],
           "hash": "31cd66250b5701710ff726d03f5425e8abe56755d16910e0367a4201499fb4b6",
-          "importsFiles": [
-            "foundry/__init__.py"
+          "importOrder": [
+            "foundry/__init__.py",
+            "foundry/decisions.py",
+            "foundry/db.py"
           ],
-          "path": "tests/test_decisions.py"
+          "importsFiles": [
+            "foundry/__init__.py",
+            "foundry/db.py",
+            "foundry/decisions.py"
+          ],
+          "path": "tests/test_decisions.py",
+          "testFramework": "pytest"
         },
         {
           "exports": [
@@ -2469,7 +3618,8 @@
           ],
           "hash": "4a0f8f2dfb5afd50a1e5cdfd889993d8368082e8e00044a124870125e92da5a0",
           "importsFiles": [
-            "foundry/__init__.py"
+            "foundry/__init__.py",
+            "foundry/cli.py"
           ],
           "path": "tests/test_export.py"
         },
@@ -2484,11 +3634,20 @@
             "test_optional_maps_are_ingested"
           ],
           "hash": "5d28b1a7f7f5bc9aed7000dcc4cdd3f8e072f78facef3faab15175dc0c0e3aa9",
+          "importOrder": [
+            "foundry/__init__.py",
+            "foundry/db.py",
+            "pipeline/foundry_ingest.py",
+            "foundry/cli.py"
+          ],
           "importsFiles": [
             "foundry/__init__.py",
+            "foundry/cli.py",
+            "foundry/db.py",
             "pipeline/foundry_ingest.py"
           ],
-          "path": "tests/test_ingest.py"
+          "path": "tests/test_ingest.py",
+          "testFramework": "pytest"
         },
         {
           "exports": [
@@ -2512,9 +3671,11 @@
           ],
           "hash": "01d32b72143a0dac9ae950501b364ce4ab00479acdc5449315aa05a558bb8d6c",
           "importsFiles": [
-            "foundry/__init__.py"
+            "foundry/__init__.py",
+            "foundry/mechanical.py"
           ],
-          "path": "tests/test_mechanical.py"
+          "path": "tests/test_mechanical.py",
+          "testFramework": "pytest"
         }
       ],
       "globs": [
@@ -2525,58 +3686,122 @@
       "origin": "authored",
       "role": "test",
       "testedBy": 0,
-      "unresolvedNamed": [
-        {
-          "path": "tests/test_ingest.py",
-          "specifier": "pipeline",
-          "why": "unplaced"
-        }
-      ],
-      "unresolvedSites": 1
+      "unresolvedSites": 0
     }
+  ],
+  "collectIgnored": [
+    "pipeline/test_hunyuan3d_shape.py",
+    "pipeline/test_hunyuan3d_texture.py"
   ],
   "doors": [
     {
       "checksCount": 4,
       "commands": [
         {
+          "dir": "",
           "job": "verify",
-          "step": "Atlas check",
-          "text": "npx --yes @dogfood-lab/atlas@1.21.0 check"
+          "programs": [
+            "npx"
+          ],
+          "step": "Atlas check"
         },
         {
+          "dir": "",
           "job": "verify",
-          "step": "Verify foundry module (fast pre-check)",
-          "text": "python -c \"from foundry import db; from foundry import cli; print('OK: imports')\"\npython -c \"from foundry.cli import build_parser; p = build_parser(); print('OK: parser')\"\n"
+          "programs": [
+            "python"
+          ],
+          "step": "Verify foundry module (fast pre-check)"
         },
         {
+          "dir": "",
           "job": "verify",
-          "step": "Syntax-check 3d-prerender scripts",
-          "text": "python -m py_compile 3d-prerender/*.py"
+          "programs": [
+            "python"
+          ],
+          "step": "Syntax-check 3d-prerender scripts"
         },
         {
+          "dir": "",
           "job": "verify",
-          "step": "Install 3d-prerender test dependencies",
-          "text": "python -m pip install pytest numpy Pillow scipy trimesh hypothesis"
+          "programs": [
+            "python"
+          ],
+          "step": "Install 3d-prerender test dependencies"
         },
         {
+          "dir": "",
           "job": "verify",
-          "step": "Run 3d-prerender pure-logic tests",
-          "text": "pytest 3d-prerender/test_texture_patch_region.py -v"
+          "programs": [
+            "pytest"
+          ],
+          "step": "Run 3d-prerender pure-logic tests"
         },
         {
+          "dir": "",
           "job": "verify",
-          "step": "Run verify.sh",
-          "text": "bash verify.sh"
+          "programs": [
+            "bash"
+          ],
+          "step": "Run verify.sh"
         },
         {
+          "dir": "",
           "job": "verify",
-          "step": "Validate export manifests",
-          "text": "python -c \"\nimport json, pathlib, sys\nmanifests = sorted(pathlib.Path('exports').rglob('manifest.json'))\nerrors = 0\nfor m in manifests:\n    try:\n        data = json.loads(m.read_text())\n        assert 'schema_version' in data, f'missing schema_version in {m}'\n    except Exception as e:\n        print(f'FAIL: {m} — {e}')\n        errors += 1\nprint(f'Checked {len(manifests)} manifests')\nsys.exit(1 if errors else 0)\n\"\n"
+          "programs": [
+            "python"
+          ],
+          "step": "Validate export manifests"
         }
       ],
       "elsewhere": [],
       "file": ".github/workflows/ci.yml",
+      "jobs": [
+        {
+          "basis": "declared",
+          "name": "verify",
+          "runsOn": [
+            {
+              "labels": [
+                "ubuntu-latest"
+              ],
+              "platform": {
+                "cpu": "x64",
+                "libc": "glibc",
+                "os": "linux"
+              }
+            }
+          ],
+          "setup": [
+            {
+              "ranges": [
+                {
+                  "from": "3.11",
+                  "range": ">=3.11.0 <3.12.0-0"
+                },
+                {
+                  "from": "3.12",
+                  "range": ">=3.12.0 <3.13.0-0"
+                }
+              ],
+              "step": "1",
+              "uses": "actions/setup-python",
+              "version": "${{ matrix.python-version }}"
+            },
+            {
+              "ranges": [
+                {
+                  "from": "22",
+                  "range": ">=22.0.0 <23.0.0-0"
+                }
+              ],
+              "step": "Set up Node for Atlas",
+              "uses": "actions/setup-node",
+              "version": "22"
+            }
+          ]
+        }
+      ],
       "landings": [
         "game/godot/render-lab/scripts/auto_lab.gd"
       ],
@@ -2593,7 +3818,7 @@
         {
           "boundary": "foundry",
           "depth": 0,
-          "files": 3
+          "files": 6
         },
         {
           "boundary": "root",
@@ -2683,6 +3908,14 @@
         "releases": false
       },
       "stages": [],
+      "tests": [
+        {
+          "files": 1,
+          "job": "verify",
+          "runner": "pytest",
+          "step": "Run 3d-prerender pure-logic tests"
+        }
+      ],
       "triggers": [
         {
           "event": "pull_request",
@@ -2735,18 +3968,74 @@
       "checksCount": 0,
       "commands": [
         {
+          "dir": "site",
           "job": "build",
-          "step": "Install site dependencies",
-          "text": "npm ci"
+          "programs": [
+            "npm"
+          ],
+          "step": "Install site dependencies"
         },
         {
+          "dir": "site",
           "job": "build",
-          "step": "Build site",
-          "text": "npm run build"
+          "programs": [
+            "npm"
+          ],
+          "step": "Build site"
         }
       ],
       "elsewhere": [],
       "file": ".github/workflows/pages.yml",
+      "jobs": [
+        {
+          "basis": "declared",
+          "name": "build",
+          "runsOn": [
+            {
+              "labels": [
+                "ubuntu-latest"
+              ],
+              "platform": {
+                "cpu": "x64",
+                "libc": "glibc",
+                "os": "linux"
+              }
+            }
+          ],
+          "setup": [
+            {
+              "ranges": [
+                {
+                  "from": "22",
+                  "range": ">=22.0.0 <23.0.0-0"
+                }
+              ],
+              "step": "1",
+              "uses": "actions/setup-node",
+              "version": "22"
+            }
+          ]
+        },
+        {
+          "basis": "declared",
+          "environment": {
+            "name": "github-pages"
+          },
+          "name": "deploy",
+          "runsOn": [
+            {
+              "labels": [
+                "ubuntu-latest"
+              ],
+              "platform": {
+                "cpu": "x64",
+                "libc": "glibc",
+                "os": "linux"
+              }
+            }
+          ]
+        }
+      ],
       "landings": [],
       "mentions": [],
       "name": "Deploy site to GitHub Pages",
@@ -2760,7 +4049,7 @@
         {
           "boundary": "site",
           "depth": 0,
-          "files": 3
+          "files": 5
         }
       ],
       "readers": [],
@@ -2826,7 +4115,7 @@
       "kind": "command",
       "landings": [],
       "mentions": [],
-      "name": "the game",
+      "name": "the Godot project",
       "permissions": [],
       "pushes": false,
       "reach": [
@@ -2890,8 +4179,9 @@
       "to": "pipeline"
     }
   ],
+  "engine": "1.24.0",
   "generatedFrom": {
-    "commit": "347c92f4efd4dd8d816c2ca2e1662c57cbc6f5c0",
+    "commit": "45a55551f914f03a09c5de9a09b95f5388d5be70",
     "tracked": 203
   },
   "landings": [
@@ -3365,7 +4655,7 @@
     },
     {
       "readers": [],
-      "target": "pipeline/morph_refs/*_depth",
+      "target": "pipeline/morph_refs/*",
       "tracked": false,
       "writers": [
         {
@@ -3443,6 +4733,17 @@
     },
     {
       "readers": [],
+      "target": "pipeline/morph_refs/keth_healer_drone_depth/depth_ref_sheet.png",
+      "tracked": false,
+      "writers": [
+        {
+          "by": "pipeline/morph_refs/gen_keth_healer_drone.py",
+          "confidence": "ast"
+        }
+      ]
+    },
+    {
+      "readers": [],
       "target": "pipeline/morph_refs/void_raptor_edge",
       "tracked": false,
       "writers": [
@@ -3472,7 +4773,12 @@
         }
       ],
       "target": "preflight/contact-sheet-placeholder.png",
-      "writers": []
+      "writers": [
+        {
+          "by": "preflight/gen_contact_sheet.py",
+          "confidence": "ast"
+        }
+      ]
     },
     {
       "readers": [
@@ -3501,5 +4807,16 @@
   "submodules": [],
   "symlinks": [],
   "testFiles": 12,
+  "testsNotRun": [
+    "tests/test_cli_parser.py",
+    "tests/test_db_helpers.py",
+    "tests/test_db_lineage.py",
+    "tests/test_db_migration.py",
+    "tests/test_db_transitions.py",
+    "tests/test_decisions.py",
+    "tests/test_export.py",
+    "tests/test_ingest.py",
+    "tests/test_mechanical.py"
+  ],
   "unassigned": []
 }
