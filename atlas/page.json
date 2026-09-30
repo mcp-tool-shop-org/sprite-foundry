@@ -2,7 +2,6 @@
   "authored": [
     ".github/",
     "pipeline/chars/",
-    "preflight/",
     "root",
     "site/"
   ],
@@ -35,16 +34,83 @@
     }
   ],
   "changes": {
-    "first": true
+    "fileCounts": {
+      "added": 0,
+      "changed": 1,
+      "moved": 0,
+      "parts": 1,
+      "removed": 0
+    },
+    "items": [
+      {
+        "kind": "door",
+        "sentence": "The Godot project (game/godot/render-lab/project.godot) is a new Godot project. It starts game/godot/render-lab/scenes/render_lab.tscn.",
+        "subjects": [
+          "game/godot/render-lab/project.godot",
+          "game/godot/render-lab/scenes/render_lab.tscn"
+        ]
+      },
+      {
+        "kind": "door",
+        "sentence": "the game (game/godot/render-lab/project.godot) is no longer a game.",
+        "subjects": [
+          "game/godot/render-lab/project.godot"
+        ]
+      },
+      {
+        "kind": "landing",
+        "sentence": "pipeline/morph_refs/* is now written by pipeline/morph_refs/gen_amorphous_depth.py, pipeline/morph_refs/gen_morph_matrix.py, pipeline/morph_refs/gen_tall_thin_depth.py and pipeline/morph_refs/gen_wide_squat_depth.py.",
+        "subjects": [
+          "pipeline/morph_refs/*",
+          "pipeline/morph_refs/gen_amorphous_depth.py",
+          "pipeline/morph_refs/gen_morph_matrix.py",
+          "pipeline/morph_refs/gen_tall_thin_depth.py",
+          "pipeline/morph_refs/gen_wide_squat_depth.py"
+        ]
+      },
+      {
+        "kind": "landing",
+        "sentence": "pipeline/morph_refs/keth_healer_drone_depth/depth_ref_sheet.png is now written by pipeline/morph_refs/gen_keth_healer_drone.py.",
+        "subjects": [
+          "pipeline/morph_refs/keth_healer_drone_depth/depth_ref_sheet.png",
+          "pipeline/morph_refs/gen_keth_healer_drone.py"
+        ]
+      },
+      {
+        "kind": "landing",
+        "sentence": "preflight/contact-sheet-placeholder.png is now written by preflight/gen_contact_sheet.py.",
+        "subjects": [
+          "preflight/contact-sheet-placeholder.png",
+          "preflight/gen_contact_sheet.py"
+        ]
+      },
+      {
+        "kind": "origin",
+        "sentence": "preflight was authored and is now mixed.",
+        "subjects": [
+          "preflight"
+        ]
+      },
+      {
+        "kind": "counts",
+        "sentence": "1 file changed content, across 1 part.",
+        "subjects": []
+      }
+    ],
+    "since": {
+      "commit": "347c92f4efd4dd8d816c2ca2e1662c57cbc6f5c0",
+      "generatedAt": "2026-09-25T09:53:15.458Z"
+    },
+    "unchanged": false
   },
   "changesTogether": [],
   "changesTogetherNote": [
-    "Window: 180 days; a pair counts from 3 shared commits, since 0 source files reach 10 revisions; the floor rises to 10 when 25 do."
+    "Window: 180 days; a pair counts from 3 shared commits, since the window holds fewer than 30 qualifying commits."
   ],
   "changesTogetherWithTests": 0,
-  "commit": "347c92f4efd4dd8d816c2ca2e1662c57cbc6f5c0",
+  "commit": "45a55551f914f03a09c5de9a09b95f5388d5be70",
   "defaultBranch": "main",
-  "derived": "10 parts, mostly Python (65 files), GDScript (4), TypeScript (2) and JavaScript (1). Work enters through 3 doors; the busiest is CI, which reaches 4 parts. People run the game.",
+  "derived": "10 parts, mostly Python (65 files), GDScript (4), CSS (2), TypeScript (2), Astro (1), JavaScript (1) and shell (1). Work enters through 3 doors; the busiest is CI, which reaches 4 parts. It deploys a site to GitHub Pages. People run the Godot project.",
   "doors": [
     {
       "checks": [
@@ -71,7 +137,7 @@
         {
           "boundary": "foundry",
           "depth": 0,
-          "files": 3
+          "files": 6
         },
         {
           "boundary": "root",
@@ -115,7 +181,7 @@
         {
           "boundary": "site",
           "depth": 0,
-          "files": 3
+          "files": 5
         }
       ],
       "runs": [
@@ -139,10 +205,10 @@
       "checksCount": 0,
       "checksMore": 0,
       "file": "game/godot/render-lab/project.godot",
-      "id": "game/godot/render-lab/project.godot#the game",
+      "id": "game/godot/render-lab/project.godot#the Godot project",
       "kind": "command",
       "landings": [],
-      "name": "the game",
+      "name": "the Godot project",
       "pushes": false,
       "reach": [
         {
@@ -202,21 +268,28 @@
       "to": "foundry"
     }
   ],
+  "engine": "1.24.0",
   "generated": [
     {
       "place": "game/godot/render-lab/scripts/auto_lab.gd",
       "writers": [
         "pipeline/foundry_finish.py"
       ]
+    },
+    {
+      "place": "preflight/contact-sheet-placeholder.png",
+      "writers": [
+        "preflight/gen_contact_sheet.py"
+      ]
     }
   ],
-  "generatedAt": "2026-09-25T09:53:15.458Z",
+  "generatedAt": "2026-09-30T20:13:13.422Z",
   "limits": [
-    "1 import could not be resolved: `tests/test_ingest.py` imports `pipeline`, which is no module on its import path and no declared dependency.",
-    "31 writes and 22 reads use paths built at run time and are not named here.",
-    "25 writes go to places this repository does not track, so they are not listed as generated.",
-    "14 writes and 6 reads go to a path their caller passes, not to this repository.",
-    "Statistics confidence is low: fewer than 20 source files reach 10 revisions in the window."
+    "15 writes and 19 reads use paths built at run time and are not named here.",
+    "26 writes go to places this repository does not track, so they are not listed as generated.",
+    "16 writes and 9 reads go to a path their caller passes, not to this repository.",
+    "7 writes go to the directory the command is run in (bakeoff/) or a path their caller passes, not to this repository.",
+    "Statistics confidence is low: fewer than 30 qualifying commits in the window, and fewer than 25 source files reach 10 revisions."
   ],
   "mainDoor": ".github/workflows/ci.yml",
   "partLabels": {
@@ -246,7 +319,8 @@
   "startHere": [
     ".github/workflows/ci.yml",
     "foundry/cli.py",
-    "foundry/__init__.py"
+    "foundry/mechanical.py",
+    "foundry/db.py"
   ],
   "summary": null,
   "summaryFrom": null,
@@ -257,8 +331,15 @@
     "pipeline": 1,
     "render-lab": 0
   },
-  "unnamedWrites": 31,
-  "unread": [],
+  "unnamedWrites": 15,
+  "unread": [
+    {
+      "place": "preflight/contact-sheet-placeholder.png",
+      "writers": [
+        "preflight/gen_contact_sheet.py"
+      ]
+    }
+  ],
   "unreadFiles": 0,
   "unreadNote": [],
   "untested": [
@@ -269,7 +350,7 @@
     }
   ],
   "untestedNote": [
-    "11 test files run in no workflow: pipeline/test_hunyuan3d_shape.py, pipeline/test_hunyuan3d_texture.py, tests/test_cli_parser.py and 8 mores."
+    "9 test files run in no workflow: tests/test_cli_parser.py, tests/test_db_helpers.py, tests/test_db_lineage.py and 6 more."
   ],
-  "written": 1
+  "written": 2
 }
