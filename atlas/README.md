@@ -1,24 +1,19 @@
 # sprite-foundry: how it works
 
-Mapped at 2026-09-30 from commit 45a5555 by Atlas 1.24.0.
+Mapped at 2026-10-01 from commit 571f7a0 by Atlas 1.24.0.
 
 ## What this is
 
 10 parts, mostly Python (65 files), GDScript (4), CSS (2), TypeScript (2), Astro (1), JavaScript (1) and shell (1). Work enters through 3 doors; the busiest is CI, which reaches 4 parts. It deploys a site to GitHub Pages. People run the Godot project.
 
-## What changed since 2026-09-25 (347c92f)
+## What changed since 2026-09-30 (45a5555)
 
-- The Godot project (game/godot/render-lab/project.godot) is a new Godot project. It starts game/godot/render-lab/scenes/render_lab.tscn.
-- the game (game/godot/render-lab/project.godot) is no longer a game.
-- pipeline/morph_refs/* is now written by pipeline/morph_refs/gen_amorphous_depth.py, pipeline/morph_refs/gen_morph_matrix.py, pipeline/morph_refs/gen_tall_thin_depth.py and pipeline/morph_refs/gen_wide_squat_depth.py.
-- pipeline/morph_refs/keth_healer_drone_depth/depth_ref_sheet.png is now written by pipeline/morph_refs/gen_keth_healer_drone.py.
-- preflight/contact-sheet-placeholder.png is now written by preflight/gen_contact_sheet.py.
-- preflight was authored and is now mixed.
+- CI's pull request trigger no longer names `.github/workflows/**`, `3d-prerender/**`, `atlas/**`, `exports/**/manifest.json`, `foundry/**`, `pipeline/**`, `site/astro.config.mjs`, `site/package-lock.json`, `site/package.json`, `tests/**` and `verify.sh`.
 - 1 file changed content, across 1 part.
 
 ## What comes in
 
-1. **CI.** On a pull request touching 11 paths; on a push touching 11 paths; or by hand. Runs 3d-prerender/test_texture_patch_region.py, foundry/__init__.py, foundry/cli.py and 2 more; checks CHANGELOG.md, LICENSE, README.md and 1 more.
+1. **CI.** On a pull request; on a push touching 11 paths; or by hand. Runs 3d-prerender/test_texture_patch_region.py, foundry/__init__.py, foundry/cli.py and 2 more; checks CHANGELOG.md, LICENSE, README.md and 1 more.
 2. **Deploy site to GitHub Pages.** On a push to main touching 2 paths; or by hand. Runs site/astro.config.mjs and site/src/.
 3. **the Godot project** (what Godot runs). Starts game/godot/render-lab/scenes/render_lab.tscn.
 

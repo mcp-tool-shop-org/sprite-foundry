@@ -44,51 +44,9 @@
     "items": [
       {
         "kind": "door",
-        "sentence": "The Godot project (game/godot/render-lab/project.godot) is a new Godot project. It starts game/godot/render-lab/scenes/render_lab.tscn.",
+        "sentence": "CI's pull request trigger no longer names `.github/workflows/**`, `3d-prerender/**`, `atlas/**`, `exports/**/manifest.json`, `foundry/**`, `pipeline/**`, `site/astro.config.mjs`, `site/package-lock.json`, `site/package.json`, `tests/**` and `verify.sh`.",
         "subjects": [
-          "game/godot/render-lab/project.godot",
-          "game/godot/render-lab/scenes/render_lab.tscn"
-        ]
-      },
-      {
-        "kind": "door",
-        "sentence": "the game (game/godot/render-lab/project.godot) is no longer a game.",
-        "subjects": [
-          "game/godot/render-lab/project.godot"
-        ]
-      },
-      {
-        "kind": "landing",
-        "sentence": "pipeline/morph_refs/* is now written by pipeline/morph_refs/gen_amorphous_depth.py, pipeline/morph_refs/gen_morph_matrix.py, pipeline/morph_refs/gen_tall_thin_depth.py and pipeline/morph_refs/gen_wide_squat_depth.py.",
-        "subjects": [
-          "pipeline/morph_refs/*",
-          "pipeline/morph_refs/gen_amorphous_depth.py",
-          "pipeline/morph_refs/gen_morph_matrix.py",
-          "pipeline/morph_refs/gen_tall_thin_depth.py",
-          "pipeline/morph_refs/gen_wide_squat_depth.py"
-        ]
-      },
-      {
-        "kind": "landing",
-        "sentence": "pipeline/morph_refs/keth_healer_drone_depth/depth_ref_sheet.png is now written by pipeline/morph_refs/gen_keth_healer_drone.py.",
-        "subjects": [
-          "pipeline/morph_refs/keth_healer_drone_depth/depth_ref_sheet.png",
-          "pipeline/morph_refs/gen_keth_healer_drone.py"
-        ]
-      },
-      {
-        "kind": "landing",
-        "sentence": "preflight/contact-sheet-placeholder.png is now written by preflight/gen_contact_sheet.py.",
-        "subjects": [
-          "preflight/contact-sheet-placeholder.png",
-          "preflight/gen_contact_sheet.py"
-        ]
-      },
-      {
-        "kind": "origin",
-        "sentence": "preflight was authored and is now mixed.",
-        "subjects": [
-          "preflight"
+          ".github/workflows/ci.yml"
         ]
       },
       {
@@ -98,8 +56,8 @@
       }
     ],
     "since": {
-      "commit": "347c92f4efd4dd8d816c2ca2e1662c57cbc6f5c0",
-      "generatedAt": "2026-09-25T09:53:15.458Z"
+      "commit": "45a55551f914f03a09c5de9a09b95f5388d5be70",
+      "generatedAt": "2026-09-30T20:13:13.422Z"
     },
     "unchanged": false
   },
@@ -108,7 +66,7 @@
     "Window: 180 days; a pair counts from 3 shared commits, since the window holds fewer than 30 qualifying commits."
   ],
   "changesTogetherWithTests": 0,
-  "commit": "45a55551f914f03a09c5de9a09b95f5388d5be70",
+  "commit": "571f7a0731a5f47eccb082163075e9cf7e328252",
   "defaultBranch": "main",
   "derived": "10 parts, mostly Python (65 files), GDScript (4), CSS (2), TypeScript (2), Astro (1), JavaScript (1) and shell (1). Work enters through 3 doors; the busiest is CI, which reaches 4 parts. It deploys a site to GitHub Pages. People run the Godot project.",
   "doors": [
@@ -162,7 +120,7 @@
       "sends": [],
       "stages": [],
       "triggers": [
-        "on a pull request touching 11 paths",
+        "on a pull request",
         "on a push touching 11 paths",
         "or by hand"
       ],
@@ -283,7 +241,7 @@
       ]
     }
   ],
-  "generatedAt": "2026-09-30T20:13:13.422Z",
+  "generatedAt": "2026-10-01T02:13:37.139Z",
   "limits": [
     "15 writes and 19 reads use paths built at run time and are not named here.",
     "26 writes go to places this repository does not track, so they are not listed as generated.",
