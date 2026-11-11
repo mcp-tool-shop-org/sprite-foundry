@@ -1,15 +1,14 @@
 # sprite-foundry: how it works
 
-Mapped at 2026-10-01 from commit 571f7a0 by Atlas 1.24.0.
+Mapped at 2026-11-11 from commit 9f0f3f7 by Atlas 1.26.0.
 
 ## What this is
 
 10 parts, mostly Python (65 files), GDScript (4), CSS (2), TypeScript (2), Astro (1), JavaScript (1) and shell (1). Work enters through 3 doors; the busiest is CI, which reaches 4 parts. It deploys a site to GitHub Pages. People run the Godot project.
 
-## What changed since 2026-09-30 (45a5555)
+## What changed since 2026-10-01 (571f7a0)
 
-- CI's pull request trigger no longer names `.github/workflows/**`, `3d-prerender/**`, `atlas/**`, `exports/**/manifest.json`, `foundry/**`, `pipeline/**`, `site/astro.config.mjs`, `site/package-lock.json`, `site/package.json`, `tests/**` and `verify.sh`.
-- 1 file changed content, across 1 part.
+Nothing structural changed since 2026-10-01; 2 files changed content.
 
 ## What comes in
 
