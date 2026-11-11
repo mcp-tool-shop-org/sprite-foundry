@@ -36,37 +36,30 @@
   "changes": {
     "fileCounts": {
       "added": 0,
-      "changed": 1,
+      "changed": 2,
       "moved": 0,
-      "parts": 1,
+      "parts": 2,
       "removed": 0
     },
     "items": [
       {
-        "kind": "door",
-        "sentence": "CI's pull request trigger no longer names `.github/workflows/**`, `3d-prerender/**`, `atlas/**`, `exports/**/manifest.json`, `foundry/**`, `pipeline/**`, `site/astro.config.mjs`, `site/package-lock.json`, `site/package.json`, `tests/**` and `verify.sh`.",
-        "subjects": [
-          ".github/workflows/ci.yml"
-        ]
-      },
-      {
         "kind": "counts",
-        "sentence": "1 file changed content, across 1 part.",
+        "sentence": "Nothing structural changed since 2026-10-01; 2 files changed content.",
         "subjects": []
       }
     ],
     "since": {
-      "commit": "45a55551f914f03a09c5de9a09b95f5388d5be70",
-      "generatedAt": "2026-09-30T20:13:13.422Z"
+      "commit": "571f7a0731a5f47eccb082163075e9cf7e328252",
+      "generatedAt": "2026-10-01T02:13:37.139Z"
     },
-    "unchanged": false
+    "unchanged": true
   },
   "changesTogether": [],
   "changesTogetherNote": [
     "Window: 180 days; a pair counts from 3 shared commits, since the window holds fewer than 30 qualifying commits."
   ],
   "changesTogetherWithTests": 0,
-  "commit": "571f7a0731a5f47eccb082163075e9cf7e328252",
+  "commit": "9f0f3f75dce79d638f9ad2e6ae0b73cf015edaac",
   "defaultBranch": "main",
   "derived": "10 parts, mostly Python (65 files), GDScript (4), CSS (2), TypeScript (2), Astro (1), JavaScript (1) and shell (1). Work enters through 3 doors; the busiest is CI, which reaches 4 parts. It deploys a site to GitHub Pages. People run the Godot project.",
   "doors": [
@@ -226,7 +219,7 @@
       "to": "foundry"
     }
   ],
-  "engine": "1.24.0",
+  "engine": "1.26.0",
   "generated": [
     {
       "place": "game/godot/render-lab/scripts/auto_lab.gd",
@@ -241,7 +234,7 @@
       ]
     }
   ],
-  "generatedAt": "2026-10-01T02:13:37.139Z",
+  "generatedAt": "2026-11-11T22:43:14.665Z",
   "limits": [
     "15 writes and 19 reads use paths built at run time and are not named here.",
     "26 writes go to places this repository does not track, so they are not listed as generated.",
@@ -289,6 +282,7 @@
     "pipeline": 1,
     "render-lab": 0
   },
+  "testedCodeParts": 4,
   "unnamedWrites": 15,
   "unread": [
     {
